@@ -86,6 +86,7 @@ namespace DashTechCRM.Areas.TraineeRecruiter.Controllers
         {
             try
             {
+                // this is insert follow up details
                 dynamic prm = JObject.Parse(parameter);
                 ConnectionDB dl = new ConnectionDB();
                 List<SqlParameter> p = new List<SqlParameter>();
