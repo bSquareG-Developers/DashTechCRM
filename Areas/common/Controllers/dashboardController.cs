@@ -14,7 +14,7 @@ namespace DashTechCRM.Areas.common.Controllers
     public class dashboardController : Controller
     {
         dashTech_crm_Entities db = new dashTech_crm_Entities();
-        // GET: common/dashboard
+        
         public ActionResult Index()
         {
             return View();
