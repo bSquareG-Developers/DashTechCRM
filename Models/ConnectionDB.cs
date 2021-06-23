@@ -12,8 +12,8 @@ namespace DashTechCRM.Models
         private readonly SqlConnection _connection;
         public ConnectionDB()
         {
-            _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["locationConnection"].ConnectionString);
-            //_connection = new SqlConnection(ConfigurationManager.ConnectionStrings["onlineConnection"].ConnectionString);
+            //_connection = new SqlConnection(ConfigurationManager.ConnectionStrings["locationConnection"].ConnectionString);
+            _connection = new SqlConnection(ConfigurationManager.ConnectionStrings["onlineConnection"].ConnectionString);
         }
 
         Boolean Con_Open(SqlConnection con)

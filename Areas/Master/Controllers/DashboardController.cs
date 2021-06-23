@@ -113,5 +113,15 @@ namespace DashTechCRM.Areas.Master.Controllers
             string query = string.Format("Delete from TeamDetailsManage where Id = {0}", id);
             return dl.Execute_NonQuery(query).ToString();
         }
+
+        public string changeRoleDepartment(string parameter)
+        {
+            dynamic prm = JObject.Parse(parameter);
+            string departmentRoleId = Convert.ToString(prm.departmentRoleId);
+            string role = Convert.ToString(prm.role);
+            string department = Convert.ToString(prm.department);
+            string query = string.Format("update DepartmentRoleTable set DeptId ={0},RoleId ={1} where Id = {2}", department, role, departmentRoleId);
+            return dl.Execute_NonQuery(query).ToString();
+        }
     }
 }

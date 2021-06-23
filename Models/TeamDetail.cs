@@ -26,8 +26,6 @@ namespace DashTechCRM.Models
         public int TeamManager { get; set; }
         public string Department { get; set; }
         public Nullable<bool> IsEnabledTeam { get; set; }
-        public Nullable<int> SrTeamLead { get; set; }
-        public Nullable<int> SrRecruitment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateAssign> CandidateAssigns { get; set; }
