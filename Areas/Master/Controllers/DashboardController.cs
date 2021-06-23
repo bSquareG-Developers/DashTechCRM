@@ -91,6 +91,7 @@ namespace DashTechCRM.Areas.Master.Controllers
             return CommonHelperClass._serializeDatatable(dl.GetDataTable("select UAD.UserId as [ID] , UAD.fullName as [TEXT] from UserAccountDetails UAD where UAD.UserId not in (Select MemberId from TeamDetailsManage) order by 1"));
         }
 
+        // this will add new member
         public string SaveTeamMember(string parameter)
         {
             dynamic prm = JObject.Parse(parameter);
@@ -100,6 +101,8 @@ namespace DashTechCRM.Areas.Master.Controllers
             return dl.Execute_NonQuery(query).ToString();
         }
 
+
+        // this will delete mapped member
         public string TeamMember_Delete(string parameter)
         {
             dynamic prm = JObject.Parse(parameter);
