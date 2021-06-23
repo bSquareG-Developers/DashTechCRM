@@ -1,0 +1,221 @@
+﻿
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+</style>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;"
+                     data-toggle="collapse"
+                     href="#collapseTodayList"
+                     role="button"
+                     aria-expanded="true"
+                     aria-controls="collapseTodayList">
+                    <i class="fa fa-filter"></i>Assigned candidate List
+                    <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i>
+                </div>
+                <hr />
+                <div id="collapseTodayList" class="collapse show">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mt-0 header-title mb-4">Assigned Candidate List</h4>
+                            <div class='rowCount' id="rowCount"></div>
+                            <div id="gridNewCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalAssignCandidate" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Assign Candidate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>AssignTo</label>
+                            <select id="ddlAssignTo" class="form-control select2"></select>
+                            <span id="reqAssignTo" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="d-block"> &nbsp;</label>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" id="btnSave">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loadpanel"></div>
+<script>
+    let candidateObject = {};
+    let AssignedId = '';
+    $('[data-mask]').inputmask();
+    $('.select2').select2();
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    $(function () {
+        GetCandidateDetails();
+        BindAssignTo();
+    });
+
+    function BindAssignTo() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("BindAssignTo")",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                console.log(data);
+                jQuery('#ddlAssignTo').empty();
+                jQuery('#ddlAssignTo').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#ddlAssignTo').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+    function GetCandidateDetails() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetCandidateDetails")",
+            success: function (data) {
+                loadPanel.hide();
+                data = data !== "" ? JSON.parse(data) : [];
+                $('#gridNewCandidateList').dxDataGrid({
+                    columns: [
+                        { dataField: 'Assign', caption: 'Assign Candidate', alignment: 'center', dataType: 'string', width: 120, format: '',type:'buttons',cellTemplate:function(container, options) {
+                            jQuery('<span class="fa fa-plus" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                Assign(options.data);
+                            }).appendTo(container);
+                        }
+                        },
+                        { dataField: 'AssignedTo', caption: 'Assigned To', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'CandidateName', caption: 'Candidate Name', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'CandidateStatus', caption: 'Candidate Status', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'VisaStatus', caption: 'Visa Status', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'EnrolledDate', caption: 'Enrolled Date', alignment: 'center', dataType: 'date', width: 150, format: 'dd MMM yyyy' },
+                        { dataField: 'MarketingStartDate', caption: 'Marketing Start Date', alignment: 'center', dataType: 'date', width: 200, format: 'dd MMM yyyy' },
+                        { dataField: 'MarketingEmailId', caption: 'Marketing Email Id', alignment: 'center', dataType: 'string', width: 200, format: '' },
+                        { dataField: 'MarketingContactNumber', caption: 'Marketing Contact Number', alignment: 'center', dataType: 'string', width: 250, format: '' },
+
+                    ],
+                    dataSource: data,
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: true,
+                        fileName: "Pending Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Button", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function(e) {
+                        e.component.columnOption("Button", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function(e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount').html('Total Records : ' + jQuery("#gridNewCandidateList").dxDataGrid('instance').totalCount());
+                    }
+                });
+            }
+        });
+    }
+
+    function Assign(data) {
+        candidateObject = { ...data };
+        BindAssignTo();
+        $('#modalAssignCandidate').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    $('#btnSave').click(function (e) {
+        var jrTeamLeadId = $('#ddlAssignTo').val();
+        var marketingId = candidateObject.MarketingId;
+        var AssignedId = candidateObject.AssignedId;
+        param = { jrTeamLeadId, marketingId, AssignedId};
+
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("SaveCandidateAssign")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                loadPanel.hide();
+                if (response === '1')
+                    DevExpress.ui.notify("Candidate Assigned Successfully..!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("This candidate is already Assigned to same Recruiter..!!", "warning", 5000);
+                $('#modalAssignCandidate').modal('hide');
+                GetCandidateDetails();
+                BindAssignTo();
+            }
+        });
+    });
+</script>

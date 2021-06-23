@@ -1,0 +1,536 @@
+﻿@model IEnumerable<DashTechCRM.Models.PODetail>
+@using DashTechCRM.Models
+@{
+    ViewBag.Title = "List: PO";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities();
+}
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.common.css">
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.light.css">
+
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.5/js/dx.all.js"></script>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-xl-12 border-right">
+                        <h4 class="mt-0 header-title mb-4">Today's PO List</h4>
+                        <div id="gridNewCandidateList"></div>
+
+                    </div>
+                    <br /><br />
+                    <div class="col-xl-12 border-right">
+                        <h4 class="mt-0 header-title mb-4">PO List</h4>
+                        <div id="gridCandidateList"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var columnsList = [
+        {
+            dataField: "ConfirmPO",
+            caption: "", width: 100,
+            cellTemplate: function (container, options) {
+                if (options.data.ConfirmPO != "Deleted" || options.data.ConfirmPO != "Confirmed") {
+                    $("<div>").text(options.data.ConfirmPO).appendTo(container);
+                }
+                else {
+                    $("<div>").text('').on('dxclick',
+                        function () {
+                            deleteIt(options.data.POId);
+                        })
+                        .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Confirm?" })))
+
+                        .appendTo(container);
+                }
+
+            }
+        },
+        {
+            caption: "", width: 100,
+            cellTemplate: function (container, options) {
+                $("<div>").text('').on('dxclick',
+                    function () {
+                        followup(options.data.CandidateId);
+                    })
+                    .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "FolloW Up" })))
+
+                    .appendTo(container);
+            }
+        }, {
+            dataField: "PODate",
+            caption: "PO Date",
+            width: 140, dataType: "date", sortIndex: 0,
+            sortOrder: "desc",
+            calculateFilterExpression: function (value, selectedFilterOperations, target) {
+                if (target === "headerFilter" && value === "weekends") {
+                    return [[getOrderDay, "=", 0], "or", [getOrderDay, "=", 6]];
+                }
+                return this.defaultCalculateFilterExpression.apply(this, arguments);
+            },
+            headerFilter: {
+                dataSource: function (data) {
+                    data.dataSource.postProcess = function (results) {
+                        Urlesults.push({
+                            text: "Weekends",
+                            value: "weekends"
+                        });
+                        return results;
+                    };
+                }
+            }
+        },
+        {
+            dataField: "JoiningDate",
+            caption: "Joining Date",
+            width: 140, dataType: "date", sortIndex: 0,
+            sortOrder: "desc",
+            calculateFilterExpression: function (value, selectedFilterOperations, target) {
+                if (target === "headerFilter" && value === "weekends") {
+                    return [[getOrderDay, "=", 0], "or", [getOrderDay, "=", 6]];
+                }
+                return this.defaultCalculateFilterExpression.apply(this, arguments);
+            },
+            headerFilter: {
+                dataSource: function (data) {
+                    data.dataSource.postProcess = function (results) {
+                        Urlesults.push({
+                            text: "Weekends",
+                            value: "weekends"
+                        });
+                        return results;
+                    };
+                }
+            }
+        },
+        {
+            dataField: "CandidateName",
+            caption: "Candidate Name",
+            width: 140
+        },
+        {
+            dataField: "RefOfCandidate",
+            caption: "Lead From", alignment: "center"
+        },
+        {
+            dataField: "FullName",
+            caption: "Sales", alignment: "center"
+        },
+        {
+            dataField: "JobType",
+            alignment: "center",
+            caption: "Job Type",
+            width: 140
+        },
+        {
+            dataField: "AppliedPosition",
+            alignment: "center",
+            caption: "Applied",
+            width: 140
+        },
+        {
+            dataField: "InterviewSupport",
+            alignment: "center",
+            caption: "Proxy",
+            width: 140
+        },
+        {
+            dataField: "JobLocation",
+            alignment: "center",
+            caption: "Job Location",
+            width: 140
+        },
+        {
+            dataField: "VendorDetails",
+            alignment: "center",
+            caption: "Vendor",
+            width: 140
+        },
+        {
+            dataField: "RecruiterName",
+            alignment: "center",
+            caption: "Recruiter",
+            width: 140
+        },
+        {
+            dataField: "TeamLeadName",
+            alignment: "center",
+            caption: "Team Lead",
+            width: 140
+        },
+        {
+            dataField: "Rate",
+            alignment: "center",
+            caption: "Rate $",
+            width: 140
+        },
+        {
+            dataField: "SignUpDate",
+            alignment: "center",
+            caption: "Enrolled",
+            width: 140
+        },
+        {
+            dataField: "TrainerName",
+            alignment: "center",
+            caption: "Trainer",
+            width: 140
+        },
+        {
+            dataField: "TrainingStartDate",
+            alignment: "center",
+            caption: "TRN SDate",
+            width: 140
+        },
+        {
+            dataField: "TrainingEndDate",
+            alignment: "center",
+            caption: "TRN EDate",
+            width: 140
+        },
+        {
+            dataField: "MarketingStartDate",
+            alignment: "center",
+            caption: "MRK SDate",
+            width: 140
+        },
+        {
+            dataField: "MarketingEndDate",
+            alignment: "center",
+            caption: "MRK EDate",
+            width: 140
+        },
+        {
+            dataField: "AgreementPercentage",
+            alignment: "center",
+            caption: "Agr(%)",
+            width: 140
+        },
+        {
+            dataField: "AgreementMonths",
+            alignment: "center",
+            caption: "Months",
+            width: 140
+        },
+        {
+            dataField: "EnrolledDate",
+            alignment: "right",
+            dataType: "date", sortIndex: 0,
+            sortOrder: "desc",
+            width: 120,
+            calculateFilterExpression: function (value, selectedFilterOperations, target) {
+                if (target === "headerFilter" && value === "weekends") {
+                    return [[getOrderDay, "=", 0], "or", [getOrderDay, "=", 6]];
+                }
+                return this.defaultCalculateFilterExpression.apply(this, arguments);
+            },
+            headerFilter: {
+                dataSource: function (data) {
+                    data.dataSource.postProcess = function (results) {
+                        Urlesults.push({
+                            text: "Weekends",
+                            value: "weekends"
+                        });
+                        return results;
+                    };
+                }
+            }
+        }
+    ];
+    $(function () {
+
+         //start getting data from GetCandidateList
+        $.getJSON("@Url.Action("getIndex", "POManage", new { @area = "admin" })?s=yes", null, function (data) {
+            //alert(data);
+            var dataGrid = $("#gridCandidateList").dxDataGrid({
+                dataSource: data,
+                columnsAutoWidth: true,
+                showBorders: true,
+                export: {
+                    enabled: true
+                },
+                scrolling: {
+                    mode: "virtual"
+                },
+                sorting: {
+                    mode: "none"
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                grouping: {
+                    autoExpandAll: true,
+                },
+                groupPanel: {
+                    visible: true
+                },
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Search..."
+                },
+                headerFilter: {
+                    visible: true
+                },
+                paging: {
+                    pageSize: 10, enabled: true
+
+                },
+                columns: columnsList,
+                summary: {
+                    totalItems: [{
+                        column: "CandidateName",
+                        summaryType: "count"
+                    }],
+                    groupItems: [{
+                        column: "CandidateName",
+                        summaryType: "count"
+                    }]
+                }
+            }).dxDataGrid('instance');
+
+        var applyFilterTypes = [{
+            key: "auto",
+            name: "Immediately"
+        }, {
+            key: "onClick",
+            name: "On Button Click"
+        }];
+
+        var applyFilterModeEditor = $("#useFilterApplyButton").dxSelectBox({
+            items: applyFilterTypes,
+            value: applyFilterTypes[0].key,
+            valueExpr: "key",
+            displayExpr: "name",
+            onValueChanged: function (data) {
+                dataGrid.option("filterRow.applyFilter", data.value);
+            }
+        }).dxSelectBox("instance");
+
+        $("#filterRow").dxCheckBox({
+            text: "Filter Row",
+            value: true,
+            onValueChanged: function (data) {
+                dataGrid.clearFilter();
+                dataGrid.option("filterRow.visible", data.value);
+                applyFilterModeEditor.option("disabled", !data.value);
+            }
+        });
+
+        $("#headerFilter").dxCheckBox({
+            text: "Header Filter",
+            value: true,
+            onValueChanged: function (data) {
+                dataGrid.clearFilter();
+                dataGrid.option("headerFilter.visible", data.value);
+            }
+        });
+
+        function getOrderDay(rowData) {
+            return (new Date(rowData.OrderDate)).getDay();
+            }
+
+        });
+        //end getting data from GetCandidateTimeLine
+
+          //start getting data from GetCandidateList New Marketing
+        $.getJSON("@Url.Action("getIndex", "PODetails", new { @area = "MarketingManager" })", null, function (data) {
+            //alert(data);
+            var dataGrid = $("#gridNewCandidateList").dxDataGrid({
+                dataSource: data,
+                columnsAutoWidth: true,
+                showBorders: true,
+                export: {
+                    enabled: true
+                },
+                scrolling: {
+                    columnRenderingMode: "virtual"
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                grouping: {
+                    autoExpandAll: true,
+                },
+                groupPanel: {
+                    visible: true
+                },
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Search..."
+                },
+                headerFilter: {
+                    visible: true
+                },
+                paging: {
+                    pageSize: 10            ,enabled: true
+
+                },
+                columns: columnsList,
+                summary: {
+                    totalItems: [{
+                        column: "CandidateName",
+                        summaryType: "count"
+                    }],
+                    groupItems: [{
+                        column: "CandidateName",
+                        summaryType: "count"
+                    }]
+                }
+        }).dxDataGrid('instance');
+
+        var applyFilterTypes = [{
+            key: "auto",
+            name: "Immediately"
+        }, {
+            key: "onClick",
+            name: "On Button Click"
+        }];
+
+        var applyFilterModeEditor = $("#useFilterApplyButton").dxSelectBox({
+            items: applyFilterTypes,
+            value: applyFilterTypes[0].key,
+            valueExpr: "key",
+            displayExpr: "name",
+            onValueChanged: function (data) {
+                dataGrid.option("filterRow.applyFilter", data.value);
+            }
+        }).dxSelectBox("instance");
+
+        $("#filterRow").dxCheckBox({
+            text: "Filter Row",
+            value: true,
+            onValueChanged: function (data) {
+                dataGrid.clearFilter();
+                dataGrid.option("filterRow.visible", data.value);
+                applyFilterModeEditor.option("disabled", !data.value);
+            }
+        });
+
+        $("#headerFilter").dxCheckBox({
+            text: "Header Filter",
+            value: true,
+            onValueChanged: function (data) {
+                dataGrid.clearFilter();
+                dataGrid.option("headerFilter.visible", data.value);
+            }
+        });
+
+        function getOrderDay(rowData) {
+            return (new Date(rowData.OrderDate)).getDay();
+            }
+
+        });
+        //end getting data from GetCandidateTimeLine
+
+    });
+
+    function showData(aid) {
+        $("#SubmissionModal").modal("show");
+        alert(aid);
+        $("#AId").val(aid);
+    }
+    function InterviewShowData(aid) {
+        $("#InterviewModal").modal("show");
+        alert(aid);
+        $("#assignedId").val(aid);
+    }
+
+    //function showData(id) {
+    //    $("#modal-followup").modal("show");
+    //    $("#candidateId").val(id);
+    //}
+    function followup(id) {
+
+        $("#modal-followup").modal("show");
+        $("#candidateId").val(id);
+    }
+    function deleteIt(id) {
+        var result = config("Delete this PO Details?");
+        if (result) {
+
+        }
+        else {
+
+        }
+    }
+</script>
+<div class="modal fade bs-example-modal-lg" id="modal-followup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Follow Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form action="@Url.Action("SaveFollowup","PODetails",new { @area = "MarketingManager"})" method="post">
+                        <input type="hidden" name="candidateId" id="candidateId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+
+                                    <div class="box-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>Expert CV Status</td>
+                                                <td>
+                                                    @{
+                                                        string[] strRec = { "Resume Preperation", "Resume Call Done", "Not Responding Rsume Call", "Resume Rebuild", "RUC Pending", "RUC Done" };
+                                                    }
+
+                                                    <select class="form-control select2" id="status" name="status">
+                                                        <option></option>
+                                                        @foreach (string st in strRec)
+                                                        {
+                                                            <option value="@st">@st</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Remarks</td>
+                                                <td>
+                                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2" align="right">
+                                                    <button class="btn btn-primary">Save</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

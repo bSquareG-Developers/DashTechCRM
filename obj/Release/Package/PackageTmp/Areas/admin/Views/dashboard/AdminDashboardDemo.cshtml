@@ -1,0 +1,403 @@
+﻿
+@using DashTechCRM.Models
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary mini-stat position-relative">
+            <div class="card-body">
+                <div class="mini-stat-desc">
+                    <h6 class="text-uppercase verti-label text-white-50">Candidates</h6>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mt-0 text-white-50">Candidates</h6>
+                        <h3 class="mb-3 mt-0">@db.CandidateMasters.Where(a => a.CandidateStatus == "Sales" || a.CandidateStatus.Contains("Training") || a.CandidateStatus.Contains("Marketing") || a.CandidateStatus.Contains("Expert")).ToList().Count</h3>
+                        <div class="">
+                            @*<span class="badge badge-light text-info"> +11% </span> <span class="ml-2">From previous period</span>*@
+                        </div>
+                    </div>
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-cube-outline display-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary mini-stat position-relative">
+            <div class="card-body">
+                <div class="mini-stat-desc">
+                    <h6 class="text-uppercase verti-label text-white-50">Revenue</h6>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mt-0 text-white-50">Revenue</h6>
+                        <h3 class="mb-3 mt-0">$ @db.RecurringMasters.Where(a => a.PaymentStatus == "Un-Paid").Sum(s => s.Amount)</h3>
+                        <div class="">
+                            @*<span class="badge badge-light text-danger"> -29% </span> <span class="ml-2">From previous period</span>*@
+                        </div>
+                    </div>
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-buffer display-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary mini-stat position-relative">
+            <div class="card-body">
+                <div class="mini-stat-desc">
+                    <h6 class="text-uppercase verti-label text-white-50">Current Month</h6>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mt-0 text-white-50">Current Month</h6>
+                        @{ DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                            DateTime edt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1); }
+                        <h3 class="mb-3 mt-0">$ @db.RecurringMasters.Where(a => a.PaidDate >= dt && a.PaidDate <= edt && a.PaymentStatus == "Paid").Sum(s => s.Amount)</h3>
+                        <div class="">
+                            @*<span class="badge badge-light text-primary"> 0% </span> <span class="ml-2">From previous period</span>*@
+                        </div>
+                    </div>
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-tag-text-outline display-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary mini-stat position-relative">
+            <div class="card-body">
+                <div class="mini-stat-desc">
+                    <h6 class="text-uppercase verti-label text-white-50">PO</h6>
+                    <div class="text-white">
+                        <h6 class="text-uppercase mt-0 text-white-50">PO</h6>
+                        <h3 class="mb-3 mt-0">@db.PODetails.Where(a => a.PODate >= dt && a.PODate <= edt).ToList().Count</h3>
+                        <div class="">
+                            @*<span class="badge badge-light text-info"> +89% </span> <span class="ml-2">From previous period</span>*@
+                        </div>
+                    </div>
+                    <div class="mini-stat-icon">
+                        <i class="mdi mdi-briefcase-check display-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div id="CandidateTotalByStatus">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12 border-right">
+                        <h4 class="mt-0 header-title mb-4">Candidate List</h4>
+                        <div class='rowCount' id="rowCount"></div>
+                        <div id="gridCandidateList"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-default-comment" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Add Follow up Details</h4>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("ChangeStatus","CandidateTimeLine",new { @area = "reports"})" method="get">
+                    <input type="hidden" name="cid" id="cid" />
+                    <table class="table table-responsive">
+                        <tr>
+                            <td>Status</td>
+                            <td>
+                                @{ var data = CandidateStatusModel.status; }
+
+                                <select class="form-control" id="status" name="status">
+                                    @foreach (Dictionary<string, string> st in data)
+                                    {
+                        <option value="@st.Keys">@st.Keys</option>
+}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Message</td>
+                            <td>
+                                <textarea class="form-control" id="message" name="message"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="" colspan="2" align="right">
+                                <button class="btn btn-primary">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DataModal" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="lblModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <div id="gridContainer" class="gridClass"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loadpanel"></div>
+<script>
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    const columnsList = [
+        { dataField: "Edit", caption: "Edit", width: 80, alignment: 'center', Type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-edit" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                        function() {
+                            ChangeStatus(options.data.CandidateId);
+                        })
+                    .append($("<img>", { "src": options.value, width: '15px' }))
+                    .appendTo(container);
+            }
+        },
+        { dataField: "LocationName", caption: "LOC", width: 100, alignment: 'center', dataType: 'string',
+            cellTemplate: function(container, options) {
+                var str = "";
+                if (options.value === "Ahmedabad")
+                    str = "AHM";
+                else if (options.value === "Visnagar")
+                    str = "VIS";
+                $("<b>" + str + "</b>").appendTo(container);
+            }
+        },
+        { dataField: "CandidateName", caption: "Candidate", width: 150, dataType: 'string', alignment: 'center' },
+        { dataField: "OnBoardingDate", caption: "Date", sortIndex: 0, dataType: "date", alignment: 'center', sortOrder: "desc", width: 120, format: 'dd MMM yyyy' },
+        { dataField: "SalesAssocaites", caption: "Sales", width: 120, alignment: 'center', dataType: 'string' },
+        { dataField: "ExpertCVStatus", caption: "CV", width: 70, alignment: 'center', type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                    function() {
+                        showData("ExpertCv", options.data.CandidateId, "CV Status Details");
+                    }).appendTo(container);
+            }
+        },
+        { caption: "Status", dataField: "CurrentStatus", width: 120, alignment: 'center', cellTemplate: function(container, options) {
+                $("<div>").append(options.value).appendTo(container);
+            }
+        },
+        { dataField: "MarketingStatus", caption: "MRK Status", width: 200, alignment: 'center', dataType: 'string' },
+        { dataField: "MarketingDetails", caption: "MRK", width: 70, alignment: 'center', dataType: 'string', type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                    function() {
+                        showData("ExpertCv", options.data.CandidateId, "CV Status Details");
+                    }).appendTo(container);
+            }
+        },
+        { dataField: "TrainingStatus", caption: "Training", width: 95, alignment: 'center', dataType: 'string', type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                    function() {
+                        showData("ExpertCv", options.data.CandidateId, "CV Status Details");
+                    }).appendTo(container);
+            }
+        },
+        { dataField: "TechnicalStatus", alignment: 'center', caption: "TECH", width: 70, type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                        function() {
+                            showData("Technical", options.data.CandidateId, "Technical");
+                        })
+                    .appendTo(container);
+            }
+        },
+        { dataField: "PODate", caption: "PO",  sortOrder: "desc", width: 120, alignment: 'center', dataType: 'date', format: 'dd MMM yyyy' },
+        { dataField: "OnboardingStatus", caption: "ONB", alignment: 'center', width: 70, dataType: 'string', type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                        function() {
+                            showData("Onboarding", options.data.CandidateId, "Onboarding");
+                        })
+                    .appendTo(container);
+            }
+        },
+        { dataField: "AccountStatus", alignment: 'center', caption: "ACN", width: 70,type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                        function() {
+                            showData("Account", options.data.CandidateId, "Account");
+                        })
+                    .appendTo(container);
+            }
+        },
+        { dataField: "DisputeStatus", alignment: 'center', caption: "DIS", width: 70, type: 'buttons',
+            cellTemplate: function(container, options) {
+                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                        function() {
+                            showData("Dispute", options.data.CandidateId, "Dispute");
+                        })
+                    .appendTo(container);
+            }
+
+        }
+    ];
+
+    $(function() {
+        countCandidateTotalByStatus();
+        getCandidateList();
+    });
+
+    function getCandidateList() {
+        loadPanel.show();
+        $.getJSON("@Url.Action("GetAdminDashBoard", "dashboard", new {@area = "admin"})",
+            null,
+            function (data) {
+                loadPanel.hide();
+                var candidates = data;
+                $("#gridCandidateList").dxDataGrid({
+                    dataSource: candidates,
+                    columns: columnsList,
+
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+                    export: {
+                        enabled: true,
+                        fileName: "Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Edit", "visible", false);
+                        e.component.columnOption("CurrentStatus", "visible", false);
+                    },
+                    onExported: function(e) {
+                        e.component.columnOption("Edit", "visible", true);
+                        e.component.columnOption("CurrentStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function(e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount').html('Total Records : ' + jQuery("#gridCandidateList").dxDataGrid('instance').totalCount());
+                    }
+                });
+            });
+    }
+    function countCandidateTotalByStatus() {
+        var HTML = "";
+        $.get("@Url.Action("GetcountCandidateTotalByStatus", "dashboard", new {@area = "admin"})",
+            null,
+            function (data) { $.each(data, function(i, v) {
+                    HTML += `
+                        <span class="btn btn-primary" style=" margin: 5px;">
+                        <label>${v.CandidateStatus}</label> <span class="badge badge-light">${v.CountNumber}</span>
+                        </span>`;
+                });
+                $('#CandidateTotalByStatus').html(HTML);
+            });
+
+    }
+
+
+    function ChangeStatus(id) {
+        $("#modal-default-comment").modal('show');
+        $("#cid").val(id);
+    }
+    function showData(Status, CandidateId, Title) {
+        param = { Status, CandidateId }
+        console.log(param);
+        //return false;
+        //loadPanel.show();
+        $.get("@Url.Action("GetCandidateModelData", "dashboard",new { @area = "admin"})",
+            { 'JsonData': JSON.stringify(param) },
+            function (data) {
+                //alert(data);
+                $("#gridContainer").dxDataGrid({
+                    dataSource: data,
+                    columns: ["FollowUpStatus", "FollowUpBy", "Date", "Time", "FollowUpMessage"],
+                    showBorders: true,
+                    loadPanel: {
+                        enabled: true
+                    }
+                });
+                $('#lblModalTitle').text(Title);
+                // loadPanel.hide();
+                $('#DataModal').modal('show');
+            });
+    }
+</script>

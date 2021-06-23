@@ -1,0 +1,65 @@
+﻿
+@if (TempData["alert"] != null)
+{
+
+    var data = TempData["alert"] as DashTechCRM.Models.AlertBoxModel;
+
+
+<div id="box_id">
+
+    @switch (data.Type)
+    {
+        case "Error":
+
+
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>@data.Message</strong>
+            </div>
+
+            break;
+        case "Info":
+
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>@data.Message</strong>
+            </div>
+
+            break;
+        case "Warning":
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>@data.Message</strong>
+            </div>
+            break;
+        case "Success":
+
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>@data.Message</strong>
+            </div>
+            break;
+    }
+
+    <!-- /.box -->
+</div>
+    @*<script src="~/Content/bower_components/jquery/dist/jquery.min.js"></script>
+
+        <script>
+            $("#box_id").show(500);
+            $("#btnRemove").click(function () {
+
+                $("#box_id").hide(1200);
+            });
+        </script>*@
+
+}

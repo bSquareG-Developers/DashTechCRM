@@ -1,0 +1,204 @@
+﻿@using DashTechCRM.Models
+@{ ViewBag.Title = "Assigned Candidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+
+
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseCandidateList" role="button" aria-expanded="false" aria-controls="collapseCandidateList"> <i class="fa fa-filter"></i> Assigned Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse show" id="collapseCandidateList">
+                    <div class="row">
+                        <div class="col-xl-12 border-right">
+                            <h4 class="mt-0 header-title mb-4">Assigned Candidate List</h4>
+                            <div class="rowCount" id="rowCount"></div>
+                            <div id="gridCandidateList"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-sm" id="modal-status" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Change Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form action="@Url.Action("ChangeStatus","dashboard",new { @area = "MarketingManager"})" method="post">
+                        <input type="hidden" name="candidateId" id="candidateId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+                                    <div class="box-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>Status</td>
+                                                <td>
+                                                    @{ string[] strRec = { "Dropped", "On Hold", "In Training", "Rebuild Resume", "Not Responding", "placed", "partial marketing" }; }
+
+                                                    <select class="form-control select2" id="status" name="status">
+                                                        <option></option>
+                                                        @foreach (string st in strRec)
+                                                        {
+                                            <option value="@st">@st</option>}
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Remarks</td>
+                                                <td>
+                                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2" align="right">
+                                                    <button class="btn btn-primary">Save</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="loadpanel"></div>
+<script>
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    $(function () {
+        getAssignedCandidate();
+    });
+
+    function getAssignedCandidate() {
+        loadPanel.show();
+         //start getting data from GetCandidateList New Marketing
+        $.getJSON("@Url.Action("GetMarketingCandidateList", "dashboard", new { @area = "MarketingManager" })", null, function (data) {
+            loadPanel.hide();
+            var dataGrid = $("#gridCandidateList").dxDataGrid({
+                dataSource: data,
+
+                columns: [
+
+                    { dataField:'Button', caption: "Status", width: 100,type:'buttons',dataType:'string',alignment:'center',
+                        cellTemplate: function (container, options) {
+                            $("<div>").text('').on('dxclick', function () {
+                                ChangeStatus(options.data.CandidateId);
+                            }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Status" }))).appendTo(container);
+                        }
+                    },
+                    { dataField: "CandidateName", caption: "Candidate Name", width: 150,alignment:'center',dataType:'string' },
+                    { dataField: "CandidateStatus", caption: "Marketing?", width: 120, alignment: "center", dataType: 'string',type:'buttons', cellTemplate: function (container, options) {
+                        $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+                    }
+                    },
+                    { dataField: "VisaStatus", caption: "Visa", alignment: "center", width: 120, dataType: 'string' },
+                    { dataField: "RecruiterName", caption: "Recruiter Name", alignment: "center", width: 150, dataType: 'string'},
+                    { dataField: "TeamLeadName", caption: "TeamLead Name", alignment: 'center', width: 150, dataType: 'string'},
+                    { dataField: "ManagerName", caption: "Manager Name", width: 150, alignment: "center", dataType: 'string' },
+                    { dataField: "Date", caption: 'Date', alignment: "center", width: 120 ,dataType: "date",format:'dd MMM yyyy'},
+                    { dataField: "MarketingStartDate", caption: "Marketing Date", alignment: "center", dataType: "date", width: 150, format: 'dd MMM yyyy'},
+                    { dataField: "MarketingEmailId", caption: "Marketing Email Id", alignment: "center",dataType:'string', width: 200 },
+                    { dataField: "MarketingContactNumber", caption: "Marketing Contact Number",alignment:'center',dataType:'string',width:200 }
+
+                ],
+
+                columnsAutoWidth: true,
+                wordWrapEnabled: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                grouping: { autoExpandAll: true },
+                paging: { pageSize: 10 },
+                pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                headerFilter: { visible: true },
+                filterRow: { visible: true, applyFilter: "auto" },
+                allowColumnResizing: true,
+                groupPanel: { visible: true },
+                searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                export: {
+                    enabled: true,
+                    fileName: "Assigned Candidate",
+                    allowExportSelectedData: true,
+                    customizeExcelCell: options => {
+                        if (options.gridCell.rowType === "header") {
+                            options.backgroundColor = _dxGridHeaderBGColor;
+                            options.font.color = _dxGridHeaderColor;
+                        }
+                    }
+                },
+                selection: { mode: "multiple" },
+                allowColumnReordering: true,
+                columnFixing: { enabled: false },
+                columnChooser: {
+                    enabled: true,
+                    mode: "select",
+                    allowSearch: true
+                },
+                onExporting: function(e) {
+                    e.component.beginUpdate();
+                    e.component.columnOption("Button", "visible", false);
+                    e.component.columnOption("CandidateStatus", "visible", false);
+                },
+                onExported: function(e) {
+                    e.component.columnOption("Button", "visible", true);
+                    e.component.columnOption("CandidateStatus", "visible", true);
+                    e.component.endUpdate();
+                },
+                onCellPrepared: function(e) {
+                    if (e.rowType === "header") {
+                        e.cellElement.css("text-align", "center");
+                        e.cellElement.css("font-weight", "bold");
+                    }
+                    if (e.rowType === "group") {
+                        e.cellElement.css("text-align", "center");
+                    }
+                },
+                onContentReady(e) {
+                    jQuery('#rowCount').html('Total Records : ' + jQuery("#gridCandidateList").dxDataGrid('instance').totalCount());
+                }
+            }).dxDataGrid('instance');
+        });
+        //end getting data from GetCandidateTimeLine
+
+    }
+    function ChangeStatus(id){
+        $("#modal-status").modal("show");
+        $("#candidateId").val(id);
+    }
+</script>

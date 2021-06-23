@@ -1,0 +1,1017 @@
+﻿@using DashTechCRM.Models
+
+@{ ViewBag.Title = "Candidate List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+
+    .parsley-error, .parsley-required {
+        color: #F16C69;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseTodayCandidateList" role="button" aria-expanded="true" aria-controls="collapseTodayCandidateList"> <i class="fa fa-filter"></i> Today's Assigned Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse show" id="collapseTodayCandidateList">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <h4 class="mt-0 header-title mb-4">Today's Assigned Candidate List</h4>
+                            <div class="rowCount" id="rowCount2"></div>
+                            <div id="gridNewCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseCandidateList" role="button" aria-expanded="true" aria-controls="collapseCandidateList"> <i class="fa fa-filter"></i> Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse show" id="collapseCandidateList">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span id="spnTodaySubmission" class="m-3 btn btn-info waves-effect waves-light"></span>
+                            <span id="spnTodaysInterview" class="m-3 btn btn-primary waves-effect waves-light"></span>
+                            <span id="spnTotalSubmission" class="m-3 btn btn-danger waves-effect waves-light"></span>
+                            <span id="spnTotalInterview" class="m-3 btn btn-success waves-effect waves-light"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <h4 class="mt-0 header-title mb-4">Candidate List</h4>
+                            <div class="rowCount" id="rowCount"></div>
+                            <div id="gridCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="modal-followup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Follow Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form action="@Url.Action("SaveFollowup","dashboard",new { @area = "Recruiter"})" method="post">
+                        <input type="hidden" name="candidateId" id="candidateId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>Recruiter  Status</td>
+                                                <td>
+                                                    <select class="form-control select2" id="status" name="status">
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Remarks</td>
+                                                <td>
+                                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2" align="right">
+                                                    <button class="btn btn-primary">Save</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>
+<div class="modal fade bs-example-modal-lg" id="SubmissionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Submission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("NewSubmission","SubmissionsManage",new { @area = "Recruiter"})" method="post">
+                    <input type="hidden" value="" id="AId" name="RefAssignedId" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Vendor Name</label>
+                                                <input class="form-control" name="VendorName" id="VendorName" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Vendor Contact Number</label>
+                                                <input class="form-control" name="VendorContactNumber" id="VendorContactNumber" style="width: 100%;" data-inputmask='"mask": "(999) 999-9999"' data-mask required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Vendor EmailId</label>
+                                                <input type="email" class="form-control" name="VendorEmailId" id="VendorEmailId" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Vendor Company Name</label>
+                                                <input class="form-control" name="VendorCompanyName" id="VendorCompanyName" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Client Name</label>
+                                                <input class="form-control" name="ClientName" id="ClientName" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>$ Rate</label>
+                                                <input class="form-control" type="number" name="PerHourRate" id="PerHourRate" style="width: 100%;" required />
+                                            </div>
+
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label>Job Title</label>
+                                                <input class="form-control" name="JobTitle" id="JobTitle" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Job Location</label>
+                                                <input class="form-control" name="JobLocation" id="JobLocation" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>FollowUp Date</label>
+                                                <input type="date" class="form-control" name="FollowUpDate" id="FollowUpDate" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Status Of Submission</label>
+                                                <select class="form-control select2" name="StatusOfSubmission" style="width:100%">
+                                                    <option value=""></option>
+                                                    <option value="Follow Up">Follow Up</option>
+                                                    <option value="No Response">No Response</option>
+                                                    <option value="Interview Schedule">Interview Schedule</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Job Portal</label>
+                                                <input class="form-control" name="JobPortal" id="JobPortal" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Remarks</label>
+                                                <textarea class="form-control" name="Remarks" id="Remarks" style="width:100%" required></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-danger">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="InterviewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Interview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("NewInterview","SubmissionsManage",new { @area = "Recruiter"})" method="post">
+                    <input type="hidden" value="" id="assignedId" name="aid" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Interview Date</label>
+                                                <input class="form-control" type="date" name="DateOfInterview" id="DateOfInterview" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Time Of Interview</label>
+                                                <input class="form-control" type="time" name="TimeOfInterview" id="TimeOfInterview" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mode Of Interview</label>
+                                                <select class="form-control select2" name="RefModeOfInterview" id="RefModeOfInterview" required>
+                                                    <option></option>
+                                                    @foreach (InterviewMode item in db.InterviewModes.ToList())
+                                                    {
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
+}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Round Of Interview</label>
+                                                <input class="form-control" name="RoundOfInterv" id="RoundOfInterv" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Interview Support?</label>
+                                                <input type="checkbox" name="InterviewSupport" id="InterviewSupport" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Interview Support Name</label>
+                                                <input class="form-control" name="InterviewSupportName" id="InterviewSupportName" style="width: 100%;" />
+                                            </div>
+
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label>Job Description</label>
+                                                <textarea class="form-control" name="JobDescription" id="JobDescription" style="width: 100%;" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Interview Details</label>
+                                                <textarea class="form-control" name="InterviewDetails" id="InterviewDetails" style="width: 100%;" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Interview Joining Details</label>
+                                                <textarea class="form-control" name="InterviewJoiningDetails" id="InterviewJoiningDetails" style="width: 100%;" required></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-danger">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="AssignModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Marketing start Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-default">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                @*<div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Marketing Email Id</label>
+                                                <input class="form-control" type="email" name="MarketingEmailId" id="MarketingEmailId" style="width: 100%;" readonly="readonly" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Marketing Contact Number</label>
+                                                <input class="form-control" name="MarketingContactNumber" id="MarketingContactNumber" style="width: 100%;" data-inputmask='"mask": "(999) 999-9999"' data-mask readonly="readonly" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Original Resume (Link)</label>
+                                                <input type="url" class="form-control" name="OriginalResume" id="OriginalResume" style="width: 100%;" />
+                                                <span id="reqOriginalResume" class="parsley-required" style="display: none"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Marketing Resume</label>
+                                                <input class="form-control" type="url" name="MarketingResume" id="MarketingResume" style="width: 100%;" required />
+                                                <span id="reqMarketingResume" class="parsley-required" style="display: none"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Required Location List</label>
+                                                <input class="form-control" type="text" name="RequiredLocationList" id="RequiredLocationList" style="width: 100%;" required />
+                                                <span id="reqRequiredLocationList" class="parsley-required" style="display: none"></span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Remarks</label>
+                                                <textarea class="form-control" name="OtherRemarks" id="OtherRemarks" style="width: 100%" required></textarea>
+                                                <span id="reqOtherRemarks" class="parsley-required" style="display: none"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="checkbox" name="LocationConcern" id="LocationConcern" required />
+                                                <label class="form-check-label" for="LocationConcern">
+                                                    Location Concern
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>*@
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Passport Number :</label>
+                                            <input type="text" id="txtPassportNumber" class="form-control" />
+                                            <span id="reqPassportNumber" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last 4 Digit SSN :</label>
+                                            <input type="text" id="txtSSN" class="form-control" />
+                                            <span id="reqSSN" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>EAD copy :</label>
+                                            <input type="text" id="txtEADcopy" class="form-control" />
+                                            <span id="reqEADcopy" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Visa Copy :</label>
+                                            <input type="text" id="txtVisaCopy" class="form-control" />
+                                            <span id="reqVisaCopy" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label class="d-block">&nbsp;</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="chkisi20">
+                                            <label class="form-check-label" for="chkisi20">
+                                                got i20 Document .?
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label class="d-block">&nbsp;</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="chkchkworkAuthorization">
+                                            <label class="form-check-label" for="chkchkworkAuthorization">
+                                                Have work Authorization .?
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label class="d-block">&nbsp;</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="chkDrivingLicence">
+                                            <label class="form-check-label" for="chkDrivingLicence">
+                                                Driving Licence .?
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-danger" id="btnSubmit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="modalEndMarketing" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">End Marketing</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label id="lblEndMarketingRemarks" for="txtEndMarketingRemarks">Remarks :</label>
+                            <textarea id="txtEndMarketingRemarks" rows="5" class="form-control"></textarea>
+                            <span id="reqEndMarketingRemarks" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" id="btnSaveEndMarketingRemarks">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalAssignCandidate" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Assign Candidate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>AssignTo</label>
+                            <select id="ddlAssignTo" class="form-control select2"></select>
+                            <span id="reqAssignTo" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="d-block"> &nbsp;</label>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" id="btnSave">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loadpanel"></div>
+<script>
+    var MarketingId = "";
+    var CandidateId = "";
+    var candidateObject = {};
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+
+    $(function() {
+        getNewCandidate();
+        getOldCandidate();
+        BindFollowUpStatusRecruiter();
+        GetInterviewSubmissionCount();
+        BindAssignTo();
+    });
+    function BindAssignTo() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("BindAssignTo")",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                jQuery('#ddlAssignTo').empty();
+                jQuery('#ddlAssignTo').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#ddlAssignTo').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+    function Assign(data) {
+
+        candidateObject = { ...data };
+        BindAssignTo();
+        $('#modalAssignCandidate').modal({ backdrop: 'static', keyboard: false });
+    }
+    $('#btnSave').click(function (e) {
+        var srBatchRecruiter = $('#ddlAssignTo').val();
+        var marketingId = candidateObject.MarketingId;
+        var AssignedId = candidateObject.AssignedId;
+        param = { srBatchRecruiter, marketingId, AssignedId};
+        if (!srBatchRecruiter) {
+            $('#reqAssignTo').text('Please select Assign To..!!');
+            $('#reqAssignTo').show();
+            return false;
+        } else {
+            $('#reqAssignTo').text('');
+            $('#reqAssignTo').hide();
+        }
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("SaveCandidateAssignToSeniorRecruiter")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                loadPanel.hide();
+                if (response === '1')
+                    DevExpress.ui.notify("Candidate Assigned Successfully..!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("This candidate is already Assigned to same Recruiter..!!", "warning", 5000);
+                $('#modalAssignCandidate').modal('hide');
+                getOldCandidate();
+                BindAssignTo();
+            }
+        });
+    });
+    function GetInterviewSubmissionCount() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetInterviewSubmissionCount")",
+            success: function(data) {
+                data = JSON.parse(data);
+                $('#spnTodaysInterview').text("Today's Interview : " + data[0].TodayInterview);
+                $('#spnTotalInterview').text("Total Interview : "+data[0].TotalInterview);
+                $('#spnTodaySubmission').text("Today's Submission : " + data[0].TodaySubmission);
+                $('#spnTotalSubmission').text("Total Submission : " + data[0].TotalSubmission);
+            }
+        });
+    }
+    function BindFollowUpStatusRecruiter() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("BindFollowUpStatusRecruiter")",
+            success: function(data) {
+                data = JSON.parse(data);
+                jQuery('#status').empty();
+                jQuery('#status').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#status').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+    function getNewCandidate() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetNewCandidatesJson")",
+            success: function(data) {
+                data = JSON.parse(data);
+                loadPanel.hide();
+                var dataGrid = $("#gridNewCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        {
+                            dataField: "FollowUp", caption: "Follow Up", alignment: "center", width: 130, dataType: 'string', type: "buttons",
+                            cellTemplate: function (container, options) {
+                                $("<div>").text('').on('dxclick', function () {
+                                    followup(options.data.CandidateId);
+                                })
+                                .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "FolloW Up" })))
+                                .appendTo(container);
+                            }
+
+                        },
+                        { dataField: "CandidateName", caption: "Candidate Name", width: 150, alignment: "center", dataType: 'string' },
+
+                        {
+                            dataField: "CandidateStatus", caption: "Marketing?", width: 180, alignment: "center", dataType: 'string', cellTemplate: function (container, options) {
+                                $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+                            }
+                        },
+                        { dataField: "VisaStatus", caption: "Visa Status", width: 150, alignment: "center", dataType: 'string' },
+                        { dataField: "EnrolledDate", caption: 'Enrolled Date', alignment: "center", dataType: "date", width: 150, format: 'dd MMM yyyy' },
+                        { dataField: "MarketingStartDate", caption: 'Marketing Start Date', alignment: "center", dataType: "date", width: 150 },
+                        { dataField: "MarketingEmailId", caption: 'Marketing Email Id', alignment: "center", width: 180 },
+                        { dataField: "MarketingContactNumber", caption: "Marketing Contact Number", width: 150, alignment: "center", dataType: 'string' }
+                    ],
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: data.length > 0 ? true : false,
+                        fileName: "Today's Assigned Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function (e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Button", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function (e) {
+                        e.component.columnOption("Button", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function (e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount2').html('Total Records : ' + jQuery("#gridNewCandidateList").dxDataGrid('instance').totalCount());
+                    }
+                }).dxDataGrid('instance');
+            }
+        });
+
+    }
+    function getOldCandidate() {
+        loadPanel.show();
+        //start getting data from GetCandidateList
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetCandidatesJson")",
+            success: function(data) {
+                data = JSON.parse(data);
+                loadPanel.hide();
+                var dataGrid = $("#gridCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        { dataField: 'Assign', caption: 'Assign Candidate', alignment: 'center', dataType: 'string', width: 120, format: '',type:'buttons',cellTemplate:function(container, options) {
+                                jQuery('<span class="fa fa-plus" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                    Assign(options.data);
+                                }).appendTo(container);
+                            }
+                        },
+                        {
+                            dataField: 'startMarketing', caption: 'Marketing Start', alignment: 'center', dataType: 'string', width: 120, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.CandidateStatus !== 'Marketing:Start' && options.data.CandidateStatus !== 'Marketing:End') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        AssignCandidate(options.data);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Start" }))).appendTo(container);
+                                }
+                            }
+                        },
+                        {
+                            dataField: 'endMarketing', caption: 'Marketing End', alignment: 'center', dataType: 'string', width: 120, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.CandidateStatus !== 'Marketing:End' && options.data.CandidateStatus === 'Marketing:Start') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        EndMarketing(options.data);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "End" }))).appendTo(container);
+
+                                }
+
+                            }
+                        },
+
+                        { dataField: "FollowUp", caption: "Follow Up", alignment: "center", width: 120, dataType: 'string', type: "buttons", cellTemplate: function (container, options) { $("<div>").text('').on('dxclick', function () {
+                                            followup(options.data.CandidateId);
+                                        })
+                                    .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "FolloW Up" })))
+                                    .appendTo(container);
+                            }
+                        },
+
+                        //{ dataField: "", caption: "Submission", alignment: "center", width: 150, dataType: 'string',
+                        //    cellTemplate: function (container, options) {
+                        //        if (options.data.MarketingStartDate) {
+                        //            $("<div>").text('').on('dxclick',
+                        //                    function () {
+                        //                        AddSubmissionDefault(options.data);
+                        //                    }).append($("<button>", { "class": "btn btn-info btn-sm" }).append($("<b>", { "text": "Add Submission" })))
+                        //                .appendTo(container);
+                        //        }
+                        //    }
+                        //},
+                        //{
+                        //    dataField: "", caption: "Interview", alignment: "center", width: 150, dataType: 'string', cellTemplate: function (container, options) {
+                        //        if (options.data.MarketingStartDate) {
+                        //            $("<div>").text('').on('dxclick',
+                        //                function () {
+                        //                    AddInterviewDefault(options.data);
+                        //                })
+                        //                .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Add Interview" })))
+                        //                .appendTo(container);
+                        //        }
+                        //    }
+                        //},
+                        { dataField: "", caption: "Submission", alignment: "center", width: 100, dataType: 'string',
+                            cellTemplate: function (container, options) {
+                                if (options.data.MarketingStartDate) {
+                                    $("<div>").text('').on('dxclick',
+                                            function () {
+                                                showData(options.data.AssignedId);
+                                            }).append($("<button>", { "class": "btn btn-info btn-sm" }).append($("<b>", { "text": "Submission" })))
+                                        .appendTo(container);
+                                }
+                            }
+                        },
+
+                        { dataField: "", caption: "Interview", alignment: "center", width: 90, dataType: 'string', cellTemplate: function (container, options) {
+                                if (options.data.MarketingStartDate) {
+                                    $("<div>").text('').on('dxclick',
+                                            function () {
+                                                InterviewShowData(options.data.AssignedId);
+                                            })
+                                        .append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Interview" })))
+                                        .appendTo(container);
+                                }
+                            }
+                        },
+                        { dataField: "TodaySubmissionCount", caption: "Today Submissions", alignment: "center", width: 130, dataType: 'number' },
+                        { dataField: "TodayInterviewCount", caption: "Today Interview", alignment: "center", width: 130, dataType: 'number' },
+                        { dataField: "TotalSubmissionCount", caption: "Total Submissions", alignment: "center", width: 130, dataType: 'number' },
+                        { dataField: "TotalInterviewCount", caption: "Total Interview", alignment: "center", width: 130, dataType: 'number' },
+                        { dataField: "CandidateName", caption: "Candidate Name", alignment: "center", width: 150, dataType: 'string' },
+                        { dataField: "SeniorSalesRecruiter", caption: "Senior Sales Recruiter", width: 150, alignment: "center", dataType: 'string' }, { dataField: "JuniorSalesRecruiter", caption: "Junior Sales Recruiter", width: 150, alignment: "center", dataType: 'string' },
+                        { dataField: "TraineeSalesRecruiter", caption: "Trainee Sales Recruiter", width: 150, alignment: "center", dataType: 'string' },
+
+                        { dataField: "CandidateStatus", caption: "Marketing", alignment: "center", width: 150, dataType: 'string' },
+                        { dataField: "VisaStatus", alignment: "center", caption: "Visa Status", width: 140, dataType: 'string' },
+                        { dataField: "EnrolledDate", caption: "Enrolled Date", alignment: "center", dataType: "date", sortIndex: 0, sortOrder: "desc", width: 140, format: 'dd MMM yyyy' },
+                        { dataField: "MarketingStartDate", caption: "Marketing Start Date", alignment: "center", dataType: "date", width: 150, format: 'dd MMM yyyy' },
+                        { dataField: "MarketingEmailId", caption: "Marketing Email Id", alignment: "center", width: 180, dataType: "string" },
+                        { dataField: "MarketingContactNumber", caption: "Marketing Contact Number", alignment: "center", width: 180, dataType: "string" }
+                    ],
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: data.length > 0 ? true : false,
+                        fileName: "Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function (e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("FollowUp", "visible", false);
+                        e.component.columnOption("Interview", "visible", false);
+                        e.component.columnOption("Submission", "visible", false);
+                    },
+                    onExported: function (e) {
+                        e.component.columnOption("FollowUp", "visible", true);
+                        e.component.columnOption("Interview", "visible", true);
+                        e.component.columnOption("Submission", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function (e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount').html('Total Records : ' + jQuery("#gridCandidateList").dxDataGrid('instance').totalCount());
+                    }
+
+                }).dxDataGrid('instance');
+
+            }
+        });
+
+        //end getting data from GetCandidateTimeLine
+
+    }
+    function showData(aid) {
+        $('#SubmissionModal').modal({ backdrop: 'static', keyboard: false });
+        $("#AId").val(aid);
+    }
+    function InterviewShowData(aid) {
+        $('#InterviewModal').modal({ backdrop: 'static', keyboard: false });
+        $("#assignedId").val(aid);
+    }
+    $('[data-mask]').inputmask();
+    $('.select2').select2();
+
+
+    function followup(id) {
+        $('#modal-followup').modal({ backdrop: 'static', keyboard: false });
+        $("#candidateId").val(id);
+    }
+    function AssignCandidate(data) {
+        candidateObject = { ...data };
+        MarketingId = data.MarketingId ? data.MarketingId:'';
+        $("#AssignModal").modal("show");
+        $('#MarketingEmailId').val(data.MarketingEmailId ? data.MarketingEmailId:'');
+        $('#MarketingContactNumber').val(data.MarketingContactNumber ? data.MarketingContactNumber:'');
+        $("#CId").val(data.CandidateId ? data.CandidateId : '');
+        $('#OriginalResume').val('');
+        $('#MarketingResume').val('');
+        $('#RequiredLocationList').val('');
+        $('#OtherRemarks').val('');
+    }
+
+    function EndMarketing(data) {
+        CandidateId = data.CandidateId;
+        $('#modalEndMarketing').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    $('#btnSaveEndMarketingRemarks').click(function (e) {
+        var marketingEndReason = $('#txtEndMarketingRemarks').val() ? $('#txtEndMarketingRemarks').val():'';
+        if (marketingEndReason == "") {
+            $('#reqEndMarketingRemarks').show();
+            $('#reqEndMarketingRemarks').text("Please enter Remarks..!!");
+            return false;
+        } else {
+            $('#reqEndMarketingRemarks').hide();
+            $('#EndMarketingRemarks').text("");
+        }
+        param = { marketingEndReason, CandidateId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("InsertFollowUpDetails")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Remarks Added successfully..!!", "success", 5000);
+                location.reload();
+            }
+        });
+    });
+    $('#btnSubmit').click(function(e) {
+        var passportNumber = $('#txtPassportNumber').val() ? $('#txtPassportNumber').val() : '';
+        var ssn = $('#txtSSN').val() ? $('#txtSSN').val() : '';
+        var ead = $('#txtEADcopy').val() ? $('#txtEADcopy').val() : '';
+        var visa = $('#txtVisaCopy').val() ? $('#txtVisaCopy').val() : '';
+        var i20 = $('#chkisi20').is(":checked") ? 1 : 0;
+        var workAuthorization = $('#chkchkworkAuthorization').is(":checked") ? 1 : 0;
+        var drivingLicence = $('#chkDrivingLicence').is(":checked") ? 1 : 0;
+        param = { passportNumber, ssn, ead, visa, i20, workAuthorization, drivingLicence, MarketingId};
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("InsertCandidateMarketingDetails")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                loadPanel.hide();
+                if (response === '1')
+                    DevExpress.ui.notify("Marketing details saved successfully..!!", "success", 5000);
+                $("#AssignModal").modal("hide");
+                getOldCandidate();
+                ResetCandidateAssign();
+            }
+        });
+    });
+
+    function ResetCandidateAssign() {
+        $("#chkisi20").prop('checked', false);
+        $("#chkchkworkAuthorization").prop('checked', false);
+        $("#chkDrivingLicence").prop('checked', false);
+        $('#txtPassportNumber').val('');
+        $('#txtSSN').val('');
+        $('#txtEADcopy').val('');
+        $('#txtVisaCopy').val('');
+    }
+    function AddSubmissionDefault(data) {
+        var assignedId = data.AssignedId;
+        param = { assignedId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("AddSubmissionDetailsDefault")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Submission Added Successfully.!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                setTimeout(function () {
+                    window.location.reload(1);
+                },
+                    5000);
+            }
+        });
+
+    }
+    function AddInterviewDefault(data) {
+        var assignedId = data.AssignedId;
+        param = { assignedId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("AddInterviewDetailsDefault")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Interview Added Successfully.!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                setTimeout(function() {
+                        window.location.reload(1);
+                    },
+                    5000);
+            }
+        });
+
+    }
+
+</script>
