@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    <h3 class="alert alert-danger">@ViewBag.ErrorMessage</h3>
     <!-- Background -->
     <div class="account-pages"></div>
     <!-- Begin page -->
@@ -213,6 +214,7 @@
                 }
             });
         }
+
         $('#btnReset').click(function (e) {
             $('#txtRocketName').val('');
             $('#txtEmailId').val('');

@@ -55,59 +55,33 @@ namespace DashTechCRM.Areas.User.Controllers
         #region Manage Redirection after login
         public ActionResult RoleBasedRedirection(string Role)
         {
-            string defUrl = ConfigurationManager.AppSettings["defUrl"].ToString();
-            string areaName = Role.Replace(" ", "");
-            if (areaName.ToLower() == "on boarding" || areaName.ToLower() == "account")
+            try
             {
-                areaName = "otherdept";
+                string defUrl = ConfigurationManager.AppSettings["defUrl"].ToString();
+                string areaName = Role.Replace(" ", "");
+                if (areaName.ToLower() == "on boarding" || areaName.ToLower() == "account")
+                {
+                    areaName = "otherdept";
+                }
+                string defController = "dashboard";
+                if (Role == "Test")
+                {
+                    defController = "ctest";
+                    areaName = "commontest";
+                }
+                string rediretUrl = string.Format("{0}/{1}/{2}", defUrl, areaName, defController);
+                UserObject user = Session["userInfo"] as UserObject;
+                user.DefUrl = rediretUrl;
+                Session["userInfo"] = user;
+                return Redirect(rediretUrl);
             }
-            string defController = "dashboard";
-            if (Role == "Test")
+            catch (Exception e)
             {
-                defController = "ctest";
-                areaName = "commontest";
+                ViewBag.ErrorMessage = e.Message;
+                throw;
             }
-            string rediretUrl = string.Format("{0}/{1}/{2}", defUrl, areaName, defController);
-            UserObject user = Session["userInfo"] as UserObject;
-            user.DefUrl = rediretUrl;
-            Session["userInfo"] = user;
-            //switch (Role)
-            //{
-            //    case "admin":
 
-            //        break;
-            //    case "Expert CV Coach":
-            //        break;
-            //    case "Lead Generator":
-            //        break;
-            //    case "Marketing Manager":
-            //        break;
-            //    case "Marketing Team Lead":
-            //        break;
-            //    case "Master":
-            //        break;
-            //    case "On Boarding":
-            //        break;
-            //    case "Recruiter":
-            //        break;
-            //    case "Sales Associate":
-            //        break;
-            //    case "Sales Manager":
-            //        break;
-            //    case "Sales Team Lead":
-            //        break;
-            //    case "Technical Expert":
-            //        break;
-            //    case "Technical KL":
-            //        break;
-            //    case "Technical Team Lead":
-            //        break;
-            //    case "Technical Team Manager": 
-            //        break;
-            //    default:
-            //        break;
-            //}
-            return Redirect(rediretUrl);
+
         }
         #endregion
 
