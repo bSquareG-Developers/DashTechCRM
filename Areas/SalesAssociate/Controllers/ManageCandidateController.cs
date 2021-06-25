@@ -355,8 +355,8 @@ END
                         body += "<br>Please Start Training for this Candidate:<br><br>";
                         body += string.Format(
                             @"Candidate Name: {0}<br>Email Address: {1}<br>Contact Number:{2}<br>Technology: {3}<br>Sales Person: {4}",
-                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId), technologyName,
-                            Convert.ToString(prm.mobileNumber), user.RocketName);
+                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId),
+                            Convert.ToString(prm.mobileNumber), technologyName, user.RocketName);
                         toEm = "training@dashtechinc.com";
                         if (db.UserAccountDetails.Find(user.UserId).RefLocationId == 1)
                         {
@@ -379,8 +379,8 @@ END
                         body += "<br>Please Start Marketing for this Candidate:<br><br>";
                         body += string.Format(
                             @"Candidate Name: {0}<br>Email Address: {1}<br>Contact Number:{2}<br>Technology: {3}<br>Sales Person: {4}",
-                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId), technologyName,
-                            Convert.ToString(prm.mobileNumber), user.RocketName);
+                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId),
+                            Convert.ToString(prm.mobileNumber), technologyName, user.RocketName);
 
                         var u = db.UserAccountDetails.Find(user.UserId);
                         if (u.RefLocationId == 1)
@@ -407,8 +407,8 @@ END
                         body += "<br>Please Start Resume Build Process for this Candidate:<br><br>";
                         body += string.Format(
                             @"Candidate Name: {0}<br>Email Address: {1}<br>Contact Number:{2}<br>Technology: {3}<br>Sales Person: {4}",
-                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId), technologyName,
-                            Convert.ToString(prm.mobileNumber), user.RocketName);
+                            Convert.ToString(prm.candidateName), Convert.ToString(prm.emailId),
+                            Convert.ToString(prm.mobileNumber), technologyName, user.RocketName);
                         //toEm = "training@dashtechinc.com";
                         if (db.UserAccountDetails.Find(user.UserId).RefLocationId == 1)
                         {
@@ -945,7 +945,7 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
             {
                 TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = ex.Message };
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         public string CheckExistMobileorEmail(string parameter)

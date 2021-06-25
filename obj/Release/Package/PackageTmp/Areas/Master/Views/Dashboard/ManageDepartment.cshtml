@@ -198,14 +198,31 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <Button class="btn btn-primary btn-block" id="btnUpdateRoleDepartment">Update</Button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-
+<div class="loadpanel"></div>
 <script>
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+
+    let departmentRoleId = '';
     let DepartmentList = [];
     let DepartmentArr = [];
     let TeamArr = [];
@@ -220,32 +237,19 @@
         BindTeamDetailsManage();
         BindTeamList();
         BindRemainingMembers();
-        GetRoles();
+        GetRoles(undefined);
     });
 
-    function GetRoles() {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "@Url.Action("GetRoles")",
-            success: function(data) {
-                data = JSON.parse(data);
-                jQuery('#ddlChangeRole').empty();
-                jQuery('#ddlChangeRole').append('<option value="">Select</option>');
-                jQuery.each(data,
-                    function(i, v) {
-                        jQuery('#ddlChangeRole').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
-                    });
-            }
-        });
-    }
+
     function BindUserWithRole() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("GetUserwithRole")",
             success: function(response) {
                 response = JSON.parse(response);
+                loadPanel.hide();
                 jQuery('#ddlLeaderId').empty();
                 jQuery('#ddlLeaderId').append('<option value="">Select</option>');
                 jQuery.each(response,
@@ -271,22 +275,18 @@
                 jQuery('#ddlDepartment').append('<option value="' + v.Id + '">' + v.DepartmentName + '</option>');
             });
 
-        jQuery('#ddlchangeDepartment').empty();
-        jQuery('#ddlchangeDepartment').append('<option value="">Select</option>');
-        jQuery.each(DepartmentList,
-            function(i, v) {
-                jQuery('#ddlchangeDepartment').append('<option value="' + v.Id + '">' + v.DepartmentName + '</option>');
-            });
 
 
     }
     function bindDepartment() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("BindDepartment")",
             success: function(data) {
                 data = JSON.parse(data);
+                loadPanel.hide();
                 DepartmentArr = data.map(x => x.DepartmentName);
                 DepartmentList = data;
 
@@ -388,25 +388,26 @@
         });
     }
     function bindDepartmentRoleWise() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("BindDepartmentwiseRole")",
             success: function(data) {
                 data = JSON.parse(data);
-
+                loadPanel.hide();
                 var dataGrid = $("#gridDepartmentwiserole").dxDataGrid({
                     dataSource: data,
                     columns: [
                         { dataField: 'RoleTitle', caption: 'Role Title', alignment: 'center', dataType: 'string', width: 200, format: '' },
                         { dataField: 'DepartmentName', caption: 'Department Name', alignment: 'center', dataType: '', width: 200, format: '' },
                         { dataField: 'Edit', caption: 'Edit', alignment: 'center', dataType: 'string', width: 120, format: '',type:'buttons',cellTemplate: function (container, options) {
-                                $('<i class="fa fa-edit" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
-                                    function () {
-                                        changeDepartmentRole(options.data);
-                                    }).appendTo(container);
+                            $('<i class="fa fa-edit" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                                function () {
+                                    changeDepartmentRole(options.data);
+                                }).appendTo(container);
 
-                            } }
+                        } }
                     ],
                     columnsAutoWidth: true,
                     wordWrapEnabled: true,
@@ -448,14 +449,16 @@
         });
     }
     function GetTeamDetails() {
-         $.ajax({
+        loadPanel.show();
+        $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("GetTeamDetails")",
-            success: function(data) {
+            success: function (data) {
+                loadPanel.hide();
                 data = JSON.parse(data);
                 TeamArr = data,
-                BindDepartmentDropdown();
+                    BindDepartmentDropdown();
                 var dataGrid = $("#gridGetTeamDetails").dxDataGrid({
                     dataSource: data,
 
@@ -506,11 +509,13 @@
         });
     }
     function BindTeamList() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("BindTeamList")",
-            success: function(data) {
+            success: function (data) {
+                loadPanel.hide();
                 data = JSON.parse(data);
                 jQuery('#ddlTeamName').empty();
                 jQuery('#ddlTeamName').append('<option value="">Select</option>');
@@ -522,11 +527,13 @@
         });
     }
     function BindRemainingMembers() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("BindRemainingMembers")",
-            success: function(data) {
+            success: function (data) {
+                loadPanel.hide();
                 data = JSON.parse(data);
                 jQuery('#ddlTeamMember').empty();
                 jQuery('#ddlTeamMember').append('<option value="">Select</option>');
@@ -538,44 +545,46 @@
         });
     }
     function BindTeamDetailsManage() {
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("GetTeamDetailsManage")",
-            success: function(data) {
+            success: function (data) {
+                loadPanel.hide();
                 data = JSON.parse(data);
                 var dataGrid = $("#gridGetTeamManageDetails").dxDataGrid({
                     dataSource: data,
                     columns: [
                         { dataField: 'Delete', caption: 'Delete', alignment: 'center', dataType: 'string', width: 120, format: '', cellTemplate: function (container, options) {
-                                $('<i class="fa fa-trash" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
-                                    function () {
-                                            //showFolloup(options.data.CandidateId);
-                                        var result = DevExpress.ui.dialog.confirm("<i> Delete this .?</i>", "Are you sure? ");
-                                            result.done(function(res) {
-                                                if (res) {
-                                                    param = {ID: options.data.Id}
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        contentType: "application/json; charset=utf-8",
-                                                        url: "@Url.Action("TeamMember_Delete")",
-                                                        data: "{parameter:'" + JSON.stringify(param) + "'}",
-                                                        success: function(response) {
-                                                            if (response === 'True')
-                                                                DevExpress.ui.notify("Team Deleted successfully.!!", "success", 5000);
-                                                            else
-                                                                DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
-                                                            setTimeout(function() {
-                                                                    BindTeamDetailsManage();
-                                                                },
-                                                                2000);
-                                                        }
-                                                    });
+                            $('<i class="fa fa-trash" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                                function () {
+                                    //showFolloup(options.data.CandidateId);
+                                    var result = DevExpress.ui.dialog.confirm("<i> Delete this .?</i>", "Are you sure? ");
+                                    result.done(function(res) {
+                                        if (res) {
+                                            param = {ID: options.data.Id}
+                                            $.ajax({
+                                                type: "POST",
+                                                contentType: "application/json; charset=utf-8",
+                                                url: "@Url.Action("TeamMember_Delete")",
+                                                data: "{parameter:'" + JSON.stringify(param) + "'}",
+                                                success: function(response) {
+                                                    if (response === 'True')
+                                                        DevExpress.ui.notify("Team Deleted successfully.!!", "success", 5000);
+                                                    else
+                                                        DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                                                    setTimeout(function() {
+                                                            BindTeamDetailsManage();
+                                                        },
+                                                        2000);
                                                 }
                                             });
-                                    }).appendTo(container);
+                                        }
+                                    });
+                                }).appendTo(container);
 
-                            } },
+                        } },
                         { dataField: 'TeamName', caption: 'Team Name', alignment: 'center', dataType: 'string', width: 200, format: '' },
                         { dataField: 'LeaderName', caption: 'Leader Name', alignment: 'center', dataType: 'string', width: 200, format: '' },
                         { dataField: 'MemberName', caption: 'Member Name', alignment: 'center', dataType: 'string', width: 200, format: '' },
@@ -671,24 +680,26 @@
         let param = { leaderId, teamName, reportingPerson, department }
 
         if (!ExistTeam(param)) {
+            loadPanel.show();
             $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "@Url.Action("saveTeam")",
-            data: "{parameter:'" + JSON.stringify(param) + "'}",
-            success: function(response) {
-                if (response === 'True')
-                    DevExpress.ui.notify("Team Created Successfully.!!", "success", 5000);
-                else
-                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
-                setTimeout(function() {
-                        bindDepartmentRoleWise();
-                    BindUserWithRole();
-                    $('#txtTeamName').val('');
-                    },
-                    2000);
-            }
-        });
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "@Url.Action("saveTeam")",
+                data: "{parameter:'" + JSON.stringify(param) + "'}",
+                success: function (response) {
+                    loadPanel.hide();
+                    if (response === 'True')
+                        DevExpress.ui.notify("Team Created Successfully.!!", "success", 5000);
+                    else
+                        DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                    setTimeout(function() {
+                            bindDepartmentRoleWise();
+                            BindUserWithRole();
+                            $('#txtTeamName').val('');
+                        },
+                        2000);
+                }
+            });
         }
         else {
             DevExpress.ui.notify("Team Already Exists...!!", "Error", 5000);
@@ -723,12 +734,14 @@
         }
 
         param = { teamId, teamMemberId }
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("SaveTeamMember")",
             data: "{parameter:'" + JSON.stringify(param) + "'}",
-            success: function(response) {
+            success: function (response) {
+                loadPanel.hide();
                 if (response === 'True')
                     DevExpress.ui.notify("Team Member Mapped successfully.!!", "success", 5000);
                 else
@@ -742,10 +755,77 @@
         });
     });
 
+    function GetRoles(roleId) {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetRoles")",
+            success: function(data) {
+                data = JSON.parse(data);
+                loadPanel.hide();
+                jQuery('#ddlChangeRole').empty();
+                jQuery('#ddlChangeRole').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#ddlChangeRole').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+                    });
+                jQuery('#ddlChangeRole').val(roleId);
+            }
+        });
+    }
     function changeDepartmentRole(data) {
-        console.log(data);
+        GetRoles(data.RoleId);
+        jQuery('#ddlchangeDepartment').empty();
+        jQuery('#ddlchangeDepartment').append('<option value="">Select</option>');
+        jQuery.each(DepartmentList,
+            function (i, v) {
+                jQuery('#ddlchangeDepartment').append('<option value="' + v.Id + '">' + v.DepartmentName + '</option>');
+            });
         $('#ddlchangeDepartment').val(data.DepartmentId);
-        $('#ddlChangeRole').val(data.RoleId);
+        departmentRoleId = data.DepartmentRoleId;
+
         $('#modalUserchangeRoleDepartment').modal({ backdrop: 'static', keyboard: false });
     }
+
+    $('#btnUpdateRoleDepartment').click(function(e) {
+        let role = $('#ddlChangeRole').val();
+        let department = $('#ddlchangeDepartment').val();
+        if (!role) {
+            $('#ddlChangeRole').text('Please select Role');
+            $('#ddlChangeRole').show();
+            return false;
+        } else {
+            $('#ddlChangeRole').text('');
+            $('#ddlChangeRole').hide();
+        }
+        if (!department) {
+            $('#reqddlchangeDepartment').text('Please select Department');
+            $('#reqddlchangeDepartment').show();
+            return false;
+        } else {
+            $('#reqddlchangeDepartment').text('');
+            $('#reqddlchangeDepartment').hide();
+        }
+        param = { departmentRoleId, role, department };
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("changeRoleDepartment")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                loadPanel.hide();
+                if (response === 'True')
+                    DevExpress.ui.notify("Record Updated Successfully.!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                setTimeout(function () {
+                        bindDepartmentRoleWise();
+                        $('#modalUserchangeRoleDepartment').modal('hide');
+                    },
+                    2000);
+            }
+        });
+    });
 </script>

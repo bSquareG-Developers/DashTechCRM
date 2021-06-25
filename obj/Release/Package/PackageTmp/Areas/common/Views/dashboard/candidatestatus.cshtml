@@ -56,11 +56,19 @@
                 <h6 class="text-uppercase verti-label text-white-50">Current Month</h6>
                 <div class="text-white">
                     <h6 class="text-uppercase mt-0 text-white-50">Current Month</h6>
-                    @{
-                        DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-                        DateTime edt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1);
-                    }
-                    <h3 class="mb-3 mt-0">$ @db.RecurringMasters.Where(a => a.PaidDate >= dt && a.PaidDate <= edt && a.PaymentStatus == "Paid").Sum(s => s.Amount)</h3>
+                @{ DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                    DateTime edt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1); }
+                <h3 class="mb-3 mt-0">
+                    $ @{ var sumList = db.RecurringMasters.Where(a => a.PaidDate >= dt && a.PaidDate <= edt && a.PaymentStatus == "Paid").ToList();
+
+                          if (sumList.Count > 0)
+                          {
+                              var sum = sumList.Sum(s => s.Amount);
+                              <span>@sum</span> }
+                          else
+                          {
+                              <span>0.0</span> } }
+                </h3>
                     <div class="">-->
 @*<span class="badge badge-light text-primary"> 0% </span> <span class="ml-2">From previous period</span>*@
 <!--</div>
@@ -441,10 +449,9 @@
             shading: true,
             closeOnOutsideClick: false
         }).dxLoadPanel("instance");
-</script>
- }
-else
-{
+</script> }
+            else
+            {
 <script>
         $(function () {
                         countCandidateTotalByStatus();
@@ -679,8 +686,7 @@ else
             shading: true,
             closeOnOutsideClick: false
         }).dxLoadPanel("instance");
-</script>
-}
+</script>}
 
 
     <div class="modal fade" id="modal-default-comment" style="display: none;">
@@ -705,8 +711,7 @@ else
                                     <select class="form-control" id="status" name="status">
                                         @foreach (Dictionary<string, string> st in data)
                                         {
-                            <option value="@st.Keys">@st.Keys</option>
-}
+                            <option value="@st.Keys">@st.Keys</option>}
                                     </select>
                                 </td>
                             </tr>

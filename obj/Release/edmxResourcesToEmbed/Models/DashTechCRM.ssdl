@@ -1195,12 +1195,13 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
   <Function Name="CandidateAssign_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="TeamId" Type="int" Mode="In" />
+    <Parameter Name="JrTeamLeadId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
     <Parameter Name="Time" Type="time" Mode="In" />
     <Parameter Name="IsActive" Type="int" Mode="In" />
     <Parameter Name="MarketingId" Type="int" Mode="In" />
     <Parameter Name="AssignFrom" Type="int" Mode="In" />
+    <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
   <Function Name="CandidateAssign_TraineeBatchRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
     <Parameter Name="TraineeBatchRecruiter" Type="int" Mode="In" />
@@ -1487,7 +1488,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="flag" Type="varchar" Mode="In" />
   </Function>
   <Function Name="CandidateAssign_Insert1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="CandidateAssign_Insert">
-    <Parameter Name="TeamId" Type="int" Mode="In" />
+    <Parameter Name="JrTeamLeadId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
     <Parameter Name="Time" Type="time" Mode="In" />
     <Parameter Name="IsActive" Type="int" Mode="In" />

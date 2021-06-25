@@ -5,50 +5,50 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d2ee8f05f758437e9b66362057ef8982" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="dashTech_crm_Model.BatchSessionDetail" Width="1.5" PointX="15.75" PointY="22.875" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateAssign" Width="1.5" PointX="9.75" PointY="38.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.BatchSessionDetail" Width="1.5" PointX="18.75" PointY="29.75" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateAssign" Width="1.5" PointX="12.75" PointY="36" />
         <EntityTypeShape EntityType="dashTech_crm_Model.CandidateAssignLog" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateBatchDetail" Width="1.5" PointX="8.25" PointY="19.25" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateMarketingDetail" Width="1.5" PointX="7.5" PointY="52.875" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateMaster" Width="1.5" PointX="5.25" PointY="25.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateTechnicalExpertDetail" Width="1.5" PointX="10.5" PointY="22.375" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateBatchDetail" Width="1.5" PointX="11.25" PointY="18.125" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateMarketingDetail" Width="1.5" PointX="10.5" PointY="40.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateMaster" Width="1.5" PointX="8.25" PointY="28.75" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateTechnicalExpertDetail" Width="1.5" PointX="13.5" PointY="29.25" />
         <EntityTypeShape EntityType="dashTech_crm_Model.candidateTechnologyChangeLog" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateTimeLine" Width="1.5" PointX="7.5" PointY="28.25" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.CommentDetail" Width="1.5" PointX="7.5" PointY="24.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CandidateTimeLine" Width="1.5" PointX="15.5" PointY="26.125" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.CommentDetail" Width="1.5" PointX="10.5" PointY="29.25" />
         <EntityTypeShape EntityType="dashTech_crm_Model.DepartmentMaster" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.DepartmentRoleTable" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.FollowUpMaster" Width="1.5" PointX="7.5" PointY="44.375" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.FollowUpMaster" Width="1.5" PointX="10.5" PointY="53.375" />
         <EntityTypeShape EntityType="dashTech_crm_Model.FollowUpMasterLog" Width="1.5" PointX="4.75" PointY="0.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.FollowUpStatusMaster" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.InterviewDetail" Width="1.5" PointX="14.25" PointY="37.75" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.InterviewDetail" Width="1.5" PointX="17.25" PointY="35.625" />
         <EntityTypeShape EntityType="dashTech_crm_Model.InterviewMode" Width="1.5" PointX="6.75" PointY="0.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.JobPortalMaster" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.LeadMaster" Width="1.5" PointX="5.25" PointY="42" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.LocationMaster" Width="1.5" PointX="0.75" PointY="28.625" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.MarketingRevenueDetail" Width="1.5" PointX="7.5" PointY="32" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.OnBoardingMaster" Width="1.5" PointX="7.5" PointY="48.375" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.OnBoardingPayment" Width="1.5" PointX="9.75" PointY="48.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.PODetail" Width="1.5" PointX="5.25" PointY="46.375" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.RecurringMaster" Width="1.5" PointX="7.5" PointY="40.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.LeadMaster" Width="1.5" PointX="5.25" PointY="50.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.LocationMaster" Width="1.5" PointX="0.75" PointY="25.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.MarketingRevenueDetail" Width="1.5" PointX="12.5" PointY="24.875" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.OnBoardingMaster" Width="1.5" PointX="7.5" PointY="23.5" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.OnBoardingPayment" Width="1.5" PointX="9.75" PointY="23.875" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.PODetail" Width="1.5" PointX="5.25" PointY="21.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.RecurringMaster" Width="1.5" PointX="10.5" PointY="49.25" />
         <EntityTypeShape EntityType="dashTech_crm_Model.RecurringMasterTemp" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.RecurringType" Width="1.5" PointX="3" PointY="36" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.RecurringType" Width="1.5" PointX="6" PointY="33.875" />
         <EntityTypeShape EntityType="dashTech_crm_Model.ReportSubmissionDetail" Width="1.5" PointX="6.75" PointY="3.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.RequestMaster" Width="1.5" PointX="10.5" PointY="27.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.RoleMaster" Width="1.5" PointX="0.75" PointY="25.625" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.SalesServiceMaster" Width="1.5" PointX="3" PointY="23.875" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.SessionListDetail" Width="1.5" PointX="13.5" PointY="17.25" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.SubmissionDetail" Width="1.5" PointX="12" PointY="37.75" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.RequestMaster" Width="1.5" PointX="10.5" PointY="32.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.RoleMaster" Width="1.5" PointX="0.75" PointY="28.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.SalesServiceMaster" Width="1.5" PointX="6" PointY="39.375" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.SessionListDetail" Width="1.5" PointX="16.5" PointY="20.125" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.SubmissionDetail" Width="1.5" PointX="15" PointY="35.5" />
         <EntityTypeShape EntityType="dashTech_crm_Model.SubmissionMaster" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.TargetDetail" Width="1.5" PointX="4.75" PointY="8.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.TaskCategoryMaster" Width="1.5" PointX="10.5" PointY="19.5" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.TaskManageMaster" Width="1.5" PointX="12.75" PointY="22.375" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.TaskCategoryMaster" Width="1.5" PointX="13.5" PointY="21.375" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.TaskManageMaster" Width="1.5" PointX="15.75" PointY="29.25" />
         <EntityTypeShape EntityType="dashTech_crm_Model.TaskMaster" Width="1.5" PointX="8.75" PointY="6.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.TaskStatusDetail" Width="1.5" PointX="15" PointY="27.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.TaskStatusDetail" Width="1.5" PointX="18" PointY="26.125" />
         <EntityTypeShape EntityType="dashTech_crm_Model.TaskTitleMaster" Width="1.5" PointX="10.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.TeamDetail" Width="1.5" PointX="5.25" PointY="21.625" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.TeamDetail" Width="1.5" PointX="5.25" PointY="29.875" />
         <EntityTypeShape EntityType="dashTech_crm_Model.TeamDetailsManage" Width="1.5" PointX="0.75" PointY="10.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.TeamMaster" Width="1.5" PointX="10.75" PointY="3.75" />
-        <EntityTypeShape EntityType="dashTech_crm_Model.TechnologyMaster" Width="1.5" PointX="3" PointY="33.25" />
+        <EntityTypeShape EntityType="dashTech_crm_Model.TechnologyMaster" Width="1.5" PointX="6" PointY="36.625" />
         <EntityTypeShape EntityType="dashTech_crm_Model.UserAccountDetail" Width="1.5" PointX="3" PointY="26.5" />
         <EntityTypeShape EntityType="dashTech_crm_Model.VisaTitleMaster" Width="1.5" PointX="10.75" PointY="7.75" />
         <EntityTypeShape EntityType="dashTech_crm_Model.CandidateExpertCVFollowupDetail" Width="1.5" PointX="10.75" PointY="10.75" />
