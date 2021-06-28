@@ -242,8 +242,7 @@
                                                     <option></option>
                                                     @foreach (InterviewMode item in db.InterviewModes.ToList())
                                                     {
-                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
-}
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>}
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -431,7 +430,7 @@
                 dataSource: data,
                 columns: [
                     {
-                        dataField: 'request', caption: 'Request Status', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                        dataField: 'request', caption: 'Request Status', alignment: 'center', dataType: 'string', width: 120, type: 'buttons', cellTemplate: function (container, options) {
                             if (options.data.MktEmailContactStatusFlag === null) {
                                 jQuery('<span class="fa fa-paper-plane" style:"cursor:pointer">').text('').on('dxclick', function () {
                                     request(options.data);
