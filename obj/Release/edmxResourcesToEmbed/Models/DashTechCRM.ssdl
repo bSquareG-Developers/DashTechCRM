@@ -1,7 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="dashTech_crm_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <!--Errors Found During Generation:
-warning 6013: The table/view 'dashtech_crm.dashdemostration.CandidateUploadTemp' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6013: The table/view 'DashTechDemostration.dashtechdemostration.CandidateDetails_Ahmedabad' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="CandidateDetails_Ahmedabad">
+          <Property Name="CandidateName" Type="nvarchar" MaxLength="27" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="30" />
+          <Property Name="MobileNumber" Type="nvarchar" MaxLength="14" />
+          <Property Name="SalesAssociateEmail_Id" Type="nvarchar" MaxLength="23" />
+          <Property Name="RecurringType" Type="nvarchar" MaxLength="26" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="24" />
+          <Property Name="TotalAmount" Type="int" />
+          <Property Name="PaidAmount" Type="int" />
+          <Property Name="EnrolledDate" Type="datetime" />
+          <Property Name="PaymentStatus" Type="nvarchar" MaxLength="3" />
+          <Property Name="CandidateStatus" Type="int" />
+          <Property Name="Remarks" Type="int" />
+          <Property Name="MarketingStartDate" Type="int" />
+          <Property Name="VisaStatus" Type="nvarchar" MaxLength="5" />
+          <Property Name="Technology" Type="nvarchar" MaxLength="24" />
+          <Property Name="AgreementSent" Type="int" />
+          <Property Name="Agreement" Type="int" />
+          <Property Name="AgreementLink" Type="int" />
+        </EntityType>-->
+  <EntityType Name="candidateTechnologyChangeLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CandidateId" Type="int" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Timest" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'DashTechDemostration.dashtechdemostration.CandidateUploadTemp' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="CandidateUploadTemp">
           <Property Name="CandidateName" Type="nvarchar" MaxLength="32" />
           <Property Name="EmailId" Type="nvarchar" MaxLength="46" />
@@ -24,6 +55,69 @@ warning 6013: The table/view 'dashtech_crm.dashdemostration.CandidateUploadTemp'
           <Property Name="isJobGaruntee" Type="nvarchar" MaxLength="5" />
           <Property Name="JobGarunteeLastDate" Type="int" />
         </EntityType>-->
+  <EntityType Name="DepartmentMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+    <Property Name="isActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="DepartmentRoleTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeptId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="SOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="FollowUpStatusMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusName" Type="varchar" MaxLength="50" />
+    <Property Name="Department" Type="varchar" MaxLength="50" />
+    <Property Name="Sorder" Type="int" />
+    <Property Name="isActive" Type="int" />
+  </EntityType>
+  <EntityType Name="RecurringMasterTemp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DueDate" Type="date" />
+    <Property Name="PaidDate" Type="date" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CandidateId" Type="int" />
+    <Property Name="ReceivedIn" Type="varchar" MaxLength="20" />
+    <Property Name="SendRemainderEmail" Type="varchar" MaxLength="5" />
+    <Property Name="PaymentStatus" Type="varchar" MaxLength="100" />
+    <Property Name="Remarks" Type="varchar" MaxLength="400" />
+    <Property Name="InstallmentNumber" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="TeamDetailsManage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamMasterId" Type="int" />
+    <Property Name="MemberId" Type="int" />
+    <Property Name="isActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="TeamMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TeamName" Type="varchar" MaxLength="100" />
+    <Property Name="LeaderId" Type="int" />
+    <Property Name="ReportingPersonId" Type="int" />
+    <Property Name="DepartmentId" Type="int" />
+    <Property Name="isTeamActive" Type="bit" />
+    <Property Name="Timest" Type="datetime" />
+  </EntityType>
   <EntityType Name="BatchSessionDetails">
     <Key>
       <PropertyRef Name="BSId" />
@@ -82,6 +176,19 @@ warning 6013: The table/view 'dashtech_crm.dashdemostration.CandidateUploadTemp'
     <Property Name="IsDeleted" Type="bit" />
     <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="EditedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="CandidateExpertCVFollowupDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CandidateId" Type="int" />
+    <Property Name="ProcessStart" Type="varchar" MaxLength="50" />
+    <Property Name="ResumePreparation" Type="varchar" MaxLength="50" />
+    <Property Name="ResumeVerification" Type="varchar" MaxLength="50" />
+    <Property Name="ResumeModification" Type="varchar" MaxLength="50" />
+    <Property Name="RUC" Type="varchar" MaxLength="50" />
+    <Property Name="ProcessEnd" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="CandidateMarketingDetails">
     <Key>
@@ -150,15 +257,6 @@ warning 6013: The table/view 'dashtech_crm.dashdemostration.CandidateUploadTemp'
     <Property Name="AssignedBy" Type="varchar(max)" Nullable="false" />
     <Property Name="RefBatchId" Type="int" />
   </EntityType>
-  <EntityType Name="candidateTechnologyChangeLog">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CandidateId" Type="int" />
-    <Property Name="UserId" Type="int" />
-    <Property Name="Timest" Type="datetime" />
-  </EntityType>
   <EntityType Name="CandidateTimeLine">
     <Key>
       <PropertyRef Name="TimeLineId" />
@@ -169,30 +267,6 @@ warning 6013: The table/view 'dashtech_crm.dashdemostration.CandidateUploadTemp'
     <Property Name="Date" Type="datetime" />
     <Property Name="ChangedBy" Type="int" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'dashtech_crm.DashTechCRM.CandidateUploadTemp' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="CandidateUploadTemp1">
-          <Property Name="CandidateName" Type="nvarchar" MaxLength="32" />
-          <Property Name="EmailId" Type="nvarchar" MaxLength="46" />
-          <Property Name="MobileNumber" Type="nvarchar" MaxLength="16" />
-          <Property Name="Sales_Associate_name" Type="nvarchar" MaxLength="23" />
-          <Property Name="Service_Name" Type="nvarchar" MaxLength="41" />
-          <Property Name="TotalAmount" Type="int" />
-          <Property Name="New_Payment" Type="int" />
-          <Property Name="Recurring_Amount" Type="int" />
-          <Property Name="Date_of_enrolled" Type="datetime" />
-          <Property Name="PaymentStatus" Type="nvarchar" MaxLength="7" />
-          <Property Name="CandidateStatus" Type="int" />
-          <Property Name="Remarks" Type="int" />
-          <Property Name="MarketingStartDate" Type="int" />
-          <Property Name="VisaStatus" Type="nvarchar" MaxLength="60" />
-          <Property Name="Technology_Name" Type="nvarchar" MaxLength="39" />
-          <Property Name="AgreementSent" Type="nvarchar" MaxLength="147" />
-          <Property Name="Agreement" Type="numeric" Precision="4" Scale="2" />
-          <Property Name="AgreementLink" Type="int" />
-          <Property Name="isJobGaruntee" Type="nvarchar" MaxLength="5" />
-          <Property Name="JobGarunteeLastDate" Type="int" />
-        </EntityType>-->
   <EntityType Name="CommentDetails">
     <Key>
       <PropertyRef Name="CommentId" />
@@ -203,23 +277,6 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.CandidateUploadTemp' does
     <Property Name="CommentBy" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="RefCandidateId" Type="int" Nullable="false" />
     <Property Name="CommentText" Type="varchar" MaxLength="1000" Nullable="false" />
-  </EntityType>
-  <EntityType Name="DepartmentMaster">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
-    <Property Name="isActive" Type="bit" />
-  </EntityType>
-  <EntityType Name="DepartmentRoleTable">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DeptId" Type="int" />
-    <Property Name="RoleId" Type="int" />
-    <Property Name="SOrder" Type="int" />
   </EntityType>
   <EntityType Name="FollowUpMaster">
     <Key>
@@ -244,27 +301,6 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.CandidateUploadTemp' does
     <Property Name="CandidateId" Type="int" />
     <Property Name="FollowUpAddDate" Type="datetime" />
   </EntityType>
-  <EntityType Name="FollowUpStatusMaster">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="StatusName" Type="varchar" MaxLength="50" />
-    <Property Name="Department" Type="varchar" MaxLength="50" />
-    <Property Name="Sorder" Type="int" />
-    <Property Name="isActive" Type="int" />
-  </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'dashtech_crm.DashTechCRM.GetAJobRemainingUsers' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="GetAJobRemainingUsers">
-          <Property Name="Sr_No" Type="int" />
-          <Property Name="Employee_Details" Type="nvarchar" MaxLength="18" />
-          <Property Name="Availabe_in_DB" Type="nvarchar" MaxLength="18" />
-          <Property Name="Designation" Type="nvarchar" MaxLength="31" />
-          <Property Name="Email_ID" Type="nvarchar" MaxLength="28" />
-          <Property Name="Rocket_Username" Type="nvarchar" MaxLength="18" />
-          <Property Name="Vonage_Number_If_assigned" Type="nvarchar" MaxLength="22" />
-        </EntityType>-->
   <EntityType Name="InterviewDetails">
     <Key>
       <PropertyRef Name="InteviewId" />
@@ -420,21 +456,6 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.GetAJobRemainingUsers' do
     <Property Name="remarks" Type="varchar" MaxLength="400" />
     <Property Name="InstallmentNumber" Type="varchar" MaxLength="10" />
     <Property Name="IsCompletepaid" Type="bit" />
-  </EntityType>
-  <EntityType Name="RecurringMasterTemp">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DueDate" Type="date" />
-    <Property Name="PaidDate" Type="date" />
-    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
-    <Property Name="CandidateId" Type="int" />
-    <Property Name="ReceivedIn" Type="varchar" MaxLength="20" />
-    <Property Name="SendRemainderEmail" Type="varchar" MaxLength="5" />
-    <Property Name="PaymentStatus" Type="varchar" MaxLength="100" />
-    <Property Name="Remarks" Type="varchar" MaxLength="400" />
-    <Property Name="InstallmentNumber" Type="varchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="RecurringType">
     <Key>
@@ -633,7 +654,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.GetAJobRemainingUsers' do
     <Property Name="CDate" Type="datetime" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="tblname">
           <Property Name="col1" Type="int" />
         </EntityType>-->
@@ -647,27 +668,8 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Property Name="TeamManager" Type="int" Nullable="false" />
     <Property Name="Department" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="IsEnabledTeam" Type="bit" />
-  </EntityType>
-  <EntityType Name="TeamDetailsManage">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TeamMasterId" Type="int" />
-    <Property Name="MemberId" Type="int" />
-    <Property Name="isActive" Type="bit" />
-  </EntityType>
-  <EntityType Name="TeamMaster">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TeamName" Type="varchar" MaxLength="100" />
-    <Property Name="LeaderId" Type="int" />
-    <Property Name="ReportingPersonId" Type="int" />
-    <Property Name="DepartmentId" Type="int" />
-    <Property Name="isTeamActive" Type="bit" />
-    <Property Name="Timest" Type="datetime" />
+    <Property Name="SrTeamLead" Type="int" />
+    <Property Name="SrRecruitment" Type="int" />
   </EntityType>
   <EntityType Name="TechnologyMaster">
     <Key>
@@ -700,20 +702,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Property Name="VisaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="VisaTitle" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="CandidateExpertCVFollowupDetails">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CandidateId" Type="int" />
-    <Property Name="ProcessStart" Type="varchar" MaxLength="50" />
-    <Property Name="ResumePreparation" Type="varchar" MaxLength="50" />
-    <Property Name="ResumeVerification" Type="varchar" MaxLength="50" />
-    <Property Name="ResumeModification" Type="varchar" MaxLength="50" />
-    <Property Name="RUC" Type="varchar" MaxLength="50" />
-    <Property Name="ProcessEnd" Type="varchar" MaxLength="50" />
-  </EntityType>
-  <Association Name="FK__BatchSess__RefCT__7A672E12">
+  <Association Name="FK__BatchSess__RefCT__7F2BE32F">
     <End Role="CandidateTechnicalExpertDetails" Type="Self.CandidateTechnicalExpertDetails" Multiplicity="1" />
     <End Role="BatchSessionDetails" Type="Self.BatchSessionDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -725,7 +714,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BatchSess__RefSe__7B5B524B">
+  <Association Name="FK__BatchSess__RefSe__00200768">
     <End Role="SessionListDetails" Type="Self.SessionListDetails" Multiplicity="1" />
     <End Role="BatchSessionDetails" Type="Self.BatchSessionDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -737,7 +726,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__Chang__06CD04F7">
+  <Association Name="FK__Candidate__Chang__0B91BA14">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="CandidateTimeLine" Type="Self.CandidateTimeLine" Multiplicity="*" />
     <ReferentialConstraint>
@@ -749,7 +738,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefAs__03F0984C">
+  <Association Name="FK__Candidate__RefAs__08B54D69">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="CandidateTechnicalExpertDetails" Type="Self.CandidateTechnicalExpertDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -761,7 +750,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefAs__04E4BC85">
+  <Association Name="FK__Candidate__RefAs__09A971A2">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="CandidateTechnicalExpertDetails" Type="Self.CandidateTechnicalExpertDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -773,7 +762,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefBa__05D8E0BE">
+  <Association Name="FK__Candidate__RefBa__0A9D95DB">
     <End Role="CandidateBatchDetails" Type="Self.CandidateBatchDetails" Multiplicity="0..1" />
     <End Role="CandidateTechnicalExpertDetails" Type="Self.CandidateTechnicalExpertDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -785,19 +774,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefCa__07C12930">
-    <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
-    <End Role="CandidateTimeLine" Type="Self.CandidateTimeLine" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CandidateMaster">
-        <PropertyRef Name="CandidateId" />
-      </Principal>
-      <Dependent Role="CandidateTimeLine">
-        <PropertyRef Name="RefCandidateId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Candidate__RefCa__7F2BE32F">
+  <Association Name="FK__Candidate__RefCa__03F0984C">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="CandidateMarketingDetails" Type="Self.CandidateMarketingDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -809,7 +786,19 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__refMa__7C4F7684">
+  <Association Name="FK__Candidate__RefCa__0C85DE4D">
+    <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
+    <End Role="CandidateTimeLine" Type="Self.CandidateTimeLine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CandidateMaster">
+        <PropertyRef Name="CandidateId" />
+      </Principal>
+      <Dependent Role="CandidateTimeLine">
+        <PropertyRef Name="RefCandidateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Candidate__refMa__01142BA1">
     <End Role="CandidateMarketingDetails" Type="Self.CandidateMarketingDetails" Multiplicity="1" />
     <End Role="CandidateAssign" Type="Self.CandidateAssign" Multiplicity="*" />
     <ReferentialConstraint>
@@ -821,7 +810,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefRe__00200768">
+  <Association Name="FK__Candidate__RefRe__04E4BC85">
     <End Role="RecurringType" Type="Self.RecurringType" Multiplicity="1" />
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -833,7 +822,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefSa__01142BA1">
+  <Association Name="FK__Candidate__RefSa__05D8E0BE">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="0..1" />
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -845,7 +834,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefSe__02084FDA">
+  <Association Name="FK__Candidate__RefSe__06CD04F7">
     <End Role="SalesServiceMaster" Type="Self.SalesServiceMaster" Multiplicity="1" />
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -857,7 +846,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefTe__7D439ABD">
+  <Association Name="FK__Candidate__RefTe__02084FDA">
     <End Role="TeamDetails" Type="Self.TeamDetails" Multiplicity="1" />
     <End Role="CandidateAssign" Type="Self.CandidateAssign" Multiplicity="*" />
     <ReferentialConstraint>
@@ -869,7 +858,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__RefTe__7E37BEF6">
+  <Association Name="FK__Candidate__RefTe__02FC7413">
     <End Role="TechnologyMaster" Type="Self.TechnologyMaster" Multiplicity="1" />
     <End Role="CandidateBatchDetails" Type="Self.CandidateBatchDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -881,7 +870,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Candidate__Techn__02FC7413">
+  <Association Name="FK__Candidate__Techn__07C12930">
     <End Role="TechnologyMaster" Type="Self.TechnologyMaster" Multiplicity="1" />
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -893,7 +882,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CommentDe__RefCa__08B54D69">
+  <Association Name="FK__CommentDe__RefCa__0D7A0286">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="CommentDetails" Type="Self.CommentDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -905,7 +894,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FollowUpM__RefCa__09A971A2">
+  <Association Name="FK__FollowUpM__RefCa__0E6E26BF">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="FollowUpMaster" Type="Self.FollowUpMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -917,7 +906,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Interview__RefSu__0A9D95DB">
+  <Association Name="FK__Interview__RefSu__0F624AF8">
     <End Role="SubmissionDetails" Type="Self.SubmissionDetails" Multiplicity="0..1" />
     <End Role="InterviewDetails" Type="Self.InterviewDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -929,7 +918,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__LeadMaste__LeadB__0B91BA14">
+  <Association Name="FK__LeadMaste__LeadB__10566F31">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="LeadMaster" Type="Self.LeadMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -941,7 +930,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Marketing__RefCa__0C85DE4D">
+  <Association Name="FK__Marketing__RefCa__114A936A">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="MarketingRevenueDetails" Type="Self.MarketingRevenueDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -953,7 +942,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Marketing__RefUs__0D7A0286">
+  <Association Name="FK__Marketing__RefUs__123EB7A3">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="MarketingRevenueDetails" Type="Self.MarketingRevenueDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -965,7 +954,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OnBoardin__RefCa__0E6E26BF">
+  <Association Name="FK__OnBoardin__RefCa__1332DBDC">
     <End Role="PODetails" Type="Self.PODetails" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
@@ -979,7 +968,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__OnBoardin__RefOB__0F624AF8">
+  <Association Name="FK__OnBoardin__RefOB__14270015">
     <End Role="OnBoardingMaster" Type="Self.OnBoardingMaster" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
@@ -993,7 +982,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PODetails__RefSa__10566F31">
+  <Association Name="FK__PODetails__RefSa__151B244E">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="PODetails" Type="Self.PODetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1005,7 +994,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recurring__RefCa__114A936A">
+  <Association Name="FK__Recurring__RefCa__160F4887">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="1" />
     <End Role="RecurringMaster" Type="Self.RecurringMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1017,7 +1006,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RequestMa__Candi__123EB7A3">
+  <Association Name="FK__RequestMa__Candi__17036CC0">
     <End Role="CandidateMaster" Type="Self.CandidateMaster" Multiplicity="0..1" />
     <End Role="RequestMaster" Type="Self.RequestMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1029,7 +1018,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RequestMa__ReqFr__1332DBDC">
+  <Association Name="FK__RequestMa__ReqFr__17F790F9">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="RequestMaster" Type="Self.RequestMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1041,7 +1030,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RequestMa__ReqTo__14270015">
+  <Association Name="FK__RequestMa__ReqTo__18EBB532">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="RequestMaster" Type="Self.RequestMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1053,7 +1042,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SessionLi__RefTe__151B244E">
+  <Association Name="FK__SessionLi__RefTe__19DFD96B">
     <End Role="TechnologyMaster" Type="Self.TechnologyMaster" Multiplicity="1" />
     <End Role="SessionListDetails" Type="Self.SessionListDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1065,7 +1054,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Submissio__RefAs__160F4887">
+  <Association Name="FK__Submissio__RefAs__1AD3FDA4">
     <End Role="CandidateAssign" Type="Self.CandidateAssign" Multiplicity="1" />
     <End Role="SubmissionDetails" Type="Self.SubmissionDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1077,7 +1066,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TaskManag__RefCT__17036CC0">
+  <Association Name="FK__TaskManag__RefCT__1BC821DD">
     <End Role="CandidateTechnicalExpertDetails" Type="Self.CandidateTechnicalExpertDetails" Multiplicity="1" />
     <End Role="TaskManageMaster" Type="Self.TaskManageMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1089,7 +1078,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TaskManag__RefTa__17F790F9">
+  <Association Name="FK__TaskManag__RefTa__1CBC4616">
     <End Role="TaskCategoryMaster" Type="Self.TaskCategoryMaster" Multiplicity="1" />
     <End Role="TaskManageMaster" Type="Self.TaskManageMaster" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1101,7 +1090,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TaskStatu__RefTM__18EBB532">
+  <Association Name="FK__TaskStatu__RefTM__1DB06A4F">
     <End Role="TaskManageMaster" Type="Self.TaskManageMaster" Multiplicity="1" />
     <End Role="TaskStatusDetails" Type="Self.TaskStatusDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1113,7 +1102,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TeamDetai__Membe__19DFD96B">
+  <Association Name="FK__TeamDetai__Membe__1EA48E88">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="TeamDetails" Type="Self.TeamDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1125,7 +1114,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TeamDetai__TeamL__1AD3FDA4">
+  <Association Name="FK__TeamDetai__TeamL__1F98B2C1">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="TeamDetails" Type="Self.TeamDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1137,7 +1126,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TeamDetai__TeamM__1BC821DD">
+  <Association Name="FK__TeamDetai__TeamM__208CD6FA">
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="1" />
     <End Role="TeamDetails" Type="Self.TeamDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1149,7 +1138,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__UserAccou__RefLo__1CBC4616">
+  <Association Name="FK__UserAccou__RefLo__2180FB33">
     <End Role="LocationMaster" Type="Self.LocationMaster" Multiplicity="0..1" />
     <End Role="UserAccountDetails" Type="Self.UserAccountDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1173,29 +1162,14 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="UserAccountDetails_Insert_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashdemostration">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="FullName" Type="varchar" Mode="In" />
-    <Parameter Name="RocketName" Type="varchar" Mode="In" />
-    <Parameter Name="EmailId" Type="varchar" Mode="In" />
-    <Parameter Name="Password" Type="varchar" Mode="In" />
-    <Parameter Name="RefLocationId" Type="int" Mode="In" />
-    <Parameter Name="RefRoleId" Type="int" Mode="In" />
-    <Parameter Name="UserImageUrl" Type="varchar" Mode="In" />
-    <Parameter Name="IsActive" Type="bit" Mode="In" />
-    <Parameter Name="LastLogin" Type="date" Mode="In" />
-    <Parameter Name="CompanyName" Type="varchar" Mode="In" />
-    <Parameter Name="JoiningDate" Type="date" Mode="In" />
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="AddInterviewDetailsDefault" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="AddInterviewDetailsDefault" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
-  <Function Name="AddSubmissionDetailsDefault" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="AddSubmissionDetailsDefault" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
-  <Function Name="CandidateAssign_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="JrTeamLeadId" Type="int" Mode="In" />
+  <Function Name="CandidateAssign_JrBatchRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
+    <Parameter Name="JrBatchRecruiter" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
     <Parameter Name="Time" Type="time" Mode="In" />
     <Parameter Name="IsActive" Type="int" Mode="In" />
@@ -1203,7 +1177,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="AssignFrom" Type="int" Mode="In" />
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
-  <Function Name="CandidateAssign_TraineeBatchRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="CandidateAssign_TraineeBatchRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="TraineeBatchRecruiter" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
     <Parameter Name="Time" Type="time" Mode="In" />
@@ -1212,47 +1186,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="AssignFrom" Type="int" Mode="In" />
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
-  <Function Name="CandidateMarketingDetails_AddByRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="MarketingId" Type="int" Mode="In" />
-    <Parameter Name="InsertedBy" Type="varchar" Mode="In" />
-    <Parameter Name="EntryDate" Type="date" Mode="In" />
-    <Parameter Name="FollowUpTime" Type="time" Mode="In" />
-    <Parameter Name="PassportNumber" Type="varchar" Mode="In" />
-    <Parameter Name="SSN" Type="varchar" Mode="In" />
-    <Parameter Name="EAD" Type="varchar" Mode="In" />
-    <Parameter Name="VISA" Type="varchar" Mode="In" />
-    <Parameter Name="i20" Type="int" Mode="In" />
-    <Parameter Name="workAuthorization" Type="int" Mode="In" />
-    <Parameter Name="DrivingLicence" Type="int" Mode="In" />
-    <Parameter Name="MarketingStatus" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpStatus" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="CandidateMarketingDetails_InsertMktContactStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="CandidateId" Type="int" Mode="In" />
-    <Parameter Name="MktEmailContactStatusFlag" Type="int" Mode="In" />
-    <Parameter Name="InsertedBy" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="CandidateMarketingDetails_StartMarketing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="MarketingId" Type="int" Mode="In" />
-    <Parameter Name="OriginalResumeLink" Type="varchar" Mode="In" />
-    <Parameter Name="MarketingResumeLink" Type="varchar" Mode="In" />
-    <Parameter Name="InsertedBy" Type="varchar" Mode="In" />
-    <Parameter Name="OtherRemarks" Type="varchar" Mode="In" />
-    <Parameter Name="MarketingStatus" Type="varchar" Mode="In" />
-    <Parameter Name="LocationCorncern" Type="int" Mode="In" />
-    <Parameter Name="RequiredLocationList" Type="varchar" Mode="In" />
-    <Parameter Name="EntryDate" Type="date" Mode="In" />
-    <Parameter Name="TeamLeadId" Type="int" Mode="In" />
-    <Parameter Name="TeamManagerId" Type="int" Mode="In" />
-    <Parameter Name="IsActive" Type="bit" Mode="In" />
-    <Parameter Name="FollowUpStatus" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpTime" Type="time" Mode="In" />
-    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="CandidateMaster_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="CandidateMaster_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="CandidateName" Type="varchar" Mode="In" />
     <Parameter Name="EmailId" Type="varchar" Mode="In" />
     <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
@@ -1280,94 +1214,51 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="isJobGaruntee" Type="bit" Mode="In" />
     <Parameter Name="JobGarunteeLastDate" Type="datetime" Mode="In" />
   </Function>
-  <Function Name="CandidateMasterBindCandidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="CandidatemasterCheckExistingEmailOrMobile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="CandidatemasterCheckExistingEmailOrMobile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="Flag" Type="varchar" Mode="In" />
     <Parameter Name="Value" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="CandidateTechnicalExpertDetails_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="CTID" Type="int" Mode="In" />
-    <Parameter Name="CTAssignDate" Type="datetime" Mode="In" />
-    <Parameter Name="CTAssingedRemarks" Type="varchar" Mode="In" />
-    <Parameter Name="CTReassignedRemarks" Type="varchar" Mode="In" />
-    <Parameter Name="RefAssignedCandidateId" Type="int" Mode="In" />
-    <Parameter Name="RefAssignedExpertId" Type="int" Mode="In" />
-    <Parameter Name="AssignedBy" Type="varchar" Mode="In" />
-    <Parameter Name="RefBatchId" Type="int" Mode="In" />
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="CandidateTechnicalExpertDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="changeTechnologyCandidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="changeTechnologyCandidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="technologyName" Type="varchar" Mode="In" />
     <Parameter Name="CandidateId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="FollowUpMasterInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="FollowUpStatus" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpDate" Type="date" Mode="In" />
-    <Parameter Name="FollowUpTime" Type="time" Mode="In" />
-    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpBy" Type="varchar" Mode="In" />
-    <Parameter Name="CandidateId" Type="int" Mode="In" />
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-    <Parameter Name="processStatus" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="FollowUpMasterLog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
-    <Parameter Name="FollowUpBy" Type="varchar" Mode="In" />
-    <Parameter Name="CandidateId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetCandidateTimeLine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="candidateId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="EndDate" Type="date" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetInterviewList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetInterviewList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetInterviewSubmissionCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="RecruiterId" Type="int" Mode="In" />
-    <Parameter Name="Date" Type="date" Mode="In" />
-  </Function>
-  <Function Name="GetInterviewSubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetInterviewSubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetRecurringMasterTempByCandidateId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetRecurringMasterTempByCandidateId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="CandidateId" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetSalesAssociateNameByCandidateDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="EmailId" Type="varchar" Mode="In" />
-    <Parameter Name="MobileNo" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="GetSubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetSubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="UserId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
   </Function>
-  <Function Name="GetTodayCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetTodayCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="StartDate" Type="date" Mode="In" />
     <Parameter Name="EndDate" Type="date" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="GetTodayInterviewList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetTodayInterviewList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="UserId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
   </Function>
-  <Function Name="GetTodaySubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="GetTodaySubmissionList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="UserId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
   </Function>
-  <Function Name="GetUsersByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="RoleId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="LocationMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="MktTeamCandidateReassign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="MktTeamCandidateReassign" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="MarketingId" Type="int" Mode="In" />
     <Parameter Name="teamLeadId" Type="int" Mode="In" />
     <Parameter Name="userId" Type="int" Mode="In" />
   </Function>
-  <Function Name="RecurringMasterTemp_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="RecurringMasterTemp_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="DueDate" Type="date" Mode="In" />
     <Parameter Name="Amount" Type="decimal" Mode="In" />
     <Parameter Name="CandidateId" Type="int" Mode="In" />
@@ -1376,7 +1267,7 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="PaymentStatus" Type="varchar" Mode="In" />
     <Parameter Name="Remarks" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="RecurringMasterTemp_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="RecurringMasterTemp_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="Id" Type="int" Mode="In" />
     <Parameter Name="DueDate" Type="date" Mode="In" />
     <Parameter Name="Amount" Type="decimal" Mode="In" />
@@ -1384,110 +1275,13 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="PaymentStatus" Type="varchar" Mode="In" />
     <Parameter Name="Remarks" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="TaskCategoryMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TaskManageMaster_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="TMId" Type="int" Mode="In" />
-    <Parameter Name="RefTaskCatId" Type="int" Mode="In" />
-    <Parameter Name="TaskDate" Type="date" Mode="In" />
-    <Parameter Name="TaskStartTime" Type="time" Mode="In" />
-    <Parameter Name="TaskEndTime" Type="time" Mode="In" />
-    <Parameter Name="TaskStatus" Type="varchar" Mode="In" />
-    <Parameter Name="RefCTId" Type="int" Mode="In" />
-    <Parameter Name="TotalMin" Type="int" Mode="In" />
-    <Parameter Name="TaskRemarks" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="TaskManageMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TaskMasteGet_TechnicalExperts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="TaskMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="TaskId" Type="int" Mode="In" />
-    <Parameter Name="TaskTitleId" Type="int" Mode="In" />
-    <Parameter Name="TaskDetails" Type="varchar(max)" Mode="In" />
-    <Parameter Name="AssignBy" Type="varchar" Mode="In" />
-    <Parameter Name="AssignTo" Type="varchar" Mode="In" />
-    <Parameter Name="AssignDate" Type="datetime" Mode="In" />
-    <Parameter Name="AssignTime" Type="time" Mode="In" />
-    <Parameter Name="Status" Type="varchar" Mode="In" />
-    <Parameter Name="Feedback" Type="varchar(max)" Mode="In" />
-    <Parameter Name="EndDate" Type="datetime" Mode="In" />
-    <Parameter Name="EndTime" Type="time" Mode="In" />
-    <Parameter Name="FLAG" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="TaskMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TaskTitleGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TaskTitleMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="TaskTitleMaster_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TaskTitleMaster_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="TaskTitleId" Type="int" Mode="In" />
-    <Parameter Name="TaskName" Type="varchar" Mode="In" />
-    <Parameter Name="IsActive" Type="bit" Mode="In" />
-    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="TeamDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TeamDetailsGetDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="TeamDetailsGetTeamLeadByTeamManagerAndDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-    <Parameter Name="TeamManager" Type="int" Mode="In" />
-  </Function>
-  <Function Name="TeamDetailsGetTeamManagerByDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="TeamDetailsInsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Member" Type="int" Mode="In" />
-    <Parameter Name="TeamLead" Type="int" Mode="In" />
-    <Parameter Name="TeamManager" Type="int" Mode="In" />
-    <Parameter Name="Department" Type="varchar" Mode="In" />
-    <Parameter Name="IsEnabledTeam" Type="bit" Mode="In" />
-    <Parameter Name="TeamId" Type="int" Mode="In" />
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="TeamDetailsMembersGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="UserAccountDetails_ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="UserPassword" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="Useraccountdetails_insert_update1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" StoreFunctionName="Useraccountdetails_insert_update">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="FullName" Type="varchar" Mode="In" />
-    <Parameter Name="RocketName" Type="varchar" Mode="In" />
-    <Parameter Name="EmailId" Type="varchar" Mode="In" />
-    <Parameter Name="Password" Type="varchar" Mode="In" />
-    <Parameter Name="RefLocationId" Type="int" Mode="In" />
-    <Parameter Name="RefRoleId" Type="int" Mode="In" />
-    <Parameter Name="UserImageUrl" Type="varchar" Mode="In" />
-    <Parameter Name="IsActive" Type="bit" Mode="In" />
-    <Parameter Name="LastLogin" Type="date" Mode="In" />
-    <Parameter Name="CompanyName" Type="varchar" Mode="In" />
-    <Parameter Name="JoiningDate" Type="date" Mode="In" />
-    <Parameter Name="Flag" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="UserAccountDetails_UpdateDefaultPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="RocketName" Type="varchar" Mode="In" />
-    <Parameter Name="EmailId" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="UserAccountDetailsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="UserAccountDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="UserAccountDetailsGetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-  </Function>
-  <Function Name="VisaTitleMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM" />
-  <Function Name="VisaTitleMasterInsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="DashTechCRM">
+  <Function Name="VisaTitleMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration" />
+  <Function Name="VisaTitleMasterInsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="Id" Type="int" Mode="In" />
     <Parameter Name="visaTitle" Type="varchar" Mode="In" />
     <Parameter Name="flag" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="CandidateAssign_Insert1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="CandidateAssign_Insert">
+  <Function Name="CandidateAssign_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="JrTeamLeadId" Type="int" Mode="In" />
     <Parameter Name="Date" Type="date" Mode="In" />
     <Parameter Name="Time" Type="time" Mode="In" />
@@ -1496,7 +1290,47 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="AssignFrom" Type="int" Mode="In" />
     <Parameter Name="AssignedId" Type="int" Mode="In" />
   </Function>
-  <Function Name="CandidateMarketingDetails_StartMarketing1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="CandidateMarketingDetails_StartMarketing">
+  <Function Name="CandidateAssign_SrBatchRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SrBatchRecruiter" Type="int" Mode="In" />
+    <Parameter Name="Date" Type="date" Mode="In" />
+    <Parameter Name="Time" Type="time" Mode="In" />
+    <Parameter Name="IsActive" Type="int" Mode="In" />
+    <Parameter Name="MarketingId" Type="int" Mode="In" />
+    <Parameter Name="AssignFrom" Type="int" Mode="In" />
+    <Parameter Name="AssignedId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CandidateAssign_TraineeBatchRecruiter1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="CandidateAssign_TraineeBatchRecruiter">
+    <Parameter Name="TraineeBatchRecruiter" Type="int" Mode="In" />
+    <Parameter Name="Date" Type="date" Mode="In" />
+    <Parameter Name="Time" Type="time" Mode="In" />
+    <Parameter Name="IsActive" Type="int" Mode="In" />
+    <Parameter Name="MarketingId" Type="int" Mode="In" />
+    <Parameter Name="AssignFrom" Type="int" Mode="In" />
+    <Parameter Name="AssignedId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="CandidateMarketingDetails_AddByRecruiter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MarketingId" Type="int" Mode="In" />
+    <Parameter Name="InsertedBy" Type="varchar" Mode="In" />
+    <Parameter Name="EntryDate" Type="date" Mode="In" />
+    <Parameter Name="FollowUpTime" Type="time" Mode="In" />
+    <Parameter Name="PassportNumber" Type="varchar" Mode="In" />
+    <Parameter Name="SSN" Type="varchar" Mode="In" />
+    <Parameter Name="EAD" Type="varchar" Mode="In" />
+    <Parameter Name="VISA" Type="varchar" Mode="In" />
+    <Parameter Name="i20" Type="int" Mode="In" />
+    <Parameter Name="workAuthorization" Type="int" Mode="In" />
+    <Parameter Name="DrivingLicence" Type="int" Mode="In" />
+    <Parameter Name="MarketingStatus" Type="varchar" Mode="In" />
+    <Parameter Name="FollowUpStatus" Type="varchar" Mode="In" />
+    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
+    <Parameter Name="Department" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="CandidateMarketingDetails_InsertMktContactStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CandidateId" Type="int" Mode="In" />
+    <Parameter Name="MktEmailContactStatusFlag" Type="int" Mode="In" />
+    <Parameter Name="InsertedBy" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="CandidateMarketingDetails_StartMarketing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="MarketingId" Type="int" Mode="In" />
     <Parameter Name="OriginalResumeLink" Type="varchar" Mode="In" />
     <Parameter Name="MarketingResumeLink" Type="varchar" Mode="In" />
@@ -1514,12 +1348,25 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
     <Parameter Name="Department" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="CandidateMasterBindCandidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="CandidateTechnicalExpertDetails_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CTID" Type="int" Mode="In" />
+    <Parameter Name="CTAssignDate" Type="datetime" Mode="In" />
+    <Parameter Name="CTAssingedRemarks" Type="varchar" Mode="In" />
+    <Parameter Name="CTReassignedRemarks" Type="varchar" Mode="In" />
+    <Parameter Name="RefAssignedCandidateId" Type="int" Mode="In" />
+    <Parameter Name="RefAssignedExpertId" Type="int" Mode="In" />
+    <Parameter Name="AssignedBy" Type="varchar" Mode="In" />
+    <Parameter Name="RefBatchId" Type="int" Mode="In" />
+    <Parameter Name="Flag" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="CandidateTechnicalExpertDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="changeTechnologyCandidate1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="changeTechnologyCandidate">
     <Parameter Name="technologyName" Type="varchar" Mode="In" />
     <Parameter Name="CandidateId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
-  <Function Name="FollowUpMasterInsert1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="FollowUpMasterInsert">
+  <Function Name="FollowUpMasterInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="FollowUpStatus" Type="varchar" Mode="In" />
     <Parameter Name="FollowUpDate" Type="date" Mode="In" />
     <Parameter Name="FollowUpTime" Type="time" Mode="In" />
@@ -1529,205 +1376,318 @@ warning 6013: The table/view 'dashtech_crm.DashTechCRM.tblname' does not have a 
     <Parameter Name="Department" Type="varchar" Mode="In" />
     <Parameter Name="processStatus" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="LocationMasterGet1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="LocationMasterGet" />
+  <Function Name="FollowUpMasterLog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FollowUpMessage" Type="varchar" Mode="In" />
+    <Parameter Name="FollowUpBy" Type="varchar" Mode="In" />
+    <Parameter Name="CandidateId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetAdminDashBoard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetCandidateTimeLine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="candidateId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="GetInterviewSubmissionCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RecruiterId" Type="int" Mode="In" />
+    <Parameter Name="Date" Type="date" Mode="In" />
+  </Function>
+  <Function Name="GetSalesAssociateNameByCandidateDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="EmailId" Type="varchar" Mode="In" />
+    <Parameter Name="MobileNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="GetUsersByRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RoleId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="LocationMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="RoleMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="TeamDetailsGetTeamLeadByTeamManagerAndDepartment1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="TeamDetailsGetTeamLeadByTeamManagerAndDepartment">
+  <Function Name="TaskCategoryMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TaskManageMaster_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TMId" Type="int" Mode="In" />
+    <Parameter Name="RefTaskCatId" Type="int" Mode="In" />
+    <Parameter Name="TaskDate" Type="date" Mode="In" />
+    <Parameter Name="TaskStartTime" Type="time" Mode="In" />
+    <Parameter Name="TaskEndTime" Type="time" Mode="In" />
+    <Parameter Name="TaskStatus" Type="varchar" Mode="In" />
+    <Parameter Name="RefCTId" Type="int" Mode="In" />
+    <Parameter Name="TotalMin" Type="int" Mode="In" />
+    <Parameter Name="TaskRemarks" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="TaskManageMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TaskMasteGet_TechnicalExperts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="TaskMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TaskId" Type="int" Mode="In" />
+    <Parameter Name="TaskTitleId" Type="int" Mode="In" />
+    <Parameter Name="TaskDetails" Type="varchar(max)" Mode="In" />
+    <Parameter Name="AssignBy" Type="varchar" Mode="In" />
+    <Parameter Name="AssignTo" Type="varchar" Mode="In" />
+    <Parameter Name="AssignDate" Type="datetime" Mode="In" />
+    <Parameter Name="AssignTime" Type="time" Mode="In" />
+    <Parameter Name="Status" Type="varchar" Mode="In" />
+    <Parameter Name="Feedback" Type="varchar(max)" Mode="In" />
+    <Parameter Name="EndDate" Type="datetime" Mode="In" />
+    <Parameter Name="EndTime" Type="time" Mode="In" />
+    <Parameter Name="FLAG" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="TaskMasterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TaskTitleGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TaskTitleMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="TaskTitleMaster_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TaskTitleMaster_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TaskTitleId" Type="int" Mode="In" />
+    <Parameter Name="TaskName" Type="varchar" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+    <Parameter Name="CreatedBy" Type="varchar" Mode="In" />
+    <Parameter Name="Flag" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="TeamDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TeamDetailsGetDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="TeamDetailsGetTeamLeadByTeamManagerAndDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Department" Type="varchar" Mode="In" />
     <Parameter Name="TeamManager" Type="int" Mode="In" />
   </Function>
+  <Function Name="TeamDetailsGetTeamManagerByDepartment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Department" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="TeamDetailsInsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Member" Type="int" Mode="In" />
+    <Parameter Name="TeamLead" Type="int" Mode="In" />
+    <Parameter Name="TeamManager" Type="int" Mode="In" />
+    <Parameter Name="Department" Type="varchar" Mode="In" />
+    <Parameter Name="IsEnabledTeam" Type="bit" Mode="In" />
+    <Parameter Name="TeamId" Type="int" Mode="In" />
+    <Parameter Name="Flag" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="TeamDetailsMembersGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Flag" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UserAccountDetails_ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Useraccountdetails_insert_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="FullName" Type="varchar" Mode="In" />
+    <Parameter Name="RocketName" Type="varchar" Mode="In" />
+    <Parameter Name="EmailId" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+    <Parameter Name="RefLocationId" Type="int" Mode="In" />
+    <Parameter Name="RefRoleId" Type="int" Mode="In" />
+    <Parameter Name="UserImageUrl" Type="varchar" Mode="In" />
+    <Parameter Name="IsActive" Type="bit" Mode="In" />
+    <Parameter Name="LastLogin" Type="date" Mode="In" />
+    <Parameter Name="CompanyName" Type="varchar" Mode="In" />
+    <Parameter Name="JoiningDate" Type="date" Mode="In" />
+    <Parameter Name="Flag" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UserAccountDetails_UpdateDefaultPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RocketName" Type="varchar" Mode="In" />
+    <Parameter Name="EmailId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="UserAccountDetailsDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UserAccountDetailsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="UserAccountDetailsGetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="dashTech_crm_ModelStoreContainer">
-    <EntitySet Name="BatchSessionDetails" EntityType="Self.BatchSessionDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateAssign" EntityType="Self.CandidateAssign" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateAssignLog" EntityType="Self.CandidateAssignLog" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateBatchDetails" EntityType="Self.CandidateBatchDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateMarketingDetails" EntityType="Self.CandidateMarketingDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateMaster" EntityType="Self.CandidateMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateTechnicalExpertDetails" EntityType="Self.CandidateTechnicalExpertDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="candidateTechnologyChangeLog" EntityType="Self.candidateTechnologyChangeLog" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CandidateTimeLine" EntityType="Self.CandidateTimeLine" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="CommentDetails" EntityType="Self.CommentDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="DepartmentMaster" EntityType="Self.DepartmentMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="DepartmentRoleTable" EntityType="Self.DepartmentRoleTable" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="FollowUpMaster" EntityType="Self.FollowUpMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="FollowUpMasterLog" EntityType="Self.FollowUpMasterLog" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="FollowUpStatusMaster" EntityType="Self.FollowUpStatusMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="InterviewDetails" EntityType="Self.InterviewDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="InterviewMode" EntityType="Self.InterviewMode" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="JobPortalMaster" EntityType="Self.JobPortalMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="LeadMaster" EntityType="Self.LeadMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="LocationMaster" EntityType="Self.LocationMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="MarketingRevenueDetails" EntityType="Self.MarketingRevenueDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="OnBoardingMaster" EntityType="Self.OnBoardingMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="OnBoardingPayment" EntityType="Self.OnBoardingPayment" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="PODetails" EntityType="Self.PODetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="RecurringMaster" EntityType="Self.RecurringMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="RecurringMasterTemp" EntityType="Self.RecurringMasterTemp" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="RecurringType" EntityType="Self.RecurringType" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="ReportSubmissionDetails" EntityType="Self.ReportSubmissionDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="RequestMaster" EntityType="Self.RequestMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="SalesServiceMaster" EntityType="Self.SalesServiceMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="SessionListDetails" EntityType="Self.SessionListDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="SubmissionDetails" EntityType="Self.SubmissionDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="SubmissionMaster" EntityType="Self.SubmissionMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TargetDetails" EntityType="Self.TargetDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TaskCategoryMaster" EntityType="Self.TaskCategoryMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TaskManageMaster" EntityType="Self.TaskManageMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TaskMaster" EntityType="Self.TaskMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TaskStatusDetails" EntityType="Self.TaskStatusDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TaskTitleMaster" EntityType="Self.TaskTitleMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TeamDetails" EntityType="Self.TeamDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TeamDetailsManage" EntityType="Self.TeamDetailsManage" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TeamMaster" EntityType="Self.TeamMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="TechnologyMaster" EntityType="Self.TechnologyMaster" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="UserAccountDetails" EntityType="Self.UserAccountDetails" Schema="DashTechCRM" store:Type="Tables" />
-    <EntitySet Name="VisaTitleMaster" EntityType="Self.VisaTitleMaster" Schema="DashTechCRM" store:Type="Tables" />
+    <EntitySet Name="candidateTechnologyChangeLog" EntityType="Self.candidateTechnologyChangeLog" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="DepartmentMaster" EntityType="Self.DepartmentMaster" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="DepartmentRoleTable" EntityType="Self.DepartmentRoleTable" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="FollowUpStatusMaster" EntityType="Self.FollowUpStatusMaster" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="RecurringMasterTemp" EntityType="Self.RecurringMasterTemp" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="TeamDetailsManage" EntityType="Self.TeamDetailsManage" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="TeamMaster" EntityType="Self.TeamMaster" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="BatchSessionDetails" EntityType="Self.BatchSessionDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateAssign" EntityType="Self.CandidateAssign" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateAssignLog" EntityType="Self.CandidateAssignLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateBatchDetails" EntityType="Self.CandidateBatchDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CandidateExpertCVFollowupDetails" EntityType="Self.CandidateExpertCVFollowupDetails" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__BatchSess__RefCT__7A672E12" Association="Self.FK__BatchSess__RefCT__7A672E12">
+    <EntitySet Name="CandidateMarketingDetails" EntityType="Self.CandidateMarketingDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateMaster" EntityType="Self.CandidateMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateTechnicalExpertDetails" EntityType="Self.CandidateTechnicalExpertDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CandidateTimeLine" EntityType="Self.CandidateTimeLine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CommentDetails" EntityType="Self.CommentDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FollowUpMaster" EntityType="Self.FollowUpMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FollowUpMasterLog" EntityType="Self.FollowUpMasterLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InterviewDetails" EntityType="Self.InterviewDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InterviewMode" EntityType="Self.InterviewMode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobPortalMaster" EntityType="Self.JobPortalMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LeadMaster" EntityType="Self.LeadMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LocationMaster" EntityType="Self.LocationMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarketingRevenueDetails" EntityType="Self.MarketingRevenueDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OnBoardingMaster" EntityType="Self.OnBoardingMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OnBoardingPayment" EntityType="Self.OnBoardingPayment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PODetails" EntityType="Self.PODetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RecurringMaster" EntityType="Self.RecurringMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RecurringType" EntityType="Self.RecurringType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReportSubmissionDetails" EntityType="Self.ReportSubmissionDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestMaster" EntityType="Self.RequestMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesServiceMaster" EntityType="Self.SalesServiceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SessionListDetails" EntityType="Self.SessionListDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubmissionDetails" EntityType="Self.SubmissionDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubmissionMaster" EntityType="Self.SubmissionMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TargetDetails" EntityType="Self.TargetDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskCategoryMaster" EntityType="Self.TaskCategoryMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskManageMaster" EntityType="Self.TaskManageMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskMaster" EntityType="Self.TaskMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskStatusDetails" EntityType="Self.TaskStatusDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskTitleMaster" EntityType="Self.TaskTitleMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeamDetails" EntityType="Self.TeamDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TechnologyMaster" EntityType="Self.TechnologyMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserAccountDetails" EntityType="Self.UserAccountDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VisaTitleMaster" EntityType="Self.VisaTitleMaster" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BatchSess__RefCT__7F2BE32F" Association="Self.FK__BatchSess__RefCT__7F2BE32F">
       <End Role="CandidateTechnicalExpertDetails" EntitySet="CandidateTechnicalExpertDetails" />
       <End Role="BatchSessionDetails" EntitySet="BatchSessionDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__BatchSess__RefSe__7B5B524B" Association="Self.FK__BatchSess__RefSe__7B5B524B">
+    <AssociationSet Name="FK__BatchSess__RefSe__00200768" Association="Self.FK__BatchSess__RefSe__00200768">
       <End Role="SessionListDetails" EntitySet="SessionListDetails" />
       <End Role="BatchSessionDetails" EntitySet="BatchSessionDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__Chang__06CD04F7" Association="Self.FK__Candidate__Chang__06CD04F7">
+    <AssociationSet Name="FK__Candidate__Chang__0B91BA14" Association="Self.FK__Candidate__Chang__0B91BA14">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="CandidateTimeLine" EntitySet="CandidateTimeLine" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefAs__03F0984C" Association="Self.FK__Candidate__RefAs__03F0984C">
+    <AssociationSet Name="FK__Candidate__RefAs__08B54D69" Association="Self.FK__Candidate__RefAs__08B54D69">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="CandidateTechnicalExpertDetails" EntitySet="CandidateTechnicalExpertDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefAs__04E4BC85" Association="Self.FK__Candidate__RefAs__04E4BC85">
+    <AssociationSet Name="FK__Candidate__RefAs__09A971A2" Association="Self.FK__Candidate__RefAs__09A971A2">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="CandidateTechnicalExpertDetails" EntitySet="CandidateTechnicalExpertDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefBa__05D8E0BE" Association="Self.FK__Candidate__RefBa__05D8E0BE">
+    <AssociationSet Name="FK__Candidate__RefBa__0A9D95DB" Association="Self.FK__Candidate__RefBa__0A9D95DB">
       <End Role="CandidateBatchDetails" EntitySet="CandidateBatchDetails" />
       <End Role="CandidateTechnicalExpertDetails" EntitySet="CandidateTechnicalExpertDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefCa__07C12930" Association="Self.FK__Candidate__RefCa__07C12930">
+    <AssociationSet Name="FK__Candidate__RefCa__03F0984C" Association="Self.FK__Candidate__RefCa__03F0984C">
+      <End Role="CandidateMaster" EntitySet="CandidateMaster" />
+      <End Role="CandidateMarketingDetails" EntitySet="CandidateMarketingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Candidate__RefCa__0C85DE4D" Association="Self.FK__Candidate__RefCa__0C85DE4D">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="CandidateTimeLine" EntitySet="CandidateTimeLine" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefCa__7F2BE32F" Association="Self.FK__Candidate__RefCa__7F2BE32F">
-      <End Role="CandidateMaster" EntitySet="CandidateMaster" />
-      <End Role="CandidateMarketingDetails" EntitySet="CandidateMarketingDetails" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Candidate__refMa__7C4F7684" Association="Self.FK__Candidate__refMa__7C4F7684">
+    <AssociationSet Name="FK__Candidate__refMa__01142BA1" Association="Self.FK__Candidate__refMa__01142BA1">
       <End Role="CandidateMarketingDetails" EntitySet="CandidateMarketingDetails" />
       <End Role="CandidateAssign" EntitySet="CandidateAssign" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefRe__00200768" Association="Self.FK__Candidate__RefRe__00200768">
+    <AssociationSet Name="FK__Candidate__RefRe__04E4BC85" Association="Self.FK__Candidate__RefRe__04E4BC85">
       <End Role="RecurringType" EntitySet="RecurringType" />
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefSa__01142BA1" Association="Self.FK__Candidate__RefSa__01142BA1">
+    <AssociationSet Name="FK__Candidate__RefSa__05D8E0BE" Association="Self.FK__Candidate__RefSa__05D8E0BE">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefSe__02084FDA" Association="Self.FK__Candidate__RefSe__02084FDA">
+    <AssociationSet Name="FK__Candidate__RefSe__06CD04F7" Association="Self.FK__Candidate__RefSe__06CD04F7">
       <End Role="SalesServiceMaster" EntitySet="SalesServiceMaster" />
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefTe__7D439ABD" Association="Self.FK__Candidate__RefTe__7D439ABD">
+    <AssociationSet Name="FK__Candidate__RefTe__02084FDA" Association="Self.FK__Candidate__RefTe__02084FDA">
       <End Role="TeamDetails" EntitySet="TeamDetails" />
       <End Role="CandidateAssign" EntitySet="CandidateAssign" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__RefTe__7E37BEF6" Association="Self.FK__Candidate__RefTe__7E37BEF6">
+    <AssociationSet Name="FK__Candidate__RefTe__02FC7413" Association="Self.FK__Candidate__RefTe__02FC7413">
       <End Role="TechnologyMaster" EntitySet="TechnologyMaster" />
       <End Role="CandidateBatchDetails" EntitySet="CandidateBatchDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Candidate__Techn__02FC7413" Association="Self.FK__Candidate__Techn__02FC7413">
+    <AssociationSet Name="FK__Candidate__Techn__07C12930" Association="Self.FK__Candidate__Techn__07C12930">
       <End Role="TechnologyMaster" EntitySet="TechnologyMaster" />
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__CommentDe__RefCa__08B54D69" Association="Self.FK__CommentDe__RefCa__08B54D69">
+    <AssociationSet Name="FK__CommentDe__RefCa__0D7A0286" Association="Self.FK__CommentDe__RefCa__0D7A0286">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="CommentDetails" EntitySet="CommentDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__FollowUpM__RefCa__09A971A2" Association="Self.FK__FollowUpM__RefCa__09A971A2">
+    <AssociationSet Name="FK__FollowUpM__RefCa__0E6E26BF" Association="Self.FK__FollowUpM__RefCa__0E6E26BF">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="FollowUpMaster" EntitySet="FollowUpMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__Interview__RefSu__0A9D95DB" Association="Self.FK__Interview__RefSu__0A9D95DB">
+    <AssociationSet Name="FK__Interview__RefSu__0F624AF8" Association="Self.FK__Interview__RefSu__0F624AF8">
       <End Role="SubmissionDetails" EntitySet="SubmissionDetails" />
       <End Role="InterviewDetails" EntitySet="InterviewDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__LeadMaste__LeadB__0B91BA14" Association="Self.FK__LeadMaste__LeadB__0B91BA14">
+    <AssociationSet Name="FK__LeadMaste__LeadB__10566F31" Association="Self.FK__LeadMaste__LeadB__10566F31">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="LeadMaster" EntitySet="LeadMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__Marketing__RefCa__0C85DE4D" Association="Self.FK__Marketing__RefCa__0C85DE4D">
+    <AssociationSet Name="FK__Marketing__RefCa__114A936A" Association="Self.FK__Marketing__RefCa__114A936A">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="MarketingRevenueDetails" EntitySet="MarketingRevenueDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Marketing__RefUs__0D7A0286" Association="Self.FK__Marketing__RefUs__0D7A0286">
+    <AssociationSet Name="FK__Marketing__RefUs__123EB7A3" Association="Self.FK__Marketing__RefUs__123EB7A3">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="MarketingRevenueDetails" EntitySet="MarketingRevenueDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__OnBoardin__RefCa__0E6E26BF" Association="Self.FK__OnBoardin__RefCa__0E6E26BF">
+    <AssociationSet Name="FK__OnBoardin__RefCa__1332DBDC" Association="Self.FK__OnBoardin__RefCa__1332DBDC">
       <End Role="PODetails" EntitySet="PODetails" />
       <End Role="OnBoardingMaster" EntitySet="OnBoardingMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__OnBoardin__RefOB__0F624AF8" Association="Self.FK__OnBoardin__RefOB__0F624AF8">
+    <AssociationSet Name="FK__OnBoardin__RefOB__14270015" Association="Self.FK__OnBoardin__RefOB__14270015">
       <End Role="OnBoardingMaster" EntitySet="OnBoardingMaster" />
       <End Role="OnBoardingPayment" EntitySet="OnBoardingPayment" />
     </AssociationSet>
-    <AssociationSet Name="FK__PODetails__RefSa__10566F31" Association="Self.FK__PODetails__RefSa__10566F31">
+    <AssociationSet Name="FK__PODetails__RefSa__151B244E" Association="Self.FK__PODetails__RefSa__151B244E">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="PODetails" EntitySet="PODetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recurring__RefCa__114A936A" Association="Self.FK__Recurring__RefCa__114A936A">
+    <AssociationSet Name="FK__Recurring__RefCa__160F4887" Association="Self.FK__Recurring__RefCa__160F4887">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="RecurringMaster" EntitySet="RecurringMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__RequestMa__Candi__123EB7A3" Association="Self.FK__RequestMa__Candi__123EB7A3">
+    <AssociationSet Name="FK__RequestMa__Candi__17036CC0" Association="Self.FK__RequestMa__Candi__17036CC0">
       <End Role="CandidateMaster" EntitySet="CandidateMaster" />
       <End Role="RequestMaster" EntitySet="RequestMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__RequestMa__ReqFr__1332DBDC" Association="Self.FK__RequestMa__ReqFr__1332DBDC">
+    <AssociationSet Name="FK__RequestMa__ReqFr__17F790F9" Association="Self.FK__RequestMa__ReqFr__17F790F9">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="RequestMaster" EntitySet="RequestMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__RequestMa__ReqTo__14270015" Association="Self.FK__RequestMa__ReqTo__14270015">
+    <AssociationSet Name="FK__RequestMa__ReqTo__18EBB532" Association="Self.FK__RequestMa__ReqTo__18EBB532">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="RequestMaster" EntitySet="RequestMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__SessionLi__RefTe__151B244E" Association="Self.FK__SessionLi__RefTe__151B244E">
+    <AssociationSet Name="FK__SessionLi__RefTe__19DFD96B" Association="Self.FK__SessionLi__RefTe__19DFD96B">
       <End Role="TechnologyMaster" EntitySet="TechnologyMaster" />
       <End Role="SessionListDetails" EntitySet="SessionListDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Submissio__RefAs__160F4887" Association="Self.FK__Submissio__RefAs__160F4887">
+    <AssociationSet Name="FK__Submissio__RefAs__1AD3FDA4" Association="Self.FK__Submissio__RefAs__1AD3FDA4">
       <End Role="CandidateAssign" EntitySet="CandidateAssign" />
       <End Role="SubmissionDetails" EntitySet="SubmissionDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__TaskManag__RefCT__17036CC0" Association="Self.FK__TaskManag__RefCT__17036CC0">
+    <AssociationSet Name="FK__TaskManag__RefCT__1BC821DD" Association="Self.FK__TaskManag__RefCT__1BC821DD">
       <End Role="CandidateTechnicalExpertDetails" EntitySet="CandidateTechnicalExpertDetails" />
       <End Role="TaskManageMaster" EntitySet="TaskManageMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__TaskManag__RefTa__17F790F9" Association="Self.FK__TaskManag__RefTa__17F790F9">
+    <AssociationSet Name="FK__TaskManag__RefTa__1CBC4616" Association="Self.FK__TaskManag__RefTa__1CBC4616">
       <End Role="TaskCategoryMaster" EntitySet="TaskCategoryMaster" />
       <End Role="TaskManageMaster" EntitySet="TaskManageMaster" />
     </AssociationSet>
-    <AssociationSet Name="FK__TaskStatu__RefTM__18EBB532" Association="Self.FK__TaskStatu__RefTM__18EBB532">
+    <AssociationSet Name="FK__TaskStatu__RefTM__1DB06A4F" Association="Self.FK__TaskStatu__RefTM__1DB06A4F">
       <End Role="TaskManageMaster" EntitySet="TaskManageMaster" />
       <End Role="TaskStatusDetails" EntitySet="TaskStatusDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__TeamDetai__Membe__19DFD96B" Association="Self.FK__TeamDetai__Membe__19DFD96B">
+    <AssociationSet Name="FK__TeamDetai__Membe__1EA48E88" Association="Self.FK__TeamDetai__Membe__1EA48E88">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="TeamDetails" EntitySet="TeamDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__TeamDetai__TeamL__1AD3FDA4" Association="Self.FK__TeamDetai__TeamL__1AD3FDA4">
+    <AssociationSet Name="FK__TeamDetai__TeamL__1F98B2C1" Association="Self.FK__TeamDetai__TeamL__1F98B2C1">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="TeamDetails" EntitySet="TeamDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__TeamDetai__TeamM__1BC821DD" Association="Self.FK__TeamDetai__TeamM__1BC821DD">
+    <AssociationSet Name="FK__TeamDetai__TeamM__208CD6FA" Association="Self.FK__TeamDetai__TeamM__208CD6FA">
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
       <End Role="TeamDetails" EntitySet="TeamDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__UserAccou__RefLo__1CBC4616" Association="Self.FK__UserAccou__RefLo__1CBC4616">
+    <AssociationSet Name="FK__UserAccou__RefLo__2180FB33" Association="Self.FK__UserAccou__RefLo__2180FB33">
       <End Role="LocationMaster" EntitySet="LocationMaster" />
       <End Role="UserAccountDetails" EntitySet="UserAccountDetails" />
     </AssociationSet>

@@ -81,20 +81,17 @@ namespace DashTechCRM.Areas.Master.Controllers
             return CommonHelperClass._serializeDatatable(dl.GetDataTable("select TD.Id,TM.TeamName ,Leader.FullName as LeaderName,  TeamMember.FullName as MemberName,DM.DepartmentName,Convert(varchar,TM.timest,106) as TeamCreatedDate from TeamDetailsManage TD Inner join UserAccountDetails TeamMember on TD.MemberId = TeamMember.UserId INNER JOIN TeamMaster TM on TM.Id = TD.TeamMasterId INNER JOIN UserAccountDetails Leader on Leader.UserId = TM.LeaderId INNER JOIN DepartmentMaster DM on DM.Id = TM.DepartmentId order by TM.Id desc"));
         }
 
-        // this will bind team
         public string BindTeamList()
         {
             return CommonHelperClass._serializeDatatable(dl.GetDataTable("select ID , TeamName as [TEXT] from TeamMaster"));
         }
 
 
-        // this will bind remaining mapped members
         public string BindRemainingMembers()
         {
-            return CommonHelperClass._serializeDatatable(dl.GetDataTable("select UAD.UserId as [ID] , UAD.fullName as [TEXT] from UserAccountDetails UAD where UAD.UserId not in (Select MemberId from TeamDetailsManage) order by 1"));
+            return CommonHelperClass._serializeDatatable(dl.GetDataTable("select UAD.UserId as [ID] , (UAD.fullName + ' - ' + RM.RoleTitle)as [TEXT] from UserAccountDetails UAD INNER JOIN RoleMaster RM on RM.RoleId = UAD.refRoleId where UAD.UserId not in (Select MemberId from TeamDetailsManage) order by 1"));
         }
 
-        // this will add new member
         public string SaveTeamMember(string parameter)
         {
             dynamic prm = JObject.Parse(parameter);
