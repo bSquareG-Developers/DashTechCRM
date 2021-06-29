@@ -47,7 +47,7 @@ namespace DashTechCRM.Areas.SeniorRecruiterMarketing.Controllers
                 followUp.FollowUpStatus = status;
                 followUp.FollowUpTime = DateTime.Now.TimeOfDay;
                 followUp.RefCandidateId = candidateId;
-                followUp.Department = "ExpertCv";
+                followUp.Department = "Marketing";
                 db.FollowUpMasters.Add(followUp);
                 db.SaveChanges();
                 p.Add(new SqlParameter("@FollowUpMessage", "Status : " + status + " Remarks : " + remarks));

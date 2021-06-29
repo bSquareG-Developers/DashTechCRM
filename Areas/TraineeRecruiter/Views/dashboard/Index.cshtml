@@ -73,7 +73,7 @@
             </div>
             <div class="modal-body">
                 <div class="modal-body">
-                    <form action="@Url.Action("SaveFollowup","dashboard",new { @area = "Recruiter"})" method="post">
+                    <form action="@Url.Action("SaveFollowup","dashboard",new { @area = "TraineeRecruiter"})" method="post">
                         <input type="hidden" name="candidateId" id="candidateId" />
                         <div class="row">
                             <div class="col-md-12">
@@ -127,7 +127,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("NewSubmission","SubmissionsManage",new { @area = "Recruiter"})" method="post">
+                <form action="@Url.Action("NewSubmission","SubmissionsManage",new { @area = "TraineeRecruiter"})" method="post">
                     <input type="hidden" value="" id="AId" name="RefAssignedId" />
                     <div class="row">
                         <div class="col-md-12">
@@ -222,7 +222,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("NewInterview","SubmissionsManage",new { @area = "Recruiter"})" method="post">
+                <form action="@Url.Action("NewInterview","SubmissionsManage",new { @area = "TraineeRecruiter"})" method="post">
                     <input type="hidden" value="" id="assignedId" name="aid" />
                     <div class="row">
                         <div class="col-md-12">

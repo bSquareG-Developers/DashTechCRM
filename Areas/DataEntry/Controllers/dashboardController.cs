@@ -70,8 +70,8 @@ namespace DashTechCRM.Areas.DataEntry.Controllers
                 if (result == "True")
                 {
                     string emailBody = "<p>Hello " + receiverName + "</p><p> Mr." + username + " Have successfully updated " + candidateName + "&apos; s Marketing Email - Id and Marketing Contact Number. Now you can start next process for the candidate successfully.</p><p> Thank You </p> ";
-                    //SMTPEmailSendingModel.Send("kautilya.dashtechinc@gmail.com", emailBody, "Response for Generate EmailId and Contact For Marketing of an Candidate", "", "");
-                    SMTPEmailSendingModel.Send(receiverEmail, emailBody, "Response for Generate EmailId and Contact For Marketing of an Candidate", "", "");
+                    SMTPEmailSendingModel.Send("kautilya.dashtechinc@gmail.com", emailBody, "Response for Generate EmailId and Contact For Marketing of an Candidate", "", "");
+                    //SMTPEmailSendingModel.Send(receiverEmail, emailBody, "Response for Generate EmailId and Contact For Marketing of an Candidate", "", "");
 
                 }
                 return result.ToString();

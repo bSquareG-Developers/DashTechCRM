@@ -169,7 +169,7 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
             p.Add(new SqlParameter("@OtherRemarks", Convert.ToString(prm.otherRemarks)));
             p.Add(new SqlParameter("@MarketingStatus", "In Marketing"));
             p.Add(new SqlParameter("@LocationCorncern", Convert.ToString(prm.locationConcern)));
-            p.Add(new SqlParameter("@RequiredLocationList", ""));
+            p.Add(new SqlParameter("@RequiredLocationList", Convert.ToString(prm.requiredLocationList)));
             p.Add(new SqlParameter("@EntryDate", Convert.ToString(DateTime.Now.ToString("yyyy-MM-dd"))));
             p.Add(new SqlParameter("@TeamLeadId", Convert.ToString(prm.teamLeadId)));
             p.Add(new SqlParameter("@TeamManagerId", Convert.ToString(user.UserId)));
@@ -297,7 +297,8 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
                 p.Add(new SqlParameter("@MktEmailContactStatusFlag", 1));
                 object changeRequestResult = dl.Execute_Scaler("CandidateMarketingDetails_InsertMktContactStatus", p.ToArray());
                 if (changeRequestResult.ToString() == "1")
-                    result = SMTPEmailSendingModel.Send(emailId, emailBody, "Request for Generate EmailId and Contact For Marketing of an Candidate", "", "");
+                    //result = SMTPEmailSendingModel.Send(emailId, emailBody, "Request for Generate EmailId and Contact For Marketing of an Candidate", "", "");
+                    result = SMTPEmailSendingModel.Send("kautilya.dashtechinc@gmail.com", emailBody, "Request for Generate EmailId and Contact For Marketing of an Candidate", "", "");
                 return result.ToString();
             }
             catch (Exception e)

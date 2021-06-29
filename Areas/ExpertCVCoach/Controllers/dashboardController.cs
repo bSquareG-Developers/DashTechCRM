@@ -130,6 +130,12 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
                 //db.CandidateMasters.Add(c);
                 db.SaveChanges();
 
+                p = new List<SqlParameter>();
+                p.Add(new SqlParameter("@FollowUpMessage", "Status : " + Convert.ToString(prm.FollowUpStatus) + " Remarks : " + Convert.ToString(prm.followUpMessage)));
+                p.Add(new SqlParameter("@FollowUpBy", user.UserId));
+                p.Add(new SqlParameter("@CandidateId", Convert.ToString(prm.CandidateId)));
+                dl.Execute_NonQuery("FollowUpMasterLog_Insert", p.ToArray());
+
                 return result.ToString();
             }
             catch (Exception e)
