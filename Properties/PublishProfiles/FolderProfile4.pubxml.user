@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\published\PublishDeshtechCRM</_PublishTargetUrl>
-    <History>True|2021-06-29T14:15:18.8507895Z;True|2021-06-28T20:08:41.5029412+05:30;True|2021-06-26T02:14:34.8773635+05:30;True|2021-06-26T00:53:09.8543035+05:30;</History>
+    <History>True|2021-06-29T14:34:22.6315275Z;True|2021-06-29T20:03:48.1646753+05:30;True|2021-06-29T19:45:18.8507895+05:30;True|2021-06-28T20:08:41.5029412+05:30;True|2021-06-26T02:14:34.8773635+05:30;True|2021-06-26T00:53:09.8543035+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/admin/Views/dashboard/AdminDashboardDemo.cshtml">
@@ -123,7 +123,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 07:29:32</publishTime>
     </File>
     <File Include="Areas/JuniorRecruiterMarketing/Views/dashboard/Index.cshtml">
-      <publishTime>06/29/2021 19:41:40</publishTime>
+      <publishTime>06/29/2021 19:59:43</publishTime>
     </File>
     <File Include="Areas/JuniorRecruiterMarketing/Views/web.config">
       <publishTime>06/18/2021 19:07:24</publishTime>
@@ -234,7 +234,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 08:35:24</publishTime>
     </File>
     <File Include="Areas/SeniorRecruiterMarketing/Views/dashboard/Index.cshtml">
-      <publishTime>06/29/2021 19:41:05</publishTime>
+      <publishTime>06/29/2021 20:02:21</publishTime>
     </File>
     <File Include="Areas/SeniorRecruiterMarketing/Views/web.config">
       <publishTime>06/18/2021 02:28:10</publishTime>
@@ -276,7 +276,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/15/2021 22:26:16</publishTime>
     </File>
     <File Include="Areas/TraineeRecruiter/Views/dashboard/Index.cshtml">
-      <publishTime>06/29/2021 19:42:53</publishTime>
+      <publishTime>06/29/2021 20:00:41</publishTime>
     </File>
     <File Include="Areas/TraineeRecruiter/Views/web.config">
       <publishTime>06/23/2021 22:02:10</publishTime>
@@ -333,10 +333,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/11/2013 02:59:20</publishTime>
     </File>
     <File Include="bin/DashTechCRM.dll">
-      <publishTime>06/29/2021 19:45:12</publishTime>
+      <publishTime>06/29/2021 20:03:44</publishTime>
     </File>
     <File Include="bin/DashTechCRM.pdb">
-      <publishTime>06/29/2021 19:45:12</publishTime>
+      <publishTime>06/29/2021 20:03:44</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 20:02:26</publishTime>
@@ -5862,7 +5862,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 07:29:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/29/2021 19:45:13</publishTime>
+      <publishTime>06/29/2021 20:03:44</publishTime>
     </File>
   </ItemGroup>
 </Project>
