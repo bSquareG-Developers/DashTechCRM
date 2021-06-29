@@ -165,16 +165,7 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
                     db.SaveChanges();
                     model.RefSumissionId = submission.SubmissionId;
 
-                    UserObject user = Session["userInfo"] as UserObject;
 
-                    InterviewDetailsLog newInterviewLog = new InterviewDetailsLog
-                    {
-                        InterviewId = model.InteviewId,
-                        Timest = DateTime.Now.Date,
-                        AddedBy = user.UserId
-                    };
-                    db.InterviewDetailsLogs.Add(newInterviewLog);
-                    db.SaveChanges();
 
                 }
                 model.Feedback = "";
@@ -182,6 +173,16 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
                 model.InterviewSupportFeedback = "";
                 model.PreviousInterview = null;
                 db.InterviewDetails.Add(model);
+                db.SaveChanges();
+                UserObject user = Session["userInfo"] as UserObject;
+
+                InterviewDetailsLog newInterviewLog = new InterviewDetailsLog
+                {
+                    InterviewId = model.InteviewId,
+                    Timest = DateTime.Now.Date,
+                    AddedBy = user.UserId
+                };
+                db.InterviewDetailsLogs.Add(newInterviewLog);
                 db.SaveChanges();
                 TempData["alert"] = new AlertBoxModel() { Type = "Success", Message = "New Interview Scheduled!" };
             }
