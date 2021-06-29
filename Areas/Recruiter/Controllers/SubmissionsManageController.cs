@@ -111,9 +111,21 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
         {
             try
             {
+
                 model.Date = DateTime.Now.Date;
                 db.SubmissionDetails.Add(model);
                 db.SaveChanges();
+                UserObject user = Session["userInfo"] as UserObject;
+
+                SubmissionDetailsLog newSubmissionLog = new SubmissionDetailsLog
+                {
+                    SubmissionId = model.SubmissionId,
+                    AddedBy = user.UserId,
+                    Timest = DateTime.Now.Date
+                };
+                db.SubmissionDetailsLogs.Add(newSubmissionLog);
+                db.SaveChanges();
+
                 TempData["alert"] = new AlertBoxModel() { Type = "Success", Message = "New Submission Submitted!" };
             }
             catch (Exception ex)
@@ -152,6 +164,18 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
                     db.SubmissionDetails.Add(submission);
                     db.SaveChanges();
                     model.RefSumissionId = submission.SubmissionId;
+
+                    UserObject user = Session["userInfo"] as UserObject;
+
+                    InterviewDetailsLog newInterviewLog = new InterviewDetailsLog
+                    {
+                        InterviewId = model.InteviewId,
+                        Timest = DateTime.Now.Date,
+                        AddedBy = user.UserId
+                    };
+                    db.InterviewDetailsLogs.Add(newInterviewLog);
+                    db.SaveChanges();
+
                 }
                 model.Feedback = "";
                 model.Status = "Scheduled";
