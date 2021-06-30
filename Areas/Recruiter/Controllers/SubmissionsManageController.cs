@@ -164,9 +164,6 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
                     db.SubmissionDetails.Add(submission);
                     db.SaveChanges();
                     model.RefSumissionId = submission.SubmissionId;
-
-
-
                 }
                 model.Feedback = "";
                 model.Status = "Scheduled";
