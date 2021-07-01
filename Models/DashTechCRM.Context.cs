@@ -27,24 +27,29 @@ namespace DashTechCRM.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<candidateTechnologyChangeLog> candidateTechnologyChangeLogs { get; set; }
+        public virtual DbSet<DepartmentMaster> DepartmentMasters { get; set; }
+        public virtual DbSet<DepartmentRoleTable> DepartmentRoleTables { get; set; }
+        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
+        public virtual DbSet<FollowUpStatusMaster> FollowUpStatusMasters { get; set; }
+        public virtual DbSet<InterviewDetailsLog> InterviewDetailsLogs { get; set; }
+        public virtual DbSet<RecurringMasterTemp> RecurringMasterTemps { get; set; }
+        public virtual DbSet<SubmissionDetailsLog> SubmissionDetailsLogs { get; set; }
+        public virtual DbSet<TeamDetailsManage> TeamDetailsManages { get; set; }
+        public virtual DbSet<TeamMaster> TeamMasters { get; set; }
         public virtual DbSet<BatchSessionDetail> BatchSessionDetails { get; set; }
         public virtual DbSet<CandidateAssign> CandidateAssigns { get; set; }
         public virtual DbSet<CandidateAssignLog> CandidateAssignLogs { get; set; }
         public virtual DbSet<CandidateBatchDetail> CandidateBatchDetails { get; set; }
+        public virtual DbSet<CandidateExpertCVFollowupDetail> CandidateExpertCVFollowupDetails { get; set; }
         public virtual DbSet<CandidateMarketingDetail> CandidateMarketingDetails { get; set; }
         public virtual DbSet<CandidateMaster> CandidateMasters { get; set; }
         public virtual DbSet<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails { get; set; }
-        public virtual DbSet<candidateTechnologyChangeLog> candidateTechnologyChangeLogs { get; set; }
         public virtual DbSet<CandidateTimeLine> CandidateTimeLines { get; set; }
         public virtual DbSet<CommentDetail> CommentDetails { get; set; }
-        public virtual DbSet<DepartmentMaster> DepartmentMasters { get; set; }
-        public virtual DbSet<DepartmentRoleTable> DepartmentRoleTables { get; set; }
-        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<FollowUpMaster> FollowUpMasters { get; set; }
         public virtual DbSet<FollowUpMasterLog> FollowUpMasterLogs { get; set; }
-        public virtual DbSet<FollowUpStatusMaster> FollowUpStatusMasters { get; set; }
         public virtual DbSet<InterviewDetail> InterviewDetails { get; set; }
-        public virtual DbSet<InterviewDetailsLog> InterviewDetailsLogs { get; set; }
         public virtual DbSet<InterviewMode> InterviewModes { get; set; }
         public virtual DbSet<JobPortalMaster> JobPortalMasters { get; set; }
         public virtual DbSet<LeadMaster> LeadMasters { get; set; }
@@ -54,7 +59,6 @@ namespace DashTechCRM.Models
         public virtual DbSet<OnBoardingPayment> OnBoardingPayments { get; set; }
         public virtual DbSet<PODetail> PODetails { get; set; }
         public virtual DbSet<RecurringMaster> RecurringMasters { get; set; }
-        public virtual DbSet<RecurringMasterTemp> RecurringMasterTemps { get; set; }
         public virtual DbSet<RecurringType> RecurringTypes { get; set; }
         public virtual DbSet<ReportSubmissionDetail> ReportSubmissionDetails { get; set; }
         public virtual DbSet<RequestMaster> RequestMasters { get; set; }
@@ -62,7 +66,6 @@ namespace DashTechCRM.Models
         public virtual DbSet<SalesServiceMaster> SalesServiceMasters { get; set; }
         public virtual DbSet<SessionListDetail> SessionListDetails { get; set; }
         public virtual DbSet<SubmissionDetail> SubmissionDetails { get; set; }
-        public virtual DbSet<SubmissionDetailsLog> SubmissionDetailsLogs { get; set; }
         public virtual DbSet<SubmissionMaster> SubmissionMasters { get; set; }
         public virtual DbSet<TargetDetail> TargetDetails { get; set; }
         public virtual DbSet<TaskCategoryMaster> TaskCategoryMasters { get; set; }
@@ -71,12 +74,9 @@ namespace DashTechCRM.Models
         public virtual DbSet<TaskStatusDetail> TaskStatusDetails { get; set; }
         public virtual DbSet<TaskTitleMaster> TaskTitleMasters { get; set; }
         public virtual DbSet<TeamDetail> TeamDetails { get; set; }
-        public virtual DbSet<TeamDetailsManage> TeamDetailsManages { get; set; }
-        public virtual DbSet<TeamMaster> TeamMasters { get; set; }
         public virtual DbSet<TechnologyMaster> TechnologyMasters { get; set; }
         public virtual DbSet<UserAccountDetail> UserAccountDetails { get; set; }
         public virtual DbSet<VisaTitleMaster> VisaTitleMasters { get; set; }
-        public virtual DbSet<CandidateExpertCVFollowupDetail> CandidateExpertCVFollowupDetails { get; set; }
     
         public virtual int CandidateMaster_Insert(string candidateName, string emailId, string mobileNumber, Nullable<int> refSalesAssociate, Nullable<int> refRecurringTypeId, Nullable<int> refServiceId, Nullable<decimal> totalAmount, Nullable<decimal> paidAmount, Nullable<System.DateTime> date, string paymentStatus, string candidateStatus, string remarks, string visaStatus, Nullable<int> technologyId, Nullable<bool> agreementSent, Nullable<decimal> agreement, string agreementLink, string followUpStatus, Nullable<System.TimeSpan> followUpTime, string followUpMessage, string followUpBy, string department, Nullable<int> installments, string recIn)
         {
@@ -48197,6 +48197,1050 @@ namespace DashTechCRM.Models
                 new ObjectParameter("flag", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("VisaTitleMasterInsertUpdate58", idParameter, visaTitleParameter, flagParameter);
+        }
+    
+        public virtual int AddInterviewDetailsDefault41(Nullable<int> assignedId)
+        {
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddInterviewDetailsDefault41", assignedIdParameter);
+        }
+    
+        public virtual int AddSubmissionDetailsDefault41(Nullable<int> assignedId)
+        {
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddSubmissionDetailsDefault41", assignedIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateAssign_JrBatchRecruiter14(Nullable<int> jrBatchRecruiter, Nullable<System.DateTime> date, Nullable<System.TimeSpan> time, Nullable<int> isActive, Nullable<int> marketingId, Nullable<int> assignFrom, Nullable<int> assignedId)
+        {
+            var jrBatchRecruiterParameter = jrBatchRecruiter.HasValue ?
+                new ObjectParameter("JrBatchRecruiter", jrBatchRecruiter) :
+                new ObjectParameter("JrBatchRecruiter", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var timeParameter = time.HasValue ?
+                new ObjectParameter("Time", time) :
+                new ObjectParameter("Time", typeof(System.TimeSpan));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(int));
+    
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var assignFromParameter = assignFrom.HasValue ?
+                new ObjectParameter("AssignFrom", assignFrom) :
+                new ObjectParameter("AssignFrom", typeof(int));
+    
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateAssign_JrBatchRecruiter14", jrBatchRecruiterParameter, dateParameter, timeParameter, isActiveParameter, marketingIdParameter, assignFromParameter, assignedIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateAssign_TraineeBatchRecruiter23(Nullable<int> traineeBatchRecruiter, Nullable<System.DateTime> date, Nullable<System.TimeSpan> time, Nullable<int> isActive, Nullable<int> marketingId, Nullable<int> assignFrom, Nullable<int> assignedId)
+        {
+            var traineeBatchRecruiterParameter = traineeBatchRecruiter.HasValue ?
+                new ObjectParameter("TraineeBatchRecruiter", traineeBatchRecruiter) :
+                new ObjectParameter("TraineeBatchRecruiter", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var timeParameter = time.HasValue ?
+                new ObjectParameter("Time", time) :
+                new ObjectParameter("Time", typeof(System.TimeSpan));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(int));
+    
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var assignFromParameter = assignFrom.HasValue ?
+                new ObjectParameter("AssignFrom", assignFrom) :
+                new ObjectParameter("AssignFrom", typeof(int));
+    
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateAssign_TraineeBatchRecruiter23", traineeBatchRecruiterParameter, dateParameter, timeParameter, isActiveParameter, marketingIdParameter, assignFromParameter, assignedIdParameter);
+        }
+    
+        public virtual int CandidateMaster_Insert75(string candidateName, string emailId, string mobileNumber, Nullable<int> refSalesAssociate, Nullable<int> refRecurringTypeId, Nullable<int> refServiceId, Nullable<decimal> totalAmount, Nullable<decimal> paidAmount, Nullable<System.DateTime> date, string paymentStatus, string candidateStatus, string remarks, string visaStatus, Nullable<int> technologyId, Nullable<bool> agreementSent, Nullable<decimal> agreement, string agreementLink, string followUpStatus, Nullable<System.TimeSpan> followUpTime, string followUpMessage, string followUpBy, string department, Nullable<int> installments, string recIn, Nullable<bool> isJobGaruntee, Nullable<System.DateTime> jobGarunteeLastDate, Nullable<int> rePaymentMonths, Nullable<bool> isRembursed)
+        {
+            var candidateNameParameter = candidateName != null ?
+                new ObjectParameter("CandidateName", candidateName) :
+                new ObjectParameter("CandidateName", typeof(string));
+    
+            var emailIdParameter = emailId != null ?
+                new ObjectParameter("EmailId", emailId) :
+                new ObjectParameter("EmailId", typeof(string));
+    
+            var mobileNumberParameter = mobileNumber != null ?
+                new ObjectParameter("MobileNumber", mobileNumber) :
+                new ObjectParameter("MobileNumber", typeof(string));
+    
+            var refSalesAssociateParameter = refSalesAssociate.HasValue ?
+                new ObjectParameter("RefSalesAssociate", refSalesAssociate) :
+                new ObjectParameter("RefSalesAssociate", typeof(int));
+    
+            var refRecurringTypeIdParameter = refRecurringTypeId.HasValue ?
+                new ObjectParameter("RefRecurringTypeId", refRecurringTypeId) :
+                new ObjectParameter("RefRecurringTypeId", typeof(int));
+    
+            var refServiceIdParameter = refServiceId.HasValue ?
+                new ObjectParameter("RefServiceId", refServiceId) :
+                new ObjectParameter("RefServiceId", typeof(int));
+    
+            var totalAmountParameter = totalAmount.HasValue ?
+                new ObjectParameter("TotalAmount", totalAmount) :
+                new ObjectParameter("TotalAmount", typeof(decimal));
+    
+            var paidAmountParameter = paidAmount.HasValue ?
+                new ObjectParameter("PaidAmount", paidAmount) :
+                new ObjectParameter("PaidAmount", typeof(decimal));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var paymentStatusParameter = paymentStatus != null ?
+                new ObjectParameter("PaymentStatus", paymentStatus) :
+                new ObjectParameter("PaymentStatus", typeof(string));
+    
+            var candidateStatusParameter = candidateStatus != null ?
+                new ObjectParameter("CandidateStatus", candidateStatus) :
+                new ObjectParameter("CandidateStatus", typeof(string));
+    
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("Remarks", remarks) :
+                new ObjectParameter("Remarks", typeof(string));
+    
+            var visaStatusParameter = visaStatus != null ?
+                new ObjectParameter("VisaStatus", visaStatus) :
+                new ObjectParameter("VisaStatus", typeof(string));
+    
+            var technologyIdParameter = technologyId.HasValue ?
+                new ObjectParameter("TechnologyId", technologyId) :
+                new ObjectParameter("TechnologyId", typeof(int));
+    
+            var agreementSentParameter = agreementSent.HasValue ?
+                new ObjectParameter("AgreementSent", agreementSent) :
+                new ObjectParameter("AgreementSent", typeof(bool));
+    
+            var agreementParameter = agreement.HasValue ?
+                new ObjectParameter("Agreement", agreement) :
+                new ObjectParameter("Agreement", typeof(decimal));
+    
+            var agreementLinkParameter = agreementLink != null ?
+                new ObjectParameter("AgreementLink", agreementLink) :
+                new ObjectParameter("AgreementLink", typeof(string));
+    
+            var followUpStatusParameter = followUpStatus != null ?
+                new ObjectParameter("FollowUpStatus", followUpStatus) :
+                new ObjectParameter("FollowUpStatus", typeof(string));
+    
+            var followUpTimeParameter = followUpTime.HasValue ?
+                new ObjectParameter("FollowUpTime", followUpTime) :
+                new ObjectParameter("FollowUpTime", typeof(System.TimeSpan));
+    
+            var followUpMessageParameter = followUpMessage != null ?
+                new ObjectParameter("FollowUpMessage", followUpMessage) :
+                new ObjectParameter("FollowUpMessage", typeof(string));
+    
+            var followUpByParameter = followUpBy != null ?
+                new ObjectParameter("FollowUpBy", followUpBy) :
+                new ObjectParameter("FollowUpBy", typeof(string));
+    
+            var departmentParameter = department != null ?
+                new ObjectParameter("Department", department) :
+                new ObjectParameter("Department", typeof(string));
+    
+            var installmentsParameter = installments.HasValue ?
+                new ObjectParameter("Installments", installments) :
+                new ObjectParameter("Installments", typeof(int));
+    
+            var recInParameter = recIn != null ?
+                new ObjectParameter("recIn", recIn) :
+                new ObjectParameter("recIn", typeof(string));
+    
+            var isJobGarunteeParameter = isJobGaruntee.HasValue ?
+                new ObjectParameter("isJobGaruntee", isJobGaruntee) :
+                new ObjectParameter("isJobGaruntee", typeof(bool));
+    
+            var jobGarunteeLastDateParameter = jobGarunteeLastDate.HasValue ?
+                new ObjectParameter("JobGarunteeLastDate", jobGarunteeLastDate) :
+                new ObjectParameter("JobGarunteeLastDate", typeof(System.DateTime));
+    
+            var rePaymentMonthsParameter = rePaymentMonths.HasValue ?
+                new ObjectParameter("RePaymentMonths", rePaymentMonths) :
+                new ObjectParameter("RePaymentMonths", typeof(int));
+    
+            var isRembursedParameter = isRembursed.HasValue ?
+                new ObjectParameter("isRembursed", isRembursed) :
+                new ObjectParameter("isRembursed", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CandidateMaster_Insert75", candidateNameParameter, emailIdParameter, mobileNumberParameter, refSalesAssociateParameter, refRecurringTypeIdParameter, refServiceIdParameter, totalAmountParameter, paidAmountParameter, dateParameter, paymentStatusParameter, candidateStatusParameter, remarksParameter, visaStatusParameter, technologyIdParameter, agreementSentParameter, agreementParameter, agreementLinkParameter, followUpStatusParameter, followUpTimeParameter, followUpMessageParameter, followUpByParameter, departmentParameter, installmentsParameter, recInParameter, isJobGarunteeParameter, jobGarunteeLastDateParameter, rePaymentMonthsParameter, isRembursedParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidatemasterCheckExistingEmailOrMobile69(string flag, string value)
+        {
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            var valueParameter = value != null ?
+                new ObjectParameter("Value", value) :
+                new ObjectParameter("Value", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidatemasterCheckExistingEmailOrMobile69", flagParameter, valueParameter);
+        }
+    
+        public virtual int changeTechnologyCandidate39(string technologyName, Nullable<int> candidateId, Nullable<int> userId)
+        {
+            var technologyNameParameter = technologyName != null ?
+                new ObjectParameter("technologyName", technologyName) :
+                new ObjectParameter("technologyName", typeof(string));
+    
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("CandidateId", candidateId) :
+                new ObjectParameter("CandidateId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("changeTechnologyCandidate39", technologyNameParameter, candidateIdParameter, userIdParameter);
+        }
+    
+        public virtual int ErrorLog_Insert4(string errorMessage, string errorURL)
+        {
+            var errorMessageParameter = errorMessage != null ?
+                new ObjectParameter("ErrorMessage", errorMessage) :
+                new ObjectParameter("ErrorMessage", typeof(string));
+    
+            var errorURLParameter = errorURL != null ?
+                new ObjectParameter("ErrorURL", errorURL) :
+                new ObjectParameter("ErrorURL", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ErrorLog_Insert4", errorMessageParameter, errorURLParameter);
+        }
+    
+        public virtual ObjectResult<GetCandidatetimeLineSalesAssociate60_Result> GetCandidatetimeLineSalesAssociate60(Nullable<System.DateTime> endDate, Nullable<int> userId)
+        {
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCandidatetimeLineSalesAssociate60_Result>("GetCandidatetimeLineSalesAssociate60", endDateParameter, userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetInterviewList20_Result> GetInterviewList20(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInterviewList20_Result>("GetInterviewList20", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetInterviewSubmissionList14_Result> GetInterviewSubmissionList14(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetInterviewSubmissionList14_Result>("GetInterviewSubmissionList14", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetRecurringMasterTempByCandidateId76_Result> GetRecurringMasterTempByCandidateId76(Nullable<int> candidateId)
+        {
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("CandidateId", candidateId) :
+                new ObjectParameter("CandidateId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRecurringMasterTempByCandidateId76_Result>("GetRecurringMasterTempByCandidateId76", candidateIdParameter);
+        }
+    
+        public virtual ObjectResult<GetSubmissionList20_Result> GetSubmissionList20(Nullable<int> userId, Nullable<System.DateTime> date)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSubmissionList20_Result>("GetSubmissionList20", userIdParameter, dateParameter);
+        }
+    
+        public virtual ObjectResult<GetTodayCandidatetimeLineSalesAssociate60_Result> GetTodayCandidatetimeLineSalesAssociate60(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> userId)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTodayCandidatetimeLineSalesAssociate60_Result>("GetTodayCandidatetimeLineSalesAssociate60", startDateParameter, endDateParameter, userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetTodayInterviewList20_Result> GetTodayInterviewList20(Nullable<int> userId, Nullable<System.DateTime> date)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTodayInterviewList20_Result>("GetTodayInterviewList20", userIdParameter, dateParameter);
+        }
+    
+        public virtual ObjectResult<GetTodaySubmissionList20_Result> GetTodaySubmissionList20(Nullable<int> userId, Nullable<System.DateTime> date)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTodaySubmissionList20_Result>("GetTodaySubmissionList20", userIdParameter, dateParameter);
+        }
+    
+        public virtual int MktTeamCandidateReassign41(Nullable<int> marketingId, Nullable<int> teamLeadId, Nullable<int> userId)
+        {
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var teamLeadIdParameter = teamLeadId.HasValue ?
+                new ObjectParameter("teamLeadId", teamLeadId) :
+                new ObjectParameter("teamLeadId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MktTeamCandidateReassign41", marketingIdParameter, teamLeadIdParameter, userIdParameter);
+        }
+    
+        public virtual int RecurringMasterTemp_Insert75(Nullable<System.DateTime> dueDate, Nullable<decimal> amount, Nullable<int> candidateId, string receivedIn, string sendRemainderEmail, string paymentStatus, string remarks)
+        {
+            var dueDateParameter = dueDate.HasValue ?
+                new ObjectParameter("DueDate", dueDate) :
+                new ObjectParameter("DueDate", typeof(System.DateTime));
+    
+            var amountParameter = amount.HasValue ?
+                new ObjectParameter("Amount", amount) :
+                new ObjectParameter("Amount", typeof(decimal));
+    
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("CandidateId", candidateId) :
+                new ObjectParameter("CandidateId", typeof(int));
+    
+            var receivedInParameter = receivedIn != null ?
+                new ObjectParameter("ReceivedIn", receivedIn) :
+                new ObjectParameter("ReceivedIn", typeof(string));
+    
+            var sendRemainderEmailParameter = sendRemainderEmail != null ?
+                new ObjectParameter("SendRemainderEmail", sendRemainderEmail) :
+                new ObjectParameter("SendRemainderEmail", typeof(string));
+    
+            var paymentStatusParameter = paymentStatus != null ?
+                new ObjectParameter("PaymentStatus", paymentStatus) :
+                new ObjectParameter("PaymentStatus", typeof(string));
+    
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("Remarks", remarks) :
+                new ObjectParameter("Remarks", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecurringMasterTemp_Insert75", dueDateParameter, amountParameter, candidateIdParameter, receivedInParameter, sendRemainderEmailParameter, paymentStatusParameter, remarksParameter);
+        }
+    
+        public virtual int RecurringMasterTemp_Update75(Nullable<int> id, Nullable<System.DateTime> dueDate, Nullable<decimal> amount, string receivedIn, string paymentStatus, string remarks)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var dueDateParameter = dueDate.HasValue ?
+                new ObjectParameter("DueDate", dueDate) :
+                new ObjectParameter("DueDate", typeof(System.DateTime));
+    
+            var amountParameter = amount.HasValue ?
+                new ObjectParameter("Amount", amount) :
+                new ObjectParameter("Amount", typeof(decimal));
+    
+            var receivedInParameter = receivedIn != null ?
+                new ObjectParameter("ReceivedIn", receivedIn) :
+                new ObjectParameter("ReceivedIn", typeof(string));
+    
+            var paymentStatusParameter = paymentStatus != null ?
+                new ObjectParameter("PaymentStatus", paymentStatus) :
+                new ObjectParameter("PaymentStatus", typeof(string));
+    
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("Remarks", remarks) :
+                new ObjectParameter("Remarks", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RecurringMasterTemp_Update75", idParameter, dueDateParameter, amountParameter, receivedInParameter, paymentStatusParameter, remarksParameter);
+        }
+    
+        public virtual ObjectResult<VisaTitleMasterGet59_Result> VisaTitleMasterGet59()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VisaTitleMasterGet59_Result>("VisaTitleMasterGet59");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> VisaTitleMasterInsertUpdate59(Nullable<int> id, string visaTitle, string flag)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            var visaTitleParameter = visaTitle != null ?
+                new ObjectParameter("visaTitle", visaTitle) :
+                new ObjectParameter("visaTitle", typeof(string));
+    
+            var flagParameter = flag != null ?
+                new ObjectParameter("flag", flag) :
+                new ObjectParameter("flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("VisaTitleMasterInsertUpdate59", idParameter, visaTitleParameter, flagParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateAssign_SrBatchRecruiter14(Nullable<int> srBatchRecruiter, Nullable<System.DateTime> date, Nullable<System.TimeSpan> time, Nullable<int> isActive, Nullable<int> marketingId, Nullable<int> assignFrom, Nullable<int> assignedId)
+        {
+            var srBatchRecruiterParameter = srBatchRecruiter.HasValue ?
+                new ObjectParameter("SrBatchRecruiter", srBatchRecruiter) :
+                new ObjectParameter("SrBatchRecruiter", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var timeParameter = time.HasValue ?
+                new ObjectParameter("Time", time) :
+                new ObjectParameter("Time", typeof(System.TimeSpan));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(int));
+    
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var assignFromParameter = assignFrom.HasValue ?
+                new ObjectParameter("AssignFrom", assignFrom) :
+                new ObjectParameter("AssignFrom", typeof(int));
+    
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateAssign_SrBatchRecruiter14", srBatchRecruiterParameter, dateParameter, timeParameter, isActiveParameter, marketingIdParameter, assignFromParameter, assignedIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateAssign_TraineeBatchRecruiter112(Nullable<int> traineeBatchRecruiter, Nullable<System.DateTime> date, Nullable<System.TimeSpan> time, Nullable<int> isActive, Nullable<int> marketingId, Nullable<int> assignFrom, Nullable<int> assignedId)
+        {
+            var traineeBatchRecruiterParameter = traineeBatchRecruiter.HasValue ?
+                new ObjectParameter("TraineeBatchRecruiter", traineeBatchRecruiter) :
+                new ObjectParameter("TraineeBatchRecruiter", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            var timeParameter = time.HasValue ?
+                new ObjectParameter("Time", time) :
+                new ObjectParameter("Time", typeof(System.TimeSpan));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(int));
+    
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var assignFromParameter = assignFrom.HasValue ?
+                new ObjectParameter("AssignFrom", assignFrom) :
+                new ObjectParameter("AssignFrom", typeof(int));
+    
+            var assignedIdParameter = assignedId.HasValue ?
+                new ObjectParameter("AssignedId", assignedId) :
+                new ObjectParameter("AssignedId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateAssign_TraineeBatchRecruiter112", traineeBatchRecruiterParameter, dateParameter, timeParameter, isActiveParameter, marketingIdParameter, assignFromParameter, assignedIdParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateMarketingDetails_AddByRecruiter31(Nullable<int> marketingId, string insertedBy, Nullable<System.DateTime> entryDate, Nullable<System.TimeSpan> followUpTime, string passportNumber, string sSN, string eAD, string vISA, Nullable<int> i20, Nullable<int> workAuthorization, Nullable<int> drivingLicence, string marketingStatus, string followUpStatus, string followUpMessage, string department)
+        {
+            var marketingIdParameter = marketingId.HasValue ?
+                new ObjectParameter("MarketingId", marketingId) :
+                new ObjectParameter("MarketingId", typeof(int));
+    
+            var insertedByParameter = insertedBy != null ?
+                new ObjectParameter("InsertedBy", insertedBy) :
+                new ObjectParameter("InsertedBy", typeof(string));
+    
+            var entryDateParameter = entryDate.HasValue ?
+                new ObjectParameter("EntryDate", entryDate) :
+                new ObjectParameter("EntryDate", typeof(System.DateTime));
+    
+            var followUpTimeParameter = followUpTime.HasValue ?
+                new ObjectParameter("FollowUpTime", followUpTime) :
+                new ObjectParameter("FollowUpTime", typeof(System.TimeSpan));
+    
+            var passportNumberParameter = passportNumber != null ?
+                new ObjectParameter("PassportNumber", passportNumber) :
+                new ObjectParameter("PassportNumber", typeof(string));
+    
+            var sSNParameter = sSN != null ?
+                new ObjectParameter("SSN", sSN) :
+                new ObjectParameter("SSN", typeof(string));
+    
+            var eADParameter = eAD != null ?
+                new ObjectParameter("EAD", eAD) :
+                new ObjectParameter("EAD", typeof(string));
+    
+            var vISAParameter = vISA != null ?
+                new ObjectParameter("VISA", vISA) :
+                new ObjectParameter("VISA", typeof(string));
+    
+            var i20Parameter = i20.HasValue ?
+                new ObjectParameter("i20", i20) :
+                new ObjectParameter("i20", typeof(int));
+    
+            var workAuthorizationParameter = workAuthorization.HasValue ?
+                new ObjectParameter("workAuthorization", workAuthorization) :
+                new ObjectParameter("workAuthorization", typeof(int));
+    
+            var drivingLicenceParameter = drivingLicence.HasValue ?
+                new ObjectParameter("DrivingLicence", drivingLicence) :
+                new ObjectParameter("DrivingLicence", typeof(int));
+    
+            var marketingStatusParameter = marketingStatus != null ?
+                new ObjectParameter("MarketingStatus", marketingStatus) :
+                new ObjectParameter("MarketingStatus", typeof(string));
+    
+            var followUpStatusParameter = followUpStatus != null ?
+                new ObjectParameter("FollowUpStatus", followUpStatus) :
+                new ObjectParameter("FollowUpStatus", typeof(string));
+    
+            var followUpMessageParameter = followUpMessage != null ?
+                new ObjectParameter("FollowUpMessage", followUpMessage) :
+                new ObjectParameter("FollowUpMessage", typeof(string));
+    
+            var departmentParameter = department != null ?
+                new ObjectParameter("Department", department) :
+                new ObjectParameter("Department", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateMarketingDetails_AddByRecruiter31", marketingIdParameter, insertedByParameter, entryDateParameter, followUpTimeParameter, passportNumberParameter, sSNParameter, eADParameter, vISAParameter, i20Parameter, workAuthorizationParameter, drivingLicenceParameter, marketingStatusParameter, followUpStatusParameter, followUpMessageParameter, departmentParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateMarketingDetails_InsertMktContactStatus32(Nullable<int> candidateId, Nullable<int> mktEmailContactStatusFlag, string insertedBy)
+        {
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("CandidateId", candidateId) :
+                new ObjectParameter("CandidateId", typeof(int));
+    
+            var mktEmailContactStatusFlagParameter = mktEmailContactStatusFlag.HasValue ?
+                new ObjectParameter("MktEmailContactStatusFlag", mktEmailContactStatusFlag) :
+                new ObjectParameter("MktEmailContactStatusFlag", typeof(int));
+    
+            var insertedByParameter = insertedBy != null ?
+                new ObjectParameter("InsertedBy", insertedBy) :
+                new ObjectParameter("InsertedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateMarketingDetails_InsertMktContactStatus32", candidateIdParameter, mktEmailContactStatusFlagParameter, insertedByParameter);
+        }
+    
+        public virtual ObjectResult<CandidateMasterBindCandidate33_Result> CandidateMasterBindCandidate33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CandidateMasterBindCandidate33_Result>("CandidateMasterBindCandidate33");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> CandidateTechnicalExpertDetails_InsertUpdate33(Nullable<int> cTID, Nullable<System.DateTime> cTAssignDate, string cTAssingedRemarks, string cTReassignedRemarks, Nullable<int> refAssignedCandidateId, Nullable<int> refAssignedExpertId, string assignedBy, Nullable<int> refBatchId, string flag)
+        {
+            var cTIDParameter = cTID.HasValue ?
+                new ObjectParameter("CTID", cTID) :
+                new ObjectParameter("CTID", typeof(int));
+    
+            var cTAssignDateParameter = cTAssignDate.HasValue ?
+                new ObjectParameter("CTAssignDate", cTAssignDate) :
+                new ObjectParameter("CTAssignDate", typeof(System.DateTime));
+    
+            var cTAssingedRemarksParameter = cTAssingedRemarks != null ?
+                new ObjectParameter("CTAssingedRemarks", cTAssingedRemarks) :
+                new ObjectParameter("CTAssingedRemarks", typeof(string));
+    
+            var cTReassignedRemarksParameter = cTReassignedRemarks != null ?
+                new ObjectParameter("CTReassignedRemarks", cTReassignedRemarks) :
+                new ObjectParameter("CTReassignedRemarks", typeof(string));
+    
+            var refAssignedCandidateIdParameter = refAssignedCandidateId.HasValue ?
+                new ObjectParameter("RefAssignedCandidateId", refAssignedCandidateId) :
+                new ObjectParameter("RefAssignedCandidateId", typeof(int));
+    
+            var refAssignedExpertIdParameter = refAssignedExpertId.HasValue ?
+                new ObjectParameter("RefAssignedExpertId", refAssignedExpertId) :
+                new ObjectParameter("RefAssignedExpertId", typeof(int));
+    
+            var assignedByParameter = assignedBy != null ?
+                new ObjectParameter("AssignedBy", assignedBy) :
+                new ObjectParameter("AssignedBy", typeof(string));
+    
+            var refBatchIdParameter = refBatchId.HasValue ?
+                new ObjectParameter("RefBatchId", refBatchId) :
+                new ObjectParameter("RefBatchId", typeof(int));
+    
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("CandidateTechnicalExpertDetails_InsertUpdate33", cTIDParameter, cTAssignDateParameter, cTAssingedRemarksParameter, cTReassignedRemarksParameter, refAssignedCandidateIdParameter, refAssignedExpertIdParameter, assignedByParameter, refBatchIdParameter, flagParameter);
+        }
+    
+        public virtual ObjectResult<CandidateTechnicalExpertDetailsGet33_Result> CandidateTechnicalExpertDetailsGet33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CandidateTechnicalExpertDetailsGet33_Result>("CandidateTechnicalExpertDetailsGet33");
+        }
+    
+        public virtual int FollowUpMasterLog_Insert33(string followUpMessage, string followUpBy, Nullable<int> candidateId)
+        {
+            var followUpMessageParameter = followUpMessage != null ?
+                new ObjectParameter("FollowUpMessage", followUpMessage) :
+                new ObjectParameter("FollowUpMessage", typeof(string));
+    
+            var followUpByParameter = followUpBy != null ?
+                new ObjectParameter("FollowUpBy", followUpBy) :
+                new ObjectParameter("FollowUpBy", typeof(string));
+    
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("CandidateId", candidateId) :
+                new ObjectParameter("CandidateId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("FollowUpMasterLog_Insert33", followUpMessageParameter, followUpByParameter, candidateIdParameter);
+        }
+    
+        public virtual int GetAdminDashBoard16()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetAdminDashBoard16");
+        }
+    
+        public virtual ObjectResult<GetCandidateTimeLine34_Result> GetCandidateTimeLine34(Nullable<int> candidateId)
+        {
+            var candidateIdParameter = candidateId.HasValue ?
+                new ObjectParameter("candidateId", candidateId) :
+                new ObjectParameter("candidateId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCandidateTimeLine34_Result>("GetCandidateTimeLine34", candidateIdParameter);
+        }
+    
+        public virtual int GetInterviewSubmissionCount26(Nullable<int> recruiterId, Nullable<System.DateTime> date)
+        {
+            var recruiterIdParameter = recruiterId.HasValue ?
+                new ObjectParameter("RecruiterId", recruiterId) :
+                new ObjectParameter("RecruiterId", typeof(int));
+    
+            var dateParameter = date.HasValue ?
+                new ObjectParameter("Date", date) :
+                new ObjectParameter("Date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetInterviewSubmissionCount26", recruiterIdParameter, dateParameter);
+        }
+    
+        public virtual ObjectResult<string> GetSalesAssociateNameByCandidateDetails34(string emailId, string mobileNo)
+        {
+            var emailIdParameter = emailId != null ?
+                new ObjectParameter("EmailId", emailId) :
+                new ObjectParameter("EmailId", typeof(string));
+    
+            var mobileNoParameter = mobileNo != null ?
+                new ObjectParameter("MobileNo", mobileNo) :
+                new ObjectParameter("MobileNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetSalesAssociateNameByCandidateDetails34", emailIdParameter, mobileNoParameter);
+        }
+    
+        public virtual ObjectResult<GetUsersByRole33_Result> GetUsersByRole33(Nullable<int> roleId)
+        {
+            var roleIdParameter = roleId.HasValue ?
+                new ObjectParameter("RoleId", roleId) :
+                new ObjectParameter("RoleId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUsersByRole33_Result>("GetUsersByRole33", roleIdParameter);
+        }
+    
+        public virtual ObjectResult<TaskCategoryMasterGet33_Result> TaskCategoryMasterGet33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskCategoryMasterGet33_Result>("TaskCategoryMasterGet33");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> TaskManageMaster_InsertUpdate33(Nullable<int> tMId, Nullable<int> refTaskCatId, Nullable<System.DateTime> taskDate, Nullable<System.TimeSpan> taskStartTime, Nullable<System.TimeSpan> taskEndTime, string taskStatus, Nullable<int> refCTId, Nullable<int> totalMin, string taskRemarks)
+        {
+            var tMIdParameter = tMId.HasValue ?
+                new ObjectParameter("TMId", tMId) :
+                new ObjectParameter("TMId", typeof(int));
+    
+            var refTaskCatIdParameter = refTaskCatId.HasValue ?
+                new ObjectParameter("RefTaskCatId", refTaskCatId) :
+                new ObjectParameter("RefTaskCatId", typeof(int));
+    
+            var taskDateParameter = taskDate.HasValue ?
+                new ObjectParameter("TaskDate", taskDate) :
+                new ObjectParameter("TaskDate", typeof(System.DateTime));
+    
+            var taskStartTimeParameter = taskStartTime.HasValue ?
+                new ObjectParameter("TaskStartTime", taskStartTime) :
+                new ObjectParameter("TaskStartTime", typeof(System.TimeSpan));
+    
+            var taskEndTimeParameter = taskEndTime.HasValue ?
+                new ObjectParameter("TaskEndTime", taskEndTime) :
+                new ObjectParameter("TaskEndTime", typeof(System.TimeSpan));
+    
+            var taskStatusParameter = taskStatus != null ?
+                new ObjectParameter("TaskStatus", taskStatus) :
+                new ObjectParameter("TaskStatus", typeof(string));
+    
+            var refCTIdParameter = refCTId.HasValue ?
+                new ObjectParameter("RefCTId", refCTId) :
+                new ObjectParameter("RefCTId", typeof(int));
+    
+            var totalMinParameter = totalMin.HasValue ?
+                new ObjectParameter("TotalMin", totalMin) :
+                new ObjectParameter("TotalMin", typeof(int));
+    
+            var taskRemarksParameter = taskRemarks != null ?
+                new ObjectParameter("TaskRemarks", taskRemarks) :
+                new ObjectParameter("TaskRemarks", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("TaskManageMaster_InsertUpdate33", tMIdParameter, refTaskCatIdParameter, taskDateParameter, taskStartTimeParameter, taskEndTimeParameter, taskStatusParameter, refCTIdParameter, totalMinParameter, taskRemarksParameter);
+        }
+    
+        public virtual ObjectResult<TaskManageMasterGet33_Result> TaskManageMasterGet33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskManageMasterGet33_Result>("TaskManageMasterGet33");
+        }
+    
+        public virtual ObjectResult<TaskMasteGet_TechnicalExperts33_Result> TaskMasteGet_TechnicalExperts33(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskMasteGet_TechnicalExperts33_Result>("TaskMasteGet_TechnicalExperts33", userIdParameter);
+        }
+    
+        public virtual int TaskMaster_Delete33(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TaskMaster_Delete33", idParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager33(Nullable<int> taskId, Nullable<int> taskTitleId, string taskDetails, string assignBy, string assignTo, Nullable<System.DateTime> assignDate, Nullable<System.TimeSpan> assignTime, string status, string feedback, Nullable<System.DateTime> endDate, Nullable<System.TimeSpan> endTime, string fLAG)
+        {
+            var taskIdParameter = taskId.HasValue ?
+                new ObjectParameter("TaskId", taskId) :
+                new ObjectParameter("TaskId", typeof(int));
+    
+            var taskTitleIdParameter = taskTitleId.HasValue ?
+                new ObjectParameter("TaskTitleId", taskTitleId) :
+                new ObjectParameter("TaskTitleId", typeof(int));
+    
+            var taskDetailsParameter = taskDetails != null ?
+                new ObjectParameter("TaskDetails", taskDetails) :
+                new ObjectParameter("TaskDetails", typeof(string));
+    
+            var assignByParameter = assignBy != null ?
+                new ObjectParameter("AssignBy", assignBy) :
+                new ObjectParameter("AssignBy", typeof(string));
+    
+            var assignToParameter = assignTo != null ?
+                new ObjectParameter("AssignTo", assignTo) :
+                new ObjectParameter("AssignTo", typeof(string));
+    
+            var assignDateParameter = assignDate.HasValue ?
+                new ObjectParameter("AssignDate", assignDate) :
+                new ObjectParameter("AssignDate", typeof(System.DateTime));
+    
+            var assignTimeParameter = assignTime.HasValue ?
+                new ObjectParameter("AssignTime", assignTime) :
+                new ObjectParameter("AssignTime", typeof(System.TimeSpan));
+    
+            var statusParameter = status != null ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(string));
+    
+            var feedbackParameter = feedback != null ?
+                new ObjectParameter("Feedback", feedback) :
+                new ObjectParameter("Feedback", typeof(string));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var endTimeParameter = endTime.HasValue ?
+                new ObjectParameter("EndTime", endTime) :
+                new ObjectParameter("EndTime", typeof(System.TimeSpan));
+    
+            var fLAGParameter = fLAG != null ?
+                new ObjectParameter("FLAG", fLAG) :
+                new ObjectParameter("FLAG", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager33", taskIdParameter, taskTitleIdParameter, taskDetailsParameter, assignByParameter, assignToParameter, assignDateParameter, assignTimeParameter, statusParameter, feedbackParameter, endDateParameter, endTimeParameter, fLAGParameter);
+        }
+    
+        public virtual ObjectResult<TaskMasterGet33_Result> TaskMasterGet33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskMasterGet33_Result>("TaskMasterGet33");
+        }
+    
+        public virtual ObjectResult<TaskTitleGet33_Result> TaskTitleGet33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskTitleGet33_Result>("TaskTitleGet33");
+        }
+    
+        public virtual int TaskTitleMaster_Delete33(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("Id", id) :
+                new ObjectParameter("Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TaskTitleMaster_Delete33", idParameter);
+        }
+    
+        public virtual ObjectResult<TaskTitleMaster_Get33_Result> TaskTitleMaster_Get33()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TaskTitleMaster_Get33_Result>("TaskTitleMaster_Get33");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> TaskTitleMaster_InsertUpdate33(Nullable<int> taskTitleId, string taskName, Nullable<bool> isActive, string createdBy, string flag)
+        {
+            var taskTitleIdParameter = taskTitleId.HasValue ?
+                new ObjectParameter("TaskTitleId", taskTitleId) :
+                new ObjectParameter("TaskTitleId", typeof(int));
+    
+            var taskNameParameter = taskName != null ?
+                new ObjectParameter("TaskName", taskName) :
+                new ObjectParameter("TaskName", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            var createdByParameter = createdBy != null ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(string));
+    
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("TaskTitleMaster_InsertUpdate33", taskTitleIdParameter, taskNameParameter, isActiveParameter, createdByParameter, flagParameter);
+        }
+    
+        public virtual int TeamDetailsGet34()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TeamDetailsGet34");
+        }
+    
+        public virtual ObjectResult<TeamDetailsGetDepartment34_Result> TeamDetailsGetDepartment34()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TeamDetailsGetDepartment34_Result>("TeamDetailsGetDepartment34");
+        }
+    
+        public virtual ObjectResult<TeamDetailsGetTeamManagerByDepartment34_Result> TeamDetailsGetTeamManagerByDepartment34(string department)
+        {
+            var departmentParameter = department != null ?
+                new ObjectParameter("Department", department) :
+                new ObjectParameter("Department", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TeamDetailsGetTeamManagerByDepartment34_Result>("TeamDetailsGetTeamManagerByDepartment34", departmentParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> TeamDetailsInsertUpdate34(Nullable<int> member, Nullable<int> teamLead, Nullable<int> teamManager, string department, Nullable<bool> isEnabledTeam, Nullable<int> teamId, string flag)
+        {
+            var memberParameter = member.HasValue ?
+                new ObjectParameter("Member", member) :
+                new ObjectParameter("Member", typeof(int));
+    
+            var teamLeadParameter = teamLead.HasValue ?
+                new ObjectParameter("TeamLead", teamLead) :
+                new ObjectParameter("TeamLead", typeof(int));
+    
+            var teamManagerParameter = teamManager.HasValue ?
+                new ObjectParameter("TeamManager", teamManager) :
+                new ObjectParameter("TeamManager", typeof(int));
+    
+            var departmentParameter = department != null ?
+                new ObjectParameter("Department", department) :
+                new ObjectParameter("Department", typeof(string));
+    
+            var isEnabledTeamParameter = isEnabledTeam.HasValue ?
+                new ObjectParameter("IsEnabledTeam", isEnabledTeam) :
+                new ObjectParameter("IsEnabledTeam", typeof(bool));
+    
+            var teamIdParameter = teamId.HasValue ?
+                new ObjectParameter("TeamId", teamId) :
+                new ObjectParameter("TeamId", typeof(int));
+    
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("TeamDetailsInsertUpdate34", memberParameter, teamLeadParameter, teamManagerParameter, departmentParameter, isEnabledTeamParameter, teamIdParameter, flagParameter);
+        }
+    
+        public virtual ObjectResult<TeamDetailsMembersGet34_Result> TeamDetailsMembersGet34(string flag)
+        {
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TeamDetailsMembersGet34_Result>("TeamDetailsMembersGet34", flagParameter);
+        }
+    
+        public virtual int UserAccountDetails_ChangePassword33(Nullable<int> userId, string userPassword)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var userPasswordParameter = userPassword != null ?
+                new ObjectParameter("UserPassword", userPassword) :
+                new ObjectParameter("UserPassword", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserAccountDetails_ChangePassword33", userIdParameter, userPasswordParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> Useraccountdetails_insert_update77(Nullable<int> userId, string fullName, string rocketName, string emailId, string password, Nullable<int> refLocationId, Nullable<int> refRoleId, string userImageUrl, Nullable<bool> isActive, Nullable<System.DateTime> lastLogin, string companyName, Nullable<System.DateTime> joiningDate, string flag)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var rocketNameParameter = rocketName != null ?
+                new ObjectParameter("RocketName", rocketName) :
+                new ObjectParameter("RocketName", typeof(string));
+    
+            var emailIdParameter = emailId != null ?
+                new ObjectParameter("EmailId", emailId) :
+                new ObjectParameter("EmailId", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+    
+            var refLocationIdParameter = refLocationId.HasValue ?
+                new ObjectParameter("RefLocationId", refLocationId) :
+                new ObjectParameter("RefLocationId", typeof(int));
+    
+            var refRoleIdParameter = refRoleId.HasValue ?
+                new ObjectParameter("RefRoleId", refRoleId) :
+                new ObjectParameter("RefRoleId", typeof(int));
+    
+            var userImageUrlParameter = userImageUrl != null ?
+                new ObjectParameter("UserImageUrl", userImageUrl) :
+                new ObjectParameter("UserImageUrl", typeof(string));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            var lastLoginParameter = lastLogin.HasValue ?
+                new ObjectParameter("LastLogin", lastLogin) :
+                new ObjectParameter("LastLogin", typeof(System.DateTime));
+    
+            var companyNameParameter = companyName != null ?
+                new ObjectParameter("CompanyName", companyName) :
+                new ObjectParameter("CompanyName", typeof(string));
+    
+            var joiningDateParameter = joiningDate.HasValue ?
+                new ObjectParameter("JoiningDate", joiningDate) :
+                new ObjectParameter("JoiningDate", typeof(System.DateTime));
+    
+            var flagParameter = flag != null ?
+                new ObjectParameter("Flag", flag) :
+                new ObjectParameter("Flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Useraccountdetails_insert_update77", userIdParameter, fullNameParameter, rocketNameParameter, emailIdParameter, passwordParameter, refLocationIdParameter, refRoleIdParameter, userImageUrlParameter, isActiveParameter, lastLoginParameter, companyNameParameter, joiningDateParameter, flagParameter);
+        }
+    
+        public virtual ObjectResult<UserAccountDetails_UpdateDefaultPassword33_Result> UserAccountDetails_UpdateDefaultPassword33(string rocketName, string emailId)
+        {
+            var rocketNameParameter = rocketName != null ?
+                new ObjectParameter("RocketName", rocketName) :
+                new ObjectParameter("RocketName", typeof(string));
+    
+            var emailIdParameter = emailId != null ?
+                new ObjectParameter("EmailId", emailId) :
+                new ObjectParameter("EmailId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAccountDetails_UpdateDefaultPassword33_Result>("UserAccountDetails_UpdateDefaultPassword33", rocketNameParameter, emailIdParameter);
+        }
+    
+        public virtual int UserAccountDetailsDelete34(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UserAccountDetailsDelete34", userIdParameter);
+        }
+    
+        public virtual ObjectResult<UserAccountDetailsGet34_Result> UserAccountDetailsGet34()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAccountDetailsGet34_Result>("UserAccountDetailsGet34");
+        }
+    
+        public virtual ObjectResult<UserAccountDetailsGetByUserId34_Result> UserAccountDetailsGetByUserId34(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAccountDetailsGetByUserId34_Result>("UserAccountDetailsGetByUserId34", userIdParameter);
         }
     }
 }
