@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\published\PublishDeshtechCRM</_PublishTargetUrl>
-    <History>True|2021-06-29T16:12:08.6624336Z;True|2021-06-29T20:43:26.2789386+05:30;True|2021-06-29T20:04:22.6315275+05:30;True|2021-06-29T20:03:48.1646753+05:30;True|2021-06-29T19:45:18.8507895+05:30;True|2021-06-28T20:08:41.5029412+05:30;True|2021-06-26T02:14:34.8773635+05:30;True|2021-06-26T00:53:09.8543035+05:30;</History>
+    <History>True|2021-07-01T21:04:48.5883278Z;True|2021-06-29T21:42:08.6624336+05:30;True|2021-06-29T20:43:26.2789386+05:30;True|2021-06-29T20:04:22.6315275+05:30;True|2021-06-29T20:03:48.1646753+05:30;True|2021-06-29T19:45:18.8507895+05:30;True|2021-06-28T20:08:41.5029412+05:30;True|2021-06-26T02:14:34.8773635+05:30;True|2021-06-26T00:53:09.8543035+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/admin/Views/dashboard/AdminDashboardDemo.cshtml">
@@ -165,7 +165,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 08:32:56</publishTime>
     </File>
     <File Include="Areas/Master/Views/Dashboard/Index.cshtml">
-      <publishTime>05/07/2021 18:16:46</publishTime>
+      <publishTime>07/01/2021 19:17:56</publishTime>
     </File>
     <File Include="Areas/Master/Views/Dashboard/ManageDepartment.cshtml">
       <publishTime>06/24/2021 02:48:23</publishTime>
@@ -198,7 +198,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/26/2021 01:14:53</publishTime>
     </File>
     <File Include="Areas/SalesAssociate/Views/ManageCandidate/AddCandidate.cshtml">
-      <publishTime>06/10/2021 18:43:02</publishTime>
+      <publishTime>07/02/2021 02:17:28</publishTime>
     </File>
     <File Include="Areas/SalesAssociate/Views/ManageCandidate/Index.cshtml">
       <publishTime>04/15/2021 00:19:40</publishTime>
@@ -333,10 +333,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/11/2013 02:59:20</publishTime>
     </File>
     <File Include="bin/DashTechCRM.dll">
-      <publishTime>06/29/2021 21:58:00</publishTime>
+      <publishTime>07/02/2021 02:34:44</publishTime>
     </File>
     <File Include="bin/DashTechCRM.pdb">
-      <publishTime>06/29/2021 21:58:00</publishTime>
+      <publishTime>07/02/2021 02:34:44</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 20:02:26</publishTime>
@@ -5775,7 +5775,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 07:29:32</publishTime>
     </File>
     <File Include="Models/DashTechCRM.edmx.diagram">
-      <publishTime>06/29/2021 21:55:04</publishTime>
+      <publishTime>07/02/2021 02:32:44</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/14/2021 07:29:34</publishTime>
@@ -5847,7 +5847,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/19/2021 01:27:26</publishTime>
     </File>
     <File Include="Views/Shared/_MyCustomMenu.cshtml">
-      <publishTime>06/21/2021 22:36:02</publishTime>
+      <publishTime>07/01/2021 19:18:53</publishTime>
     </File>
     <File Include="Views/Shared/_submissionGrid.cshtml">
       <publishTime>03/23/2021 04:14:34</publishTime>
@@ -5862,7 +5862,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/14/2021 07:29:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/29/2021 21:58:01</publishTime>
+      <publishTime>07/02/2021 02:34:44</publishTime>
     </File>
   </ItemGroup>
 </Project>

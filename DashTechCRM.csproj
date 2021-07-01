@@ -312,6 +312,9 @@
     <Compile Include="Models\CandidateMasterBindCandidate31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CandidateMasterBindCandidate32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CandidateMasterBindCandidate3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -410,6 +413,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CandidateTechnicalExpertDetailsGet31_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CandidateTechnicalExpertDetailsGet32_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CandidateTechnicalExpertDetailsGet3_Result.cs">
@@ -554,6 +560,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetCandidateTimeLine32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetCandidateTimeLine33_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetCandidateTimeLine3_Result.cs">
@@ -736,6 +745,9 @@
     <Compile Include="Models\GetCandidatetimeLineSalesAssociate58_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetCandidatetimeLineSalesAssociate59_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCandidatetimeLineSalesAssociate5_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -784,6 +796,9 @@
     <Compile Include="Models\GetInterviewList18_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetInterviewList19_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetInterviewList1_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -821,6 +836,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetInterviewSubmissionList12_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetInterviewSubmissionList13_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetInterviewSubmissionList1_Result.cs">
@@ -1066,6 +1084,9 @@
     <Compile Include="Models\GetRecurringMasterTempByCandidateId74_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetRecurringMasterTempByCandidateId75_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetRecurringMasterTempByCandidateId7_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1103,6 +1124,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetSubmissionList18_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSubmissionList19_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetSubmissionList1_Result.cs">
@@ -1294,6 +1318,9 @@
     <Compile Include="Models\GetTodayCandidatetimeLineSalesAssociate58_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetTodayCandidatetimeLineSalesAssociate59_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetTodayCandidatetimeLineSalesAssociate5_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1337,6 +1364,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetTodayInterviewList18_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTodayInterviewList19_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetTodayInterviewList1_Result.cs">
@@ -1394,6 +1424,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetTodaySubmissionList18_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTodaySubmissionList19_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetTodaySubmissionList1_Result.cs">
@@ -1498,6 +1531,9 @@
     <Compile Include="Models\GetUsersByRole31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetUsersByRole32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetUsersByRole3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1547,6 +1583,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LocationMasterGet12_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LocationMasterGet13_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LocationMasterGet1_Result.cs">
@@ -1751,6 +1790,9 @@
     <Compile Include="Models\TaskCategoryMasterGet31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskCategoryMasterGet32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaskCategoryMasterGet3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1850,6 +1892,9 @@
     <Compile Include="Models\TaskManageMasterGet31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskManageMasterGet32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaskManageMasterGet3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1944,6 +1989,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskMasteGet_TechnicalExperts31_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaskMasteGet_TechnicalExperts32_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskMasteGet_TechnicalExperts3_Result.cs">
@@ -2045,6 +2093,9 @@
     <Compile Include="Models\TaskMasterGet31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskMasterGet32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaskMasterGet3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -2142,6 +2193,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskTitleGet31_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TaskTitleGet32_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskTitleGet3_Result.cs">
@@ -2315,6 +2369,9 @@
     <Compile Include="Models\TaskTitleMaster_Get31_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TaskTitleMaster_Get32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TaskTitleMaster_Get3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -2415,6 +2472,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsGetDepartment32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeamDetailsGetDepartment33_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsGetDepartment3_Result.cs">
@@ -2618,6 +2678,9 @@
     <Compile Include="Models\TeamDetailsGetTeamLeadByTeamManagerAndDepartment63_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TeamDetailsGetTeamLeadByTeamManagerAndDepartment64_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TeamDetailsGetTeamLeadByTeamManagerAndDepartment6_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -2706,6 +2769,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsGetTeamManagerByDepartment32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeamDetailsGetTeamManagerByDepartment33_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsGetTeamManagerByDepartment3_Result.cs">
@@ -2808,6 +2874,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsMembersGet32_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeamDetailsMembersGet33_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TeamDetailsMembersGet3_Result.cs">
@@ -2987,6 +3056,9 @@
     <Compile Include="Models\UserAccountDetailsGet32_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserAccountDetailsGet33_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserAccountDetailsGet3_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -3132,6 +3204,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserAccountDetails_UpdateDefaultPassword31_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserAccountDetails_UpdateDefaultPassword32_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserAccountDetails_UpdateDefaultPassword3_Result.cs">
@@ -3318,6 +3393,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VisaTitleMasterGet57_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VisaTitleMasterGet58_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VisaTitleMasterGet5_Result.cs">
