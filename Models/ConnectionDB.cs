@@ -36,7 +36,7 @@ namespace DashTechCRM.Models
             return true;
         }
 
-        public DataSet GetDataSet(string str)
+        public DataSet GetDataSet(string query)
         {
             DataSet dsGd = new DataSet();
             try
@@ -47,7 +47,7 @@ namespace DashTechCRM.Models
                     cmd.Connection = _connection;
                     cmd.CommandTimeout = _commandTimeOut;
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = str;
+                    cmd.CommandText = query;
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     sda.Fill(dsGd, "tbl");
                 }
@@ -58,7 +58,7 @@ namespace DashTechCRM.Models
             {
                 dsGd = null;
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, query);
                 return null;
             }
 
@@ -88,12 +88,13 @@ namespace DashTechCRM.Models
             {
                 Con_Close(_connection);
                 dsGd = null;
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, spName);
+
                 return null;
             }
         }
 
-        public DataTable GetDataTable(string str)
+        public DataTable GetDataTable(string query)
         {
             DataTable dtGd = new DataTable();
             try
@@ -104,7 +105,7 @@ namespace DashTechCRM.Models
                     cmd.Connection = _connection;
                     cmd.CommandTimeout = _commandTimeOut;
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = str;
+                    cmd.CommandText = query;
                     SqlDataAdapter sda = new SqlDataAdapter(cmd);
                     sda.Fill(dtGd);
                 }
@@ -114,7 +115,7 @@ namespace DashTechCRM.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, query);
                 throw;
             }
         }
@@ -141,7 +142,7 @@ namespace DashTechCRM.Models
             {
                 Con_Close(_connection);
                 dtGd = null;
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, spName);
                 return null;
             }
             finally
@@ -172,7 +173,7 @@ namespace DashTechCRM.Models
             catch (Exception e)
             {
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, query);
                 return null;
             }
         }
@@ -198,7 +199,7 @@ namespace DashTechCRM.Models
             catch (Exception e)
             {
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, spName);
                 return null;
             }
         }
@@ -223,7 +224,7 @@ namespace DashTechCRM.Models
             catch (Exception e)
             {
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, query);
                 return false;
             }
             finally
@@ -252,7 +253,7 @@ namespace DashTechCRM.Models
             catch (Exception e)
             {
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, spName);
                 return false;
             }
             finally
@@ -283,7 +284,7 @@ namespace DashTechCRM.Models
             catch (Exception e)
             {
                 Con_Close(_connection);
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, spName);
                 rowAffacted = 0;
                 return false;
             }

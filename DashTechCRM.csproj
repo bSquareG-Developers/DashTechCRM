@@ -457,6 +457,9 @@
     <Compile Include="Models\DepartmentRoleTable.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ErrorLog.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FollowUpMaster.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -5099,7 +5102,6 @@
     <Content Include="Areas\SeniorRecruiterMarketing\Views\dashboard\Index.cshtml" />
     <Content Include="Areas\JuniorRecruiterMarketing\Views\web.config" />
     <Content Include="Areas\JuniorRecruiterMarketing\Views\dashboard\Index.cshtml" />
-    <Content Include="Areas\Master\Views\Dashboard\ManageDepartment.cshtml" />
     <Content Include="Areas\TraineeRecruiter\Views\web.config" />
     <Content Include="Areas\TraineeRecruiter\Views\dashboard\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

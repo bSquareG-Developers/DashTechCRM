@@ -30,6 +30,7 @@ namespace DashTechCRM.Models
         public virtual DbSet<candidateTechnologyChangeLog> candidateTechnologyChangeLogs { get; set; }
         public virtual DbSet<DepartmentMaster> DepartmentMasters { get; set; }
         public virtual DbSet<DepartmentRoleTable> DepartmentRoleTables { get; set; }
+        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<FollowUpStatusMaster> FollowUpStatusMasters { get; set; }
         public virtual DbSet<InterviewDetailsLog> InterviewDetailsLogs { get; set; }
         public virtual DbSet<RecurringMasterTemp> RecurringMasterTemps { get; set; }
@@ -44699,6 +44700,19 @@ namespace DashTechCRM.Models
                 new ObjectParameter("UserId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserAccountDetailsGetByUserId30_Result>("UserAccountDetailsGetByUserId30", userIdParameter);
+        }
+    
+        public virtual int ErrorLog_Insert(string errorMessage, string errorURL)
+        {
+            var errorMessageParameter = errorMessage != null ?
+                new ObjectParameter("ErrorMessage", errorMessage) :
+                new ObjectParameter("ErrorMessage", typeof(string));
+    
+            var errorURLParameter = errorURL != null ?
+                new ObjectParameter("ErrorURL", errorURL) :
+                new ObjectParameter("ErrorURL", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ErrorLog_Insert", errorMessageParameter, errorURLParameter);
         }
     }
 }

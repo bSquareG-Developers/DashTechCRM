@@ -75,6 +75,15 @@ warning 6013: The table/view 'DashTechDemostration.dashtechdemostration.Candidat
           <Property Name="RoleId" Type="int" />
           <Property Name="SOrder" Type="int" />
         </EntityType>
+        <EntityType Name="ErrorLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+          <Property Name="ErrorURL" Type="varchar" MaxLength="200" />
+          <Property Name="Timest" Type="datetime" />
+        </EntityType>
         <EntityType Name="FollowUpStatusMaster">
           <Key>
             <PropertyRef Name="Id" />
@@ -1244,6 +1253,10 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
           <Parameter Name="CandidateId" Type="int" Mode="In" />
           <Parameter Name="UserId" Type="int" Mode="In" />
         </Function>
+        <Function Name="ErrorLog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
+          <Parameter Name="ErrorMessage" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ErrorURL" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
           <Parameter Name="EndDate" Type="date" Mode="In" />
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -1520,6 +1533,7 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
           <EntitySet Name="candidateTechnologyChangeLog" EntityType="Self.candidateTechnologyChangeLog" Schema="dashtechdemostration" store:Type="Tables" />
           <EntitySet Name="DepartmentMaster" EntityType="Self.DepartmentMaster" Schema="dashtechdemostration" store:Type="Tables" />
           <EntitySet Name="DepartmentRoleTable" EntityType="Self.DepartmentRoleTable" Schema="dashtechdemostration" store:Type="Tables" />
+          <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dashtechdemostration" store:Type="Tables" />
           <EntitySet Name="FollowUpStatusMaster" EntityType="Self.FollowUpStatusMaster" Schema="dashtechdemostration" store:Type="Tables" />
           <EntitySet Name="InterviewDetailsLogs" EntityType="Self.InterviewDetailsLogs" Schema="dashtechdemostration" store:Type="Tables" />
           <EntitySet Name="RecurringMasterTemp" EntityType="Self.RecurringMasterTemp" Schema="dashtechdemostration" store:Type="Tables" />
@@ -13747,9 +13761,295 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
             <Parameter Name="visaTitle" Mode="In" Type="String" />
             <Parameter Name="flag" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="AddInterviewDetailsDefault37">
+          <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddSubmissionDetailsDefault37">
+          <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateAssign_JrBatchRecruiter10" ReturnType="Collection(Int32)">
+            <Parameter Name="JrBatchRecruiter" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Time" Mode="In" Type="Time" />
+            <Parameter Name="IsActive" Mode="In" Type="Int32" />
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
+            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateAssign_TraineeBatchRecruiter19" ReturnType="Collection(Int32)">
+            <Parameter Name="TraineeBatchRecruiter" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Time" Mode="In" Type="Time" />
+            <Parameter Name="IsActive" Mode="In" Type="Int32" />
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
+            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateMaster_Insert71">
+            <Parameter Name="CandidateName" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="MobileNumber" Mode="In" Type="String" />
+            <Parameter Name="RefSalesAssociate" Mode="In" Type="Int32" />
+            <Parameter Name="RefRecurringTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="RefServiceId" Mode="In" Type="Int32" />
+            <Parameter Name="TotalAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="PaidAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
+            <Parameter Name="CandidateStatus" Mode="In" Type="String" />
+            <Parameter Name="Remarks" Mode="In" Type="String" />
+            <Parameter Name="VisaStatus" Mode="In" Type="String" />
+            <Parameter Name="TechnologyId" Mode="In" Type="Int32" />
+            <Parameter Name="AgreementSent" Mode="In" Type="Boolean" />
+            <Parameter Name="Agreement" Mode="In" Type="Decimal" />
+            <Parameter Name="AgreementLink" Mode="In" Type="String" />
+            <Parameter Name="FollowUpStatus" Mode="In" Type="String" />
+            <Parameter Name="FollowUpTime" Mode="In" Type="Time" />
+            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
+            <Parameter Name="FollowUpBy" Mode="In" Type="String" />
+            <Parameter Name="Department" Mode="In" Type="String" />
+            <Parameter Name="Installments" Mode="In" Type="Int32" />
+            <Parameter Name="recIn" Mode="In" Type="String" />
+            <Parameter Name="isJobGaruntee" Mode="In" Type="Boolean" />
+            <Parameter Name="JobGarunteeLastDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="CandidatemasterCheckExistingEmailOrMobile65" ReturnType="Collection(Int32)">
+            <Parameter Name="Flag" Mode="In" Type="String" />
+            <Parameter Name="Value" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="changeTechnologyCandidate35">
+            <Parameter Name="technologyName" Mode="In" Type="String" />
+            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCandidatetimeLineSalesAssociate56" ReturnType="Collection(dashTech_crm_Model.GetCandidatetimeLineSalesAssociate56_Result)">
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetInterviewList16" ReturnType="Collection(dashTech_crm_Model.GetInterviewList16_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetInterviewSubmissionList10" ReturnType="Collection(dashTech_crm_Model.GetInterviewSubmissionList10_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRecurringMasterTempByCandidateId72" ReturnType="Collection(dashTech_crm_Model.GetRecurringMasterTempByCandidateId72_Result)">
+          <Parameter Name="CandidateId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetSubmissionList16" ReturnType="Collection(dashTech_crm_Model.GetSubmissionList16_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetTodayCandidatetimeLineSalesAssociate56" ReturnType="Collection(dashTech_crm_Model.GetTodayCandidatetimeLineSalesAssociate56_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTodayInterviewList16" ReturnType="Collection(dashTech_crm_Model.GetTodayInterviewList16_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetTodaySubmissionList16" ReturnType="Collection(dashTech_crm_Model.GetTodaySubmissionList16_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MktTeamCandidateReassign37">
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="teamLeadId" Mode="In" Type="Int32" />
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RecurringMasterTemp_Insert71">
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
+            <Parameter Name="ReceivedIn" Mode="In" Type="String" />
+            <Parameter Name="SendRemainderEmail" Mode="In" Type="String" />
+            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
+            <Parameter Name="Remarks" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RecurringMasterTemp_Update71">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="ReceivedIn" Mode="In" Type="String" />
+            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
+            <Parameter Name="Remarks" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="VisaTitleMasterGet55" ReturnType="Collection(dashTech_crm_Model.VisaTitleMasterGet55_Result)" />
+          <FunctionImport Name="VisaTitleMasterInsertUpdate55" ReturnType="Collection(Int32)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="visaTitle" Mode="In" Type="String" />
+            <Parameter Name="flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateAssign_SrBatchRecruiter10" ReturnType="Collection(Int32)">
+            <Parameter Name="SrBatchRecruiter" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Time" Mode="In" Type="Time" />
+            <Parameter Name="IsActive" Mode="In" Type="Int32" />
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
+            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateAssign_TraineeBatchRecruiter110" ReturnType="Collection(Int32)">
+            <Parameter Name="TraineeBatchRecruiter" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Time" Mode="In" Type="Time" />
+            <Parameter Name="IsActive" Mode="In" Type="Int32" />
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
+            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateMarketingDetails_AddByRecruiter27" ReturnType="Collection(Int32)">
+            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
+            <Parameter Name="InsertedBy" Mode="In" Type="String" />
+            <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
+            <Parameter Name="FollowUpTime" Mode="In" Type="Time" />
+            <Parameter Name="PassportNumber" Mode="In" Type="String" />
+            <Parameter Name="SSN" Mode="In" Type="String" />
+            <Parameter Name="EAD" Mode="In" Type="String" />
+            <Parameter Name="VISA" Mode="In" Type="String" />
+            <Parameter Name="i20" Mode="In" Type="Int32" />
+            <Parameter Name="workAuthorization" Mode="In" Type="Int32" />
+            <Parameter Name="DrivingLicence" Mode="In" Type="Int32" />
+            <Parameter Name="MarketingStatus" Mode="In" Type="String" />
+            <Parameter Name="FollowUpStatus" Mode="In" Type="String" />
+            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
+            <Parameter Name="Department" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateMarketingDetails_InsertMktContactStatus28" ReturnType="Collection(Int32)">
+            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
+            <Parameter Name="MktEmailContactStatusFlag" Mode="In" Type="Int32" />
+            <Parameter Name="InsertedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateMasterBindCandidate29" ReturnType="Collection(dashTech_crm_Model.CandidateMasterBindCandidate29_Result)" />
+          <FunctionImport Name="CandidateTechnicalExpertDetails_InsertUpdate29" ReturnType="Collection(Int32)">
+            <Parameter Name="CTID" Mode="In" Type="Int32" />
+            <Parameter Name="CTAssignDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CTAssingedRemarks" Mode="In" Type="String" />
+            <Parameter Name="CTReassignedRemarks" Mode="In" Type="String" />
+            <Parameter Name="RefAssignedCandidateId" Mode="In" Type="Int32" />
+            <Parameter Name="RefAssignedExpertId" Mode="In" Type="Int32" />
+            <Parameter Name="AssignedBy" Mode="In" Type="String" />
+            <Parameter Name="RefBatchId" Mode="In" Type="Int32" />
+            <Parameter Name="Flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CandidateTechnicalExpertDetailsGet29" ReturnType="Collection(dashTech_crm_Model.CandidateTechnicalExpertDetailsGet29_Result)" />
+          <FunctionImport Name="FollowUpMasterLog_Insert29">
+            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
+            <Parameter Name="FollowUpBy" Mode="In" Type="String" />
+            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAdminDashBoard14" />
+          <FunctionImport Name="GetCandidateTimeLine30" ReturnType="Collection(dashTech_crm_Model.GetCandidateTimeLine30_Result)">
+          <Parameter Name="candidateId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetInterviewSubmissionCount22">
+            <Parameter Name="RecruiterId" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetSalesAssociateNameByCandidateDetails30" ReturnType="Collection(String)">
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="MobileNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUsersByRole29" ReturnType="Collection(dashTech_crm_Model.GetUsersByRole29_Result)">
+          <Parameter Name="RoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TaskCategoryMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskCategoryMasterGet29_Result)" />
+          <FunctionImport Name="TaskManageMaster_InsertUpdate29" ReturnType="Collection(Int32)">
+            <Parameter Name="TMId" Mode="In" Type="Int32" />
+            <Parameter Name="RefTaskCatId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskDate" Mode="In" Type="DateTime" />
+            <Parameter Name="TaskStartTime" Mode="In" Type="Time" />
+            <Parameter Name="TaskEndTime" Mode="In" Type="Time" />
+            <Parameter Name="TaskStatus" Mode="In" Type="String" />
+            <Parameter Name="RefCTId" Mode="In" Type="Int32" />
+            <Parameter Name="TotalMin" Mode="In" Type="Int32" />
+            <Parameter Name="TaskRemarks" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TaskManageMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskManageMasterGet29_Result)" />
+          <FunctionImport Name="TaskMasteGet_TechnicalExperts29" ReturnType="Collection(dashTech_crm_Model.TaskMasteGet_TechnicalExperts29_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TaskMaster_Delete29">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager29" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskTitleId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskDetails" Mode="In" Type="String" />
+            <Parameter Name="AssignBy" Mode="In" Type="String" />
+            <Parameter Name="AssignTo" Mode="In" Type="String" />
+            <Parameter Name="AssignDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AssignTime" Mode="In" Type="Time" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="Feedback" Mode="In" Type="String" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndTime" Mode="In" Type="Time" />
+            <Parameter Name="FLAG" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TaskMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskMasterGet29_Result)" />
+          <FunctionImport Name="TaskTitleGet29" ReturnType="Collection(dashTech_crm_Model.TaskTitleGet29_Result)" />
+          <FunctionImport Name="TaskTitleMaster_Delete29">
+          <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TaskTitleMaster_Get29" ReturnType="Collection(dashTech_crm_Model.TaskTitleMaster_Get29_Result)" />
+          <FunctionImport Name="TaskTitleMaster_InsertUpdate29" ReturnType="Collection(Int32)">
+            <Parameter Name="TaskTitleId" Mode="In" Type="Int32" />
+            <Parameter Name="TaskName" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="Flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TeamDetailsGet30" />
+          <FunctionImport Name="TeamDetailsGetDepartment30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsGetDepartment30_Result)" />
+          <FunctionImport Name="TeamDetailsGetTeamManagerByDepartment30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsGetTeamManagerByDepartment30_Result)">
+          <Parameter Name="Department" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TeamDetailsInsertUpdate30" ReturnType="Collection(Int32)">
+            <Parameter Name="Member" Mode="In" Type="Int32" />
+            <Parameter Name="TeamLead" Mode="In" Type="Int32" />
+            <Parameter Name="TeamManager" Mode="In" Type="Int32" />
+            <Parameter Name="Department" Mode="In" Type="String" />
+            <Parameter Name="IsEnabledTeam" Mode="In" Type="Boolean" />
+            <Parameter Name="TeamId" Mode="In" Type="Int32" />
+            <Parameter Name="Flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TeamDetailsMembersGet30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsMembersGet30_Result)">
+          <Parameter Name="Flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserAccountDetails_ChangePassword29">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UserPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Useraccountdetails_insert_update73" ReturnType="Collection(Int32)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="RocketName" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="RefLocationId" Mode="In" Type="Int32" />
+            <Parameter Name="RefRoleId" Mode="In" Type="Int32" />
+            <Parameter Name="UserImageUrl" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="LastLogin" Mode="In" Type="DateTime" />
+            <Parameter Name="CompanyName" Mode="In" Type="String" />
+            <Parameter Name="JoiningDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserAccountDetails_UpdateDefaultPassword29" ReturnType="Collection(dashTech_crm_Model.UserAccountDetails_UpdateDefaultPassword29_Result)">
+            <Parameter Name="RocketName" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserAccountDetailsDelete30">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UserAccountDetailsGet30" ReturnType="Collection(dashTech_crm_Model.UserAccountDetailsGet30_Result)" />
+          <FunctionImport Name="UserAccountDetailsGetByUserId30" ReturnType="Collection(dashTech_crm_Model.UserAccountDetailsGetByUserId30_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="candidateTechnologyChangeLogs" EntityType="dashTech_crm_Model.candidateTechnologyChangeLog" />
           <EntitySet Name="DepartmentMasters" EntityType="dashTech_crm_Model.DepartmentMaster" />
           <EntitySet Name="DepartmentRoleTables" EntityType="dashTech_crm_Model.DepartmentRoleTable" />
+          <EntitySet Name="ErrorLogs" EntityType="dashTech_crm_Model.ErrorLog" />
           <EntitySet Name="FollowUpStatusMasters" EntityType="dashTech_crm_Model.FollowUpStatusMaster" />
           <EntitySet Name="InterviewDetailsLogs" EntityType="dashTech_crm_Model.InterviewDetailsLog" />
           <EntitySet Name="RecurringMasterTemps" EntityType="dashTech_crm_Model.RecurringMasterTemp" />
@@ -13948,290 +14248,9 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
             <End Role="UserAccountDetail" EntitySet="UserAccountDetails" />
             <End Role="TeamDetail" EntitySet="TeamDetails" />
           </AssociationSet>
-          <FunctionImport Name="AddInterviewDetailsDefault37">
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="AddSubmissionDetailsDefault37">
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateAssign_JrBatchRecruiter10" ReturnType="Collection(Int32)">
-            <Parameter Name="JrBatchRecruiter" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="Time" Mode="In" Type="Time" />
-            <Parameter Name="IsActive" Mode="In" Type="Int32" />
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateAssign_TraineeBatchRecruiter19" ReturnType="Collection(Int32)">
-            <Parameter Name="TraineeBatchRecruiter" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="Time" Mode="In" Type="Time" />
-            <Parameter Name="IsActive" Mode="In" Type="Int32" />
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateMaster_Insert71">
-            <Parameter Name="CandidateName" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="MobileNumber" Mode="In" Type="String" />
-            <Parameter Name="RefSalesAssociate" Mode="In" Type="Int32" />
-            <Parameter Name="RefRecurringTypeId" Mode="In" Type="Int32" />
-            <Parameter Name="RefServiceId" Mode="In" Type="Int32" />
-            <Parameter Name="TotalAmount" Mode="In" Type="Decimal" />
-            <Parameter Name="PaidAmount" Mode="In" Type="Decimal" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
-            <Parameter Name="CandidateStatus" Mode="In" Type="String" />
-            <Parameter Name="Remarks" Mode="In" Type="String" />
-            <Parameter Name="VisaStatus" Mode="In" Type="String" />
-            <Parameter Name="TechnologyId" Mode="In" Type="Int32" />
-            <Parameter Name="AgreementSent" Mode="In" Type="Boolean" />
-            <Parameter Name="Agreement" Mode="In" Type="Decimal" />
-            <Parameter Name="AgreementLink" Mode="In" Type="String" />
-            <Parameter Name="FollowUpStatus" Mode="In" Type="String" />
-            <Parameter Name="FollowUpTime" Mode="In" Type="Time" />
-            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
-            <Parameter Name="FollowUpBy" Mode="In" Type="String" />
-            <Parameter Name="Department" Mode="In" Type="String" />
-            <Parameter Name="Installments" Mode="In" Type="Int32" />
-            <Parameter Name="recIn" Mode="In" Type="String" />
-            <Parameter Name="isJobGaruntee" Mode="In" Type="Boolean" />
-            <Parameter Name="JobGarunteeLastDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="CandidatemasterCheckExistingEmailOrMobile65" ReturnType="Collection(Int32)">
-            <Parameter Name="Flag" Mode="In" Type="String" />
-            <Parameter Name="Value" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="changeTechnologyCandidate35">
-            <Parameter Name="technologyName" Mode="In" Type="String" />
-            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetCandidatetimeLineSalesAssociate56" ReturnType="Collection(dashTech_crm_Model.GetCandidatetimeLineSalesAssociate56_Result)">
-            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetInterviewList16" ReturnType="Collection(dashTech_crm_Model.GetInterviewList16_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetInterviewSubmissionList10" ReturnType="Collection(dashTech_crm_Model.GetInterviewSubmissionList10_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetRecurringMasterTempByCandidateId72" ReturnType="Collection(dashTech_crm_Model.GetRecurringMasterTempByCandidateId72_Result)">
-            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetSubmissionList16" ReturnType="Collection(dashTech_crm_Model.GetSubmissionList16_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="GetTodayCandidatetimeLineSalesAssociate56" ReturnType="Collection(dashTech_crm_Model.GetTodayCandidatetimeLineSalesAssociate56_Result)">
-            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
-            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetTodayInterviewList16" ReturnType="Collection(dashTech_crm_Model.GetTodayInterviewList16_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="GetTodaySubmissionList16" ReturnType="Collection(dashTech_crm_Model.GetTodaySubmissionList16_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="MktTeamCandidateReassign37">
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="teamLeadId" Mode="In" Type="Int32" />
-            <Parameter Name="userId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="RecurringMasterTemp_Insert71">
-            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Amount" Mode="In" Type="Decimal" />
-            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
-            <Parameter Name="ReceivedIn" Mode="In" Type="String" />
-            <Parameter Name="SendRemainderEmail" Mode="In" Type="String" />
-            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
-            <Parameter Name="Remarks" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="RecurringMasterTemp_Update71">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Amount" Mode="In" Type="Decimal" />
-            <Parameter Name="ReceivedIn" Mode="In" Type="String" />
-            <Parameter Name="PaymentStatus" Mode="In" Type="String" />
-            <Parameter Name="Remarks" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="VisaTitleMasterGet55" ReturnType="Collection(dashTech_crm_Model.VisaTitleMasterGet55_Result)" />
-          <FunctionImport Name="VisaTitleMasterInsertUpdate55" ReturnType="Collection(Int32)">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-            <Parameter Name="visaTitle" Mode="In" Type="String" />
-            <Parameter Name="flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateAssign_SrBatchRecruiter10" ReturnType="Collection(Int32)">
-            <Parameter Name="SrBatchRecruiter" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="Time" Mode="In" Type="Time" />
-            <Parameter Name="IsActive" Mode="In" Type="Int32" />
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateAssign_TraineeBatchRecruiter110" ReturnType="Collection(Int32)">
-            <Parameter Name="TraineeBatchRecruiter" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-            <Parameter Name="Time" Mode="In" Type="Time" />
-            <Parameter Name="IsActive" Mode="In" Type="Int32" />
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="AssignFrom" Mode="In" Type="Int32" />
-            <Parameter Name="AssignedId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateMarketingDetails_AddByRecruiter27" ReturnType="Collection(Int32)">
-            <Parameter Name="MarketingId" Mode="In" Type="Int32" />
-            <Parameter Name="InsertedBy" Mode="In" Type="String" />
-            <Parameter Name="EntryDate" Mode="In" Type="DateTime" />
-            <Parameter Name="FollowUpTime" Mode="In" Type="Time" />
-            <Parameter Name="PassportNumber" Mode="In" Type="String" />
-            <Parameter Name="SSN" Mode="In" Type="String" />
-            <Parameter Name="EAD" Mode="In" Type="String" />
-            <Parameter Name="VISA" Mode="In" Type="String" />
-            <Parameter Name="i20" Mode="In" Type="Int32" />
-            <Parameter Name="workAuthorization" Mode="In" Type="Int32" />
-            <Parameter Name="DrivingLicence" Mode="In" Type="Int32" />
-            <Parameter Name="MarketingStatus" Mode="In" Type="String" />
-            <Parameter Name="FollowUpStatus" Mode="In" Type="String" />
-            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
-            <Parameter Name="Department" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateMarketingDetails_InsertMktContactStatus28" ReturnType="Collection(Int32)">
-            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
-            <Parameter Name="MktEmailContactStatusFlag" Mode="In" Type="Int32" />
-            <Parameter Name="InsertedBy" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateMasterBindCandidate29" ReturnType="Collection(dashTech_crm_Model.CandidateMasterBindCandidate29_Result)" />
-          <FunctionImport Name="CandidateTechnicalExpertDetails_InsertUpdate29" ReturnType="Collection(Int32)">
-            <Parameter Name="CTID" Mode="In" Type="Int32" />
-            <Parameter Name="CTAssignDate" Mode="In" Type="DateTime" />
-            <Parameter Name="CTAssingedRemarks" Mode="In" Type="String" />
-            <Parameter Name="CTReassignedRemarks" Mode="In" Type="String" />
-            <Parameter Name="RefAssignedCandidateId" Mode="In" Type="Int32" />
-            <Parameter Name="RefAssignedExpertId" Mode="In" Type="Int32" />
-            <Parameter Name="AssignedBy" Mode="In" Type="String" />
-            <Parameter Name="RefBatchId" Mode="In" Type="Int32" />
-            <Parameter Name="Flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="CandidateTechnicalExpertDetailsGet29" ReturnType="Collection(dashTech_crm_Model.CandidateTechnicalExpertDetailsGet29_Result)" />
-          <FunctionImport Name="FollowUpMasterLog_Insert29">
-            <Parameter Name="FollowUpMessage" Mode="In" Type="String" />
-            <Parameter Name="FollowUpBy" Mode="In" Type="String" />
-            <Parameter Name="CandidateId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetAdminDashBoard14" />
-          <FunctionImport Name="GetCandidateTimeLine30" ReturnType="Collection(dashTech_crm_Model.GetCandidateTimeLine30_Result)">
-            <Parameter Name="candidateId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetInterviewSubmissionCount22">
-            <Parameter Name="RecruiterId" Mode="In" Type="Int32" />
-            <Parameter Name="Date" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="GetSalesAssociateNameByCandidateDetails30" ReturnType="Collection(String)">
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="MobileNo" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetUsersByRole29" ReturnType="Collection(dashTech_crm_Model.GetUsersByRole29_Result)">
-            <Parameter Name="RoleId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TaskCategoryMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskCategoryMasterGet29_Result)" />
-          <FunctionImport Name="TaskManageMaster_InsertUpdate29" ReturnType="Collection(Int32)">
-            <Parameter Name="TMId" Mode="In" Type="Int32" />
-            <Parameter Name="RefTaskCatId" Mode="In" Type="Int32" />
-            <Parameter Name="TaskDate" Mode="In" Type="DateTime" />
-            <Parameter Name="TaskStartTime" Mode="In" Type="Time" />
-            <Parameter Name="TaskEndTime" Mode="In" Type="Time" />
-            <Parameter Name="TaskStatus" Mode="In" Type="String" />
-            <Parameter Name="RefCTId" Mode="In" Type="Int32" />
-            <Parameter Name="TotalMin" Mode="In" Type="Int32" />
-            <Parameter Name="TaskRemarks" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TaskManageMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskManageMasterGet29_Result)" />
-          <FunctionImport Name="TaskMasteGet_TechnicalExperts29" ReturnType="Collection(dashTech_crm_Model.TaskMasteGet_TechnicalExperts29_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TaskMaster_Delete29">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager29" ReturnType="Collection(Int32)">
-            <Parameter Name="TaskId" Mode="In" Type="Int32" />
-            <Parameter Name="TaskTitleId" Mode="In" Type="Int32" />
-            <Parameter Name="TaskDetails" Mode="In" Type="String" />
-            <Parameter Name="AssignBy" Mode="In" Type="String" />
-            <Parameter Name="AssignTo" Mode="In" Type="String" />
-            <Parameter Name="AssignDate" Mode="In" Type="DateTime" />
-            <Parameter Name="AssignTime" Mode="In" Type="Time" />
-            <Parameter Name="Status" Mode="In" Type="String" />
-            <Parameter Name="Feedback" Mode="In" Type="String" />
-            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
-            <Parameter Name="EndTime" Mode="In" Type="Time" />
-            <Parameter Name="FLAG" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TaskMasterGet29" ReturnType="Collection(dashTech_crm_Model.TaskMasterGet29_Result)" />
-          <FunctionImport Name="TaskTitleGet29" ReturnType="Collection(dashTech_crm_Model.TaskTitleGet29_Result)" />
-          <FunctionImport Name="TaskTitleMaster_Delete29">
-            <Parameter Name="Id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TaskTitleMaster_Get29" ReturnType="Collection(dashTech_crm_Model.TaskTitleMaster_Get29_Result)" />
-          <FunctionImport Name="TaskTitleMaster_InsertUpdate29" ReturnType="Collection(Int32)">
-            <Parameter Name="TaskTitleId" Mode="In" Type="Int32" />
-            <Parameter Name="TaskName" Mode="In" Type="String" />
-            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
-            <Parameter Name="CreatedBy" Mode="In" Type="String" />
-            <Parameter Name="Flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TeamDetailsGet30" />
-          <FunctionImport Name="TeamDetailsGetDepartment30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsGetDepartment30_Result)" />
-          <FunctionImport Name="TeamDetailsGetTeamManagerByDepartment30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsGetTeamManagerByDepartment30_Result)">
-            <Parameter Name="Department" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TeamDetailsInsertUpdate30" ReturnType="Collection(Int32)">
-            <Parameter Name="Member" Mode="In" Type="Int32" />
-            <Parameter Name="TeamLead" Mode="In" Type="Int32" />
-            <Parameter Name="TeamManager" Mode="In" Type="Int32" />
-            <Parameter Name="Department" Mode="In" Type="String" />
-            <Parameter Name="IsEnabledTeam" Mode="In" Type="Boolean" />
-            <Parameter Name="TeamId" Mode="In" Type="Int32" />
-            <Parameter Name="Flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TeamDetailsMembersGet30" ReturnType="Collection(dashTech_crm_Model.TeamDetailsMembersGet30_Result)">
-            <Parameter Name="Flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="UserAccountDetails_ChangePassword29">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UserPassword" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="Useraccountdetails_insert_update73" ReturnType="Collection(Int32)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="FullName" Mode="In" Type="String" />
-            <Parameter Name="RocketName" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="RefLocationId" Mode="In" Type="Int32" />
-            <Parameter Name="RefRoleId" Mode="In" Type="Int32" />
-            <Parameter Name="UserImageUrl" Mode="In" Type="String" />
-            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
-            <Parameter Name="LastLogin" Mode="In" Type="DateTime" />
-            <Parameter Name="CompanyName" Mode="In" Type="String" />
-            <Parameter Name="JoiningDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Flag" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="UserAccountDetails_UpdateDefaultPassword29" ReturnType="Collection(dashTech_crm_Model.UserAccountDetails_UpdateDefaultPassword29_Result)">
-            <Parameter Name="RocketName" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="UserAccountDetailsDelete30">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UserAccountDetailsGet30" ReturnType="Collection(dashTech_crm_Model.UserAccountDetailsGet30_Result)" />
-          <FunctionImport Name="UserAccountDetailsGetByUserId30" ReturnType="Collection(dashTech_crm_Model.UserAccountDetailsGetByUserId30_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          <FunctionImport Name="ErrorLog_Insert">
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+            <Parameter Name="ErrorURL" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetRecurringMasterTempByCandidateId_Result">
@@ -23105,6 +23124,267 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
           <Property Type="Int32" Name="VisaId" Nullable="false" />
           <Property Type="String" Name="VisaTitle" Nullable="false" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="GetCandidatetimeLineSalesAssociate56_Result">
+          <Property Type="Boolean" Name="IsCompletepaid" Nullable="true" />
+          <Property Type="Int32" Name="CandidateId" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="AgreementPercentage" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="AgreementSent" Nullable="true" />
+          <Property Type="DateTime" Name="EnrolledDate" Nullable="false" />
+          <Property Type="Decimal" Name="TotalAmount" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="PaidAmount" Nullable="false" Precision="19" />
+          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="200" />
+          <Property Type="DateTime" Name="PODate" Nullable="true" />
+          <Property Type="String" Name="JobGarunteeLastDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="JobGaruntee" Nullable="false" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="GetInterviewList16_Result">
+          <Property Type="String" Name="ModeOfInterviewTitle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RoundOfInterv" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InterviewSupportName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="vendorname" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="vendorcontactnumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfInterview" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetInterviewSubmissionList10_Result">
+          <Property Type="String" Name="MarketingManager" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="MarketingTeamLead" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RecruiterName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Interviews" Nullable="true" />
+          <Property Type="Int32" Name="Submissions" Nullable="true" />
+          <Property Type="String" Name="VisaStatus" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TechTitle" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetRecurringMasterTempByCandidateId72_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="DueDate" Nullable="true" />
+          <Property Type="DateTime" Name="PaidDate" Nullable="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReceivedIn" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PaymentStatus" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="SendRemainderEmail" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="GetSubmissionList16_Result">
+          <Property Type="Int32" Name="SubmissionId" Nullable="false" />
+          <Property Type="Int32" Name="AssignedId" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="VendorName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VendorContactNumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VendorEmailId" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="SubmissionDate" Nullable="false" />
+          <Property Type="DateTime" Name="FollowUpDate" Nullable="false" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="GetTodayCandidatetimeLineSalesAssociate56_Result">
+          <Property Type="Int32" Name="CandidateId" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="Decimal" Name="AgreementPercentage" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Boolean" Name="AgreementSent" Nullable="true" />
+          <Property Type="DateTime" Name="EnrolledDate" Nullable="false" />
+          <Property Type="Decimal" Name="TotalAmount" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="PaidAmount" Nullable="false" Precision="19" />
+          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="200" />
+          <Property Type="DateTime" Name="PODate" Nullable="true" />
+          <Property Type="String" Name="ReceivedIn" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PaidDate" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="RecurringPaidAmount" Nullable="true" Precision="19" />
+          <Property Type="String" Name="PaymentStatus" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsCompletepaid" Nullable="true" />
+          <Property Type="String" Name="JobGarunteeLastDate" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="JobGaruntee" Nullable="false" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="GetTodayInterviewList16_Result">
+          <Property Type="String" Name="ModeOfInterviewTitle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RoundOfInterv" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="InterviewSupportName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="vendorname" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="vendorcontactnumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfInterview" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetTodaySubmissionList16_Result">
+          <Property Type="Int32" Name="SubmissionId" Nullable="false" />
+          <Property Type="Int32" Name="AssignedId" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="VendorName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="VendorContactNumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="VendorEmailId" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="SubmissionDate" Nullable="false" />
+          <Property Type="DateTime" Name="FollowUpDate" Nullable="false" />
+          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="VisaTitleMasterGet55_Result">
+          <Property Type="Int32" Name="VisaId" Nullable="false" />
+          <Property Type="String" Name="VisaTitle" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="CandidateMasterBindCandidate29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="CandidateTechnicalExpertDetailsGet29_Result">
+          <Property Type="String" Name="CTAssignDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="ReAssigned" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="CTAssingedRemarks" Nullable="false" />
+          <Property Type="String" Name="CTReassignedRemarks" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignedExpertName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignedBy" Nullable="false" />
+          <Property Type="Int32" Name="RefAssignedCandidateId" Nullable="false" />
+          <Property Type="Int32" Name="RefAssignedExpertId" Nullable="false" />
+          <Property Type="Int32" Name="CTId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetCandidateTimeLine30_Result">
+          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CandidateId" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="MarketingStartDate" Nullable="true" />
+          <Property Type="DateTime" Name="PODate" Nullable="true" />
+          <Property Type="DateTime" Name="OnBoardingDate" Nullable="false" />
+          <Property Type="String" Name="SalesAssociateName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetUsersByRole29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TaskCategoryMasterGet29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="TaskManageMasterGet29_Result">
+          <Property Type="Int32" Name="TMId" Nullable="false" />
+          <Property Type="Int32" Name="RefCTId" Nullable="false" />
+          <Property Type="Int32" Name="RefTaskCatId" Nullable="false" />
+          <Property Type="String" Name="TaskCatTitle" Nullable="false" />
+          <Property Type="String" Name="TaskDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="TaskStartTime" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="TaskEndTime" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="TaskStatus" Nullable="false" />
+          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ExpertName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="TotalMin" Nullable="false" />
+          <Property Type="String" Name="TaskRemarks" Nullable="false" />
+          <Property Type="String" Name="TeamLeadFeedback" Nullable="false" />
+          <Property Type="String" Name="FeedbackDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="FeedbackBy" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TaskMasteGet_TechnicalExperts29_Result">
+          <Property Type="Int32" Name="TaskId" Nullable="false" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TaskDetails" Nullable="false" />
+          <Property Type="String" Name="AssignedByName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignedToName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="EndDate" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="defaultEndDate" Nullable="true" Precision="23" />
+          <Property Type="Time" Name="defaultEndTime" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Remarks" Nullable="false" />
+          <Property Type="String" Name="FeedBack" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="TaskMasterGet29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TaskDetails" Nullable="false" />
+          <Property Type="String" Name="AssignedByName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignedToName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="AssignDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="AssignTime" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="StartDate" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="EndDate" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="defaultEndDate" Nullable="true" Precision="23" />
+          <Property Type="Time" Name="defaultEndTime" Nullable="true" />
+          <Property Type="String" Name="StartTime" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="EndTime" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="FeedBack" Nullable="false" />
+          <Property Type="Int32" Name="TaskTitleId" Nullable="true" />
+          <Property Type="String" Name="AssignTo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="TaskTitleGet29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TaskTitleMaster_Get29_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CDATE" Nullable="false" MaxLength="30" />
+          <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
+          <Property Type="String" Name="IsActive" Nullable="false" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="TeamDetailsGetDepartment30_Result">
+          <Property Type="String" Name="VALUE" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TeamDetailsGetTeamManagerByDepartment30_Result">
+          <Property Type="Int32" Name="VALUE" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TeamDetailsMembersGet30_Result">
+          <Property Type="Int32" Name="VALUE" Nullable="false" />
+          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="UserAccountDetails_UpdateDefaultPassword29_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="RefLocationId" Nullable="true" />
+          <Property Type="Int32" Name="RefRoleId" Nullable="true" />
+          <Property Type="String" Name="UserImageUrl" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="LastLogin" Nullable="true" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="JoiningDate" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserAccountDetailsGet30_Result">
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="RefLocationId" Nullable="false" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="RefRoleId" Nullable="false" />
+          <Property Type="String" Name="RoleTitle" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UserImageUrl" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ActiveStatus" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="LastLogin" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="JoiningDate" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="UserAccountDetailsGetByUserId30_Result">
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="RefLocationId" Nullable="false" />
+          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="RefRoleId" Nullable="false" />
+          <Property Type="String" Name="RoleTitle" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UserImageUrl" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ActiveStatus" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="LastLogin" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="JoiningDate" Nullable="false" MaxLength="30" />
+        </ComplexType>
         <EntityType Name="candidateTechnologyChangeLog">
           <Key>
             <PropertyRef Name="Id" />
@@ -23130,6 +23410,15 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
           <Property Name="DeptId" Type="Int32" />
           <Property Name="RoleId" Type="Int32" />
           <Property Name="SOrder" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ErrorLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorURL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Timest" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FollowUpStatusMaster">
           <Key>
@@ -24310,267 +24599,6 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetCandidatetimeLineSalesAssociate56_Result">
-          <Property Type="Boolean" Name="IsCompletepaid" Nullable="true" />
-          <Property Type="Int32" Name="CandidateId" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="AgreementPercentage" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Boolean" Name="AgreementSent" Nullable="true" />
-          <Property Type="DateTime" Name="EnrolledDate" Nullable="false" />
-          <Property Type="Decimal" Name="TotalAmount" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="PaidAmount" Nullable="false" Precision="19" />
-          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="200" />
-          <Property Type="DateTime" Name="PODate" Nullable="true" />
-          <Property Type="String" Name="JobGarunteeLastDate" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="JobGaruntee" Nullable="false" MaxLength="3" />
-        </ComplexType>
-        <ComplexType Name="GetInterviewList16_Result">
-          <Property Type="String" Name="ModeOfInterviewTitle" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="RoundOfInterv" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="InterviewSupportName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="vendorname" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="vendorcontactnumber" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="DateTime" Name="DateOfInterview" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="GetInterviewSubmissionList10_Result">
-          <Property Type="String" Name="MarketingManager" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="MarketingTeamLead" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="RecruiterName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="Interviews" Nullable="true" />
-          <Property Type="Int32" Name="Submissions" Nullable="true" />
-          <Property Type="String" Name="VisaStatus" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="TechTitle" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="GetRecurringMasterTempByCandidateId72_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="DateTime" Name="DueDate" Nullable="true" />
-          <Property Type="DateTime" Name="PaidDate" Nullable="true" />
-          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ReceivedIn" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="PaymentStatus" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="400" />
-          <Property Type="String" Name="SendRemainderEmail" Nullable="true" MaxLength="5" />
-        </ComplexType>
-        <ComplexType Name="GetSubmissionList16_Result">
-          <Property Type="Int32" Name="SubmissionId" Nullable="false" />
-          <Property Type="Int32" Name="AssignedId" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="VendorName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="VendorContactNumber" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="VendorEmailId" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="SubmissionDate" Nullable="false" />
-          <Property Type="DateTime" Name="FollowUpDate" Nullable="false" />
-          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="GetTodayCandidatetimeLineSalesAssociate56_Result">
-          <Property Type="Int32" Name="CandidateId" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
-          <Property Type="Decimal" Name="AgreementPercentage" Nullable="true" Precision="10" Scale="2" />
-          <Property Type="Boolean" Name="AgreementSent" Nullable="true" />
-          <Property Type="DateTime" Name="EnrolledDate" Nullable="false" />
-          <Property Type="Decimal" Name="TotalAmount" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="PaidAmount" Nullable="false" Precision="19" />
-          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="200" />
-          <Property Type="DateTime" Name="PODate" Nullable="true" />
-          <Property Type="String" Name="ReceivedIn" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="PaidDate" Nullable="true" MaxLength="30" />
-          <Property Type="Decimal" Name="RecurringPaidAmount" Nullable="true" Precision="19" />
-          <Property Type="String" Name="PaymentStatus" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="IsCompletepaid" Nullable="true" />
-          <Property Type="String" Name="JobGarunteeLastDate" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="JobGaruntee" Nullable="false" MaxLength="3" />
-        </ComplexType>
-        <ComplexType Name="GetTodayInterviewList16_Result">
-          <Property Type="String" Name="ModeOfInterviewTitle" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="RoundOfInterv" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="InterviewSupportName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="vendorname" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="vendorcontactnumber" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="DateTime" Name="DateOfInterview" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="GetTodaySubmissionList16_Result">
-          <Property Type="Int32" Name="SubmissionId" Nullable="false" />
-          <Property Type="Int32" Name="AssignedId" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="VendorName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="VendorContactNumber" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="VendorEmailId" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="SubmissionDate" Nullable="false" />
-          <Property Type="DateTime" Name="FollowUpDate" Nullable="false" />
-          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="JobTitle" Nullable="false" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="VisaTitleMasterGet55_Result">
-          <Property Type="Int32" Name="VisaId" Nullable="false" />
-          <Property Type="String" Name="VisaTitle" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="CandidateMasterBindCandidate29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="CandidateTechnicalExpertDetailsGet29_Result">
-          <Property Type="String" Name="CTAssignDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="ReAssigned" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="CTAssingedRemarks" Nullable="false" />
-          <Property Type="String" Name="CTReassignedRemarks" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignedExpertName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignedBy" Nullable="false" />
-          <Property Type="Int32" Name="RefAssignedCandidateId" Nullable="false" />
-          <Property Type="Int32" Name="RefAssignedExpertId" Nullable="false" />
-          <Property Type="Int32" Name="CTId" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="GetCandidateTimeLine30_Result">
-          <Property Type="String" Name="CandidateStatus" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="CandidateId" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="DateTime" Name="MarketingStartDate" Nullable="true" />
-          <Property Type="DateTime" Name="PODate" Nullable="true" />
-          <Property Type="DateTime" Name="OnBoardingDate" Nullable="false" />
-          <Property Type="String" Name="SalesAssociateName" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="GetUsersByRole29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TaskCategoryMasterGet29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="TaskManageMasterGet29_Result">
-          <Property Type="Int32" Name="TMId" Nullable="false" />
-          <Property Type="Int32" Name="RefCTId" Nullable="false" />
-          <Property Type="Int32" Name="RefTaskCatId" Nullable="false" />
-          <Property Type="String" Name="TaskCatTitle" Nullable="false" />
-          <Property Type="String" Name="TaskDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="TaskStartTime" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="TaskEndTime" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="TaskStatus" Nullable="false" />
-          <Property Type="String" Name="CandidateName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ExpertName" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="TotalMin" Nullable="false" />
-          <Property Type="String" Name="TaskRemarks" Nullable="false" />
-          <Property Type="String" Name="TeamLeadFeedback" Nullable="false" />
-          <Property Type="String" Name="FeedbackDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="FeedbackBy" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TaskMasteGet_TechnicalExperts29_Result">
-          <Property Type="Int32" Name="TaskId" Nullable="false" />
-          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="TaskDetails" Nullable="false" />
-          <Property Type="String" Name="AssignedByName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignedToName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="EndDate" Nullable="false" MaxLength="30" />
-          <Property Type="DateTime" Name="defaultEndDate" Nullable="true" Precision="23" />
-          <Property Type="Time" Name="defaultEndTime" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Remarks" Nullable="false" />
-          <Property Type="String" Name="FeedBack" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="TaskMasterGet29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="TaskDetails" Nullable="false" />
-          <Property Type="String" Name="AssignedByName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignedToName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="AssignDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="AssignTime" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="StartDate" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="EndDate" Nullable="false" MaxLength="30" />
-          <Property Type="DateTime" Name="defaultEndDate" Nullable="true" Precision="23" />
-          <Property Type="Time" Name="defaultEndTime" Nullable="true" />
-          <Property Type="String" Name="StartTime" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="EndTime" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="FeedBack" Nullable="false" />
-          <Property Type="Int32" Name="TaskTitleId" Nullable="true" />
-          <Property Type="String" Name="AssignTo" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="TaskTitleGet29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TaskTitleMaster_Get29_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="CDATE" Nullable="false" MaxLength="30" />
-          <Property Type="Boolean" Name="ActiveStatus" Nullable="false" />
-          <Property Type="String" Name="IsActive" Nullable="false" MaxLength="3" />
-        </ComplexType>
-        <ComplexType Name="TeamDetailsGetDepartment30_Result">
-          <Property Type="String" Name="VALUE" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TeamDetailsGetTeamManagerByDepartment30_Result">
-          <Property Type="Int32" Name="VALUE" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="TeamDetailsMembersGet30_Result">
-          <Property Type="Int32" Name="VALUE" Nullable="false" />
-          <Property Type="String" Name="TEXT" Nullable="false" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="UserAccountDetails_UpdateDefaultPassword29_Result">
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="RefLocationId" Nullable="true" />
-          <Property Type="Int32" Name="RefRoleId" Nullable="true" />
-          <Property Type="String" Name="UserImageUrl" Nullable="true" MaxLength="100" />
-          <Property Type="Boolean" Name="IsActive" Nullable="false" />
-          <Property Type="DateTime" Name="LastLogin" Nullable="true" />
-          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
-          <Property Type="DateTime" Name="JoiningDate" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="UserAccountDetailsGet30_Result">
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="RefLocationId" Nullable="false" />
-          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="RefRoleId" Nullable="false" />
-          <Property Type="String" Name="RoleTitle" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="UserImageUrl" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ActiveStatus" Nullable="false" MaxLength="8" />
-          <Property Type="Boolean" Name="IsActive" Nullable="false" />
-          <Property Type="String" Name="LastLogin" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="JoiningDate" Nullable="false" MaxLength="30" />
-        </ComplexType>
-        <ComplexType Name="UserAccountDetailsGetByUserId30_Result">
-          <Property Type="String" Name="FullName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="RocketName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="Password" Nullable="false" MaxLength="20" />
-          <Property Type="Int32" Name="RefLocationId" Nullable="false" />
-          <Property Type="String" Name="LocationName" Nullable="false" MaxLength="100" />
-          <Property Type="Int32" Name="RefRoleId" Nullable="false" />
-          <Property Type="String" Name="RoleTitle" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="UserImageUrl" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ActiveStatus" Nullable="false" MaxLength="8" />
-          <Property Type="Boolean" Name="IsActive" Nullable="false" />
-          <Property Type="String" Name="LastLogin" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="JoiningDate" Nullable="false" MaxLength="30" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -24582,6 +24610,397 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
               <ComplexTypeMapping TypeName="dashTech_crm_Model.RoleMasterGet1_Result">
                 <ScalarProperty Name="value" ColumnName="value" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddInterviewDetailsDefault37" FunctionName="dashTech_crm_Model.Store.AddInterviewDetailsDefault" />
+          <FunctionImportMapping FunctionImportName="AddSubmissionDetailsDefault37" FunctionName="dashTech_crm_Model.Store.AddSubmissionDetailsDefault" />
+          <FunctionImportMapping FunctionImportName="CandidateAssign_JrBatchRecruiter10" FunctionName="dashTech_crm_Model.Store.CandidateAssign_JrBatchRecruiter" />
+          <FunctionImportMapping FunctionImportName="CandidateAssign_TraineeBatchRecruiter19" FunctionName="dashTech_crm_Model.Store.CandidateAssign_TraineeBatchRecruiter" />
+          <FunctionImportMapping FunctionImportName="CandidateMaster_Insert71" FunctionName="dashTech_crm_Model.Store.CandidateMaster_Insert" />
+          <FunctionImportMapping FunctionImportName="CandidatemasterCheckExistingEmailOrMobile65" FunctionName="dashTech_crm_Model.Store.CandidatemasterCheckExistingEmailOrMobile" />
+          <FunctionImportMapping FunctionImportName="changeTechnologyCandidate35" FunctionName="dashTech_crm_Model.Store.changeTechnologyCandidate" />
+          <FunctionImportMapping FunctionImportName="GetCandidatetimeLineSalesAssociate56" FunctionName="dashTech_crm_Model.Store.GetCandidatetimeLineSalesAssociate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetCandidatetimeLineSalesAssociate56_Result">
+                <ScalarProperty Name="IsCompletepaid" ColumnName="IsCompletepaid" />
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AgreementPercentage" ColumnName="AgreementPercentage" />
+                <ScalarProperty Name="AgreementSent" ColumnName="AgreementSent" />
+                <ScalarProperty Name="EnrolledDate" ColumnName="EnrolledDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="PODate" ColumnName="PODate" />
+                <ScalarProperty Name="JobGarunteeLastDate" ColumnName="JobGarunteeLastDate" />
+                <ScalarProperty Name="JobGaruntee" ColumnName="JobGaruntee" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInterviewList16" FunctionName="dashTech_crm_Model.Store.GetInterviewList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetInterviewList16_Result">
+                <ScalarProperty Name="ModeOfInterviewTitle" ColumnName="ModeOfInterviewTitle" />
+                <ScalarProperty Name="RoundOfInterv" ColumnName="RoundOfInterv" />
+                <ScalarProperty Name="InterviewSupportName" ColumnName="InterviewSupportName" />
+                <ScalarProperty Name="vendorname" ColumnName="vendorname" />
+                <ScalarProperty Name="vendorcontactnumber" ColumnName="vendorcontactnumber" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DateOfInterview" ColumnName="DateOfInterview" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInterviewSubmissionList10" FunctionName="dashTech_crm_Model.Store.GetInterviewSubmissionList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetInterviewSubmissionList10_Result">
+                <ScalarProperty Name="MarketingManager" ColumnName="MarketingManager" />
+                <ScalarProperty Name="MarketingTeamLead" ColumnName="MarketingTeamLead" />
+                <ScalarProperty Name="RecruiterName" ColumnName="RecruiterName" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="Interviews" ColumnName="Interviews" />
+                <ScalarProperty Name="Submissions" ColumnName="Submissions" />
+                <ScalarProperty Name="VisaStatus" ColumnName="VisaStatus" />
+                <ScalarProperty Name="TechTitle" ColumnName="TechTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRecurringMasterTempByCandidateId72" FunctionName="dashTech_crm_Model.Store.GetRecurringMasterTempByCandidateId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetRecurringMasterTempByCandidateId72_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="ReceivedIn" ColumnName="ReceivedIn" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="SendRemainderEmail" ColumnName="SendRemainderEmail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetSubmissionList16" FunctionName="dashTech_crm_Model.Store.GetSubmissionList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetSubmissionList16_Result">
+                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
+                <ScalarProperty Name="AssignedId" ColumnName="AssignedId" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="VendorContactNumber" ColumnName="VendorContactNumber" />
+                <ScalarProperty Name="VendorEmailId" ColumnName="VendorEmailId" />
+                <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
+                <ScalarProperty Name="FollowUpDate" ColumnName="FollowUpDate" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTodayCandidatetimeLineSalesAssociate56" FunctionName="dashTech_crm_Model.Store.GetTodayCandidatetimeLineSalesAssociate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodayCandidatetimeLineSalesAssociate56_Result">
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AgreementPercentage" ColumnName="AgreementPercentage" />
+                <ScalarProperty Name="AgreementSent" ColumnName="AgreementSent" />
+                <ScalarProperty Name="EnrolledDate" ColumnName="EnrolledDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="PODate" ColumnName="PODate" />
+                <ScalarProperty Name="ReceivedIn" ColumnName="ReceivedIn" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="RecurringPaidAmount" ColumnName="RecurringPaidAmount" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="IsCompletepaid" ColumnName="IsCompletepaid" />
+                <ScalarProperty Name="JobGarunteeLastDate" ColumnName="JobGarunteeLastDate" />
+                <ScalarProperty Name="JobGaruntee" ColumnName="JobGaruntee" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTodayInterviewList16" FunctionName="dashTech_crm_Model.Store.GetTodayInterviewList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodayInterviewList16_Result">
+                <ScalarProperty Name="ModeOfInterviewTitle" ColumnName="ModeOfInterviewTitle" />
+                <ScalarProperty Name="RoundOfInterv" ColumnName="RoundOfInterv" />
+                <ScalarProperty Name="InterviewSupportName" ColumnName="InterviewSupportName" />
+                <ScalarProperty Name="vendorname" ColumnName="vendorname" />
+                <ScalarProperty Name="vendorcontactnumber" ColumnName="vendorcontactnumber" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="DateOfInterview" ColumnName="DateOfInterview" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTodaySubmissionList16" FunctionName="dashTech_crm_Model.Store.GetTodaySubmissionList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodaySubmissionList16_Result">
+                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
+                <ScalarProperty Name="AssignedId" ColumnName="AssignedId" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="VendorContactNumber" ColumnName="VendorContactNumber" />
+                <ScalarProperty Name="VendorEmailId" ColumnName="VendorEmailId" />
+                <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
+                <ScalarProperty Name="FollowUpDate" ColumnName="FollowUpDate" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MktTeamCandidateReassign37" FunctionName="dashTech_crm_Model.Store.MktTeamCandidateReassign" />
+          <FunctionImportMapping FunctionImportName="RecurringMasterTemp_Insert71" FunctionName="dashTech_crm_Model.Store.RecurringMasterTemp_Insert" />
+          <FunctionImportMapping FunctionImportName="RecurringMasterTemp_Update71" FunctionName="dashTech_crm_Model.Store.RecurringMasterTemp_Update" />
+          <FunctionImportMapping FunctionImportName="VisaTitleMasterGet55" FunctionName="dashTech_crm_Model.Store.VisaTitleMasterGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.VisaTitleMasterGet55_Result">
+                <ScalarProperty Name="VisaId" ColumnName="VisaId" />
+                <ScalarProperty Name="VisaTitle" ColumnName="VisaTitle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VisaTitleMasterInsertUpdate55" FunctionName="dashTech_crm_Model.Store.VisaTitleMasterInsertUpdate" />
+          <FunctionImportMapping FunctionImportName="CandidateAssign_SrBatchRecruiter10" FunctionName="dashTech_crm_Model.Store.CandidateAssign_SrBatchRecruiter" />
+          <FunctionImportMapping FunctionImportName="CandidateAssign_TraineeBatchRecruiter110" FunctionName="dashTech_crm_Model.Store.CandidateAssign_TraineeBatchRecruiter1" />
+          <FunctionImportMapping FunctionImportName="CandidateMarketingDetails_AddByRecruiter27" FunctionName="dashTech_crm_Model.Store.CandidateMarketingDetails_AddByRecruiter" />
+          <FunctionImportMapping FunctionImportName="CandidateMarketingDetails_InsertMktContactStatus28" FunctionName="dashTech_crm_Model.Store.CandidateMarketingDetails_InsertMktContactStatus" />
+          <FunctionImportMapping FunctionImportName="CandidateMasterBindCandidate29" FunctionName="dashTech_crm_Model.Store.CandidateMasterBindCandidate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.CandidateMasterBindCandidate29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CandidateTechnicalExpertDetails_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.CandidateTechnicalExpertDetails_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="CandidateTechnicalExpertDetailsGet29" FunctionName="dashTech_crm_Model.Store.CandidateTechnicalExpertDetailsGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.CandidateTechnicalExpertDetailsGet29_Result">
+                <ScalarProperty Name="CTAssignDate" ColumnName="CTAssignDate" />
+                <ScalarProperty Name="ReAssigned" ColumnName="ReAssigned" />
+                <ScalarProperty Name="CTAssingedRemarks" ColumnName="CTAssingedRemarks" />
+                <ScalarProperty Name="CTReassignedRemarks" ColumnName="CTReassignedRemarks" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="AssignedExpertName" ColumnName="AssignedExpertName" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="RefAssignedCandidateId" ColumnName="RefAssignedCandidateId" />
+                <ScalarProperty Name="RefAssignedExpertId" ColumnName="RefAssignedExpertId" />
+                <ScalarProperty Name="CTId" ColumnName="CTId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FollowUpMasterLog_Insert29" FunctionName="dashTech_crm_Model.Store.FollowUpMasterLog_Insert" />
+          <FunctionImportMapping FunctionImportName="GetAdminDashBoard14" FunctionName="dashTech_crm_Model.Store.GetAdminDashBoard" />
+          <FunctionImportMapping FunctionImportName="GetCandidateTimeLine30" FunctionName="dashTech_crm_Model.Store.GetCandidateTimeLine">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetCandidateTimeLine30_Result">
+                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
+                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="MarketingStartDate" ColumnName="MarketingStartDate" />
+                <ScalarProperty Name="PODate" ColumnName="PODate" />
+                <ScalarProperty Name="OnBoardingDate" ColumnName="OnBoardingDate" />
+                <ScalarProperty Name="SalesAssociateName" ColumnName="SalesAssociateName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInterviewSubmissionCount22" FunctionName="dashTech_crm_Model.Store.GetInterviewSubmissionCount" />
+          <FunctionImportMapping FunctionImportName="GetSalesAssociateNameByCandidateDetails30" FunctionName="dashTech_crm_Model.Store.GetSalesAssociateNameByCandidateDetails" />
+          <FunctionImportMapping FunctionImportName="GetUsersByRole29" FunctionName="dashTech_crm_Model.Store.GetUsersByRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetUsersByRole29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskCategoryMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskCategoryMasterGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskCategoryMasterGet29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskManageMaster_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.TaskManageMaster_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="TaskManageMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskManageMasterGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskManageMasterGet29_Result">
+                <ScalarProperty Name="TMId" ColumnName="TMId" />
+                <ScalarProperty Name="RefCTId" ColumnName="RefCTId" />
+                <ScalarProperty Name="RefTaskCatId" ColumnName="RefTaskCatId" />
+                <ScalarProperty Name="TaskCatTitle" ColumnName="TaskCatTitle" />
+                <ScalarProperty Name="TaskDate" ColumnName="TaskDate" />
+                <ScalarProperty Name="TaskStartTime" ColumnName="TaskStartTime" />
+                <ScalarProperty Name="TaskEndTime" ColumnName="TaskEndTime" />
+                <ScalarProperty Name="TaskStatus" ColumnName="TaskStatus" />
+                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
+                <ScalarProperty Name="ExpertName" ColumnName="ExpertName" />
+                <ScalarProperty Name="TotalMin" ColumnName="TotalMin" />
+                <ScalarProperty Name="TaskRemarks" ColumnName="TaskRemarks" />
+                <ScalarProperty Name="TeamLeadFeedback" ColumnName="TeamLeadFeedback" />
+                <ScalarProperty Name="FeedbackDate" ColumnName="FeedbackDate" />
+                <ScalarProperty Name="FeedbackBy" ColumnName="FeedbackBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskMasteGet_TechnicalExperts29" FunctionName="dashTech_crm_Model.Store.TaskMasteGet_TechnicalExperts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskMasteGet_TechnicalExperts29_Result">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
+                <ScalarProperty Name="AssignedByName" ColumnName="AssignedByName" />
+                <ScalarProperty Name="AssignedToName" ColumnName="AssignedToName" />
+                <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="defaultEndDate" ColumnName="defaultEndDate" />
+                <ScalarProperty Name="defaultEndTime" ColumnName="defaultEndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="FeedBack" ColumnName="FeedBack" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskMaster_Delete29" FunctionName="dashTech_crm_Model.Store.TaskMaster_Delete" />
+          <FunctionImportMapping FunctionImportName="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager29" FunctionName="dashTech_crm_Model.Store.TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager" />
+          <FunctionImportMapping FunctionImportName="TaskMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskMasterGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskMasterGet29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
+                <ScalarProperty Name="AssignedByName" ColumnName="AssignedByName" />
+                <ScalarProperty Name="AssignedToName" ColumnName="AssignedToName" />
+                <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
+                <ScalarProperty Name="AssignTime" ColumnName="AssignTime" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="defaultEndDate" ColumnName="defaultEndDate" />
+                <ScalarProperty Name="defaultEndTime" ColumnName="defaultEndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FeedBack" ColumnName="FeedBack" />
+                <ScalarProperty Name="TaskTitleId" ColumnName="TaskTitleId" />
+                <ScalarProperty Name="AssignTo" ColumnName="AssignTo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskTitleGet29" FunctionName="dashTech_crm_Model.Store.TaskTitleGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskTitleGet29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskTitleMaster_Delete29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_Delete" />
+          <FunctionImportMapping FunctionImportName="TaskTitleMaster_Get29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_Get">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskTitleMaster_Get29_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CDATE" ColumnName="CDATE" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TaskTitleMaster_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="TeamDetailsGet30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGet" />
+          <FunctionImportMapping FunctionImportName="TeamDetailsGetDepartment30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGetDepartment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsGetDepartment30_Result">
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TeamDetailsGetTeamManagerByDepartment30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGetTeamManagerByDepartment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsGetTeamManagerByDepartment30_Result">
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TeamDetailsInsertUpdate30" FunctionName="dashTech_crm_Model.Store.TeamDetailsInsertUpdate" />
+          <FunctionImportMapping FunctionImportName="TeamDetailsMembersGet30" FunctionName="dashTech_crm_Model.Store.TeamDetailsMembersGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsMembersGet30_Result">
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserAccountDetails_ChangePassword29" FunctionName="dashTech_crm_Model.Store.UserAccountDetails_ChangePassword" />
+          <FunctionImportMapping FunctionImportName="Useraccountdetails_insert_update73" FunctionName="dashTech_crm_Model.Store.Useraccountdetails_insert_update" />
+          <FunctionImportMapping FunctionImportName="UserAccountDetails_UpdateDefaultPassword29" FunctionName="dashTech_crm_Model.Store.UserAccountDetails_UpdateDefaultPassword">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetails_UpdateDefaultPassword29_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserAccountDetailsDelete30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsDelete" />
+          <FunctionImportMapping FunctionImportName="UserAccountDetailsGet30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetailsGet30_Result">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
+                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserAccountDetailsGetByUserId30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsGetByUserId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetailsGetByUserId30_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
+                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -24610,6 +25029,16 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
                 <ScalarProperty Name="SOrder" ColumnName="SOrder" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorLogs">
+            <EntityTypeMapping TypeName="dashTech_crm_Model.ErrorLog">
+              <MappingFragment StoreEntitySet="ErrorLog">
+                <ScalarProperty Name="Timest" ColumnName="Timest" />
+                <ScalarProperty Name="ErrorURL" ColumnName="ErrorURL" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -25303,397 +25732,7 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AddInterviewDetailsDefault37" FunctionName="dashTech_crm_Model.Store.AddInterviewDetailsDefault" />
-          <FunctionImportMapping FunctionImportName="AddSubmissionDetailsDefault37" FunctionName="dashTech_crm_Model.Store.AddSubmissionDetailsDefault" />
-          <FunctionImportMapping FunctionImportName="CandidateAssign_JrBatchRecruiter10" FunctionName="dashTech_crm_Model.Store.CandidateAssign_JrBatchRecruiter" />
-          <FunctionImportMapping FunctionImportName="CandidateAssign_TraineeBatchRecruiter19" FunctionName="dashTech_crm_Model.Store.CandidateAssign_TraineeBatchRecruiter" />
-          <FunctionImportMapping FunctionImportName="CandidateMaster_Insert71" FunctionName="dashTech_crm_Model.Store.CandidateMaster_Insert" />
-          <FunctionImportMapping FunctionImportName="CandidatemasterCheckExistingEmailOrMobile65" FunctionName="dashTech_crm_Model.Store.CandidatemasterCheckExistingEmailOrMobile" />
-          <FunctionImportMapping FunctionImportName="changeTechnologyCandidate35" FunctionName="dashTech_crm_Model.Store.changeTechnologyCandidate" />
-          <FunctionImportMapping FunctionImportName="GetCandidatetimeLineSalesAssociate56" FunctionName="dashTech_crm_Model.Store.GetCandidatetimeLineSalesAssociate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetCandidatetimeLineSalesAssociate56_Result">
-                <ScalarProperty Name="IsCompletepaid" ColumnName="IsCompletepaid" />
-                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="AgreementPercentage" ColumnName="AgreementPercentage" />
-                <ScalarProperty Name="AgreementSent" ColumnName="AgreementSent" />
-                <ScalarProperty Name="EnrolledDate" ColumnName="EnrolledDate" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
-                <ScalarProperty Name="PODate" ColumnName="PODate" />
-                <ScalarProperty Name="JobGarunteeLastDate" ColumnName="JobGarunteeLastDate" />
-                <ScalarProperty Name="JobGaruntee" ColumnName="JobGaruntee" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetInterviewList16" FunctionName="dashTech_crm_Model.Store.GetInterviewList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetInterviewList16_Result">
-                <ScalarProperty Name="ModeOfInterviewTitle" ColumnName="ModeOfInterviewTitle" />
-                <ScalarProperty Name="RoundOfInterv" ColumnName="RoundOfInterv" />
-                <ScalarProperty Name="InterviewSupportName" ColumnName="InterviewSupportName" />
-                <ScalarProperty Name="vendorname" ColumnName="vendorname" />
-                <ScalarProperty Name="vendorcontactnumber" ColumnName="vendorcontactnumber" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="DateOfInterview" ColumnName="DateOfInterview" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetInterviewSubmissionList10" FunctionName="dashTech_crm_Model.Store.GetInterviewSubmissionList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetInterviewSubmissionList10_Result">
-                <ScalarProperty Name="MarketingManager" ColumnName="MarketingManager" />
-                <ScalarProperty Name="MarketingTeamLead" ColumnName="MarketingTeamLead" />
-                <ScalarProperty Name="RecruiterName" ColumnName="RecruiterName" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="Interviews" ColumnName="Interviews" />
-                <ScalarProperty Name="Submissions" ColumnName="Submissions" />
-                <ScalarProperty Name="VisaStatus" ColumnName="VisaStatus" />
-                <ScalarProperty Name="TechTitle" ColumnName="TechTitle" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetRecurringMasterTempByCandidateId72" FunctionName="dashTech_crm_Model.Store.GetRecurringMasterTempByCandidateId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetRecurringMasterTempByCandidateId72_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
-                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="ReceivedIn" ColumnName="ReceivedIn" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="SendRemainderEmail" ColumnName="SendRemainderEmail" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetSubmissionList16" FunctionName="dashTech_crm_Model.Store.GetSubmissionList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetSubmissionList16_Result">
-                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
-                <ScalarProperty Name="AssignedId" ColumnName="AssignedId" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
-                <ScalarProperty Name="VendorContactNumber" ColumnName="VendorContactNumber" />
-                <ScalarProperty Name="VendorEmailId" ColumnName="VendorEmailId" />
-                <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
-                <ScalarProperty Name="FollowUpDate" ColumnName="FollowUpDate" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetTodayCandidatetimeLineSalesAssociate56" FunctionName="dashTech_crm_Model.Store.GetTodayCandidatetimeLineSalesAssociate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodayCandidatetimeLineSalesAssociate56_Result">
-                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="AgreementPercentage" ColumnName="AgreementPercentage" />
-                <ScalarProperty Name="AgreementSent" ColumnName="AgreementSent" />
-                <ScalarProperty Name="EnrolledDate" ColumnName="EnrolledDate" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
-                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
-                <ScalarProperty Name="PODate" ColumnName="PODate" />
-                <ScalarProperty Name="ReceivedIn" ColumnName="ReceivedIn" />
-                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
-                <ScalarProperty Name="RecurringPaidAmount" ColumnName="RecurringPaidAmount" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="IsCompletepaid" ColumnName="IsCompletepaid" />
-                <ScalarProperty Name="JobGarunteeLastDate" ColumnName="JobGarunteeLastDate" />
-                <ScalarProperty Name="JobGaruntee" ColumnName="JobGaruntee" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetTodayInterviewList16" FunctionName="dashTech_crm_Model.Store.GetTodayInterviewList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodayInterviewList16_Result">
-                <ScalarProperty Name="ModeOfInterviewTitle" ColumnName="ModeOfInterviewTitle" />
-                <ScalarProperty Name="RoundOfInterv" ColumnName="RoundOfInterv" />
-                <ScalarProperty Name="InterviewSupportName" ColumnName="InterviewSupportName" />
-                <ScalarProperty Name="vendorname" ColumnName="vendorname" />
-                <ScalarProperty Name="vendorcontactnumber" ColumnName="vendorcontactnumber" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="DateOfInterview" ColumnName="DateOfInterview" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetTodaySubmissionList16" FunctionName="dashTech_crm_Model.Store.GetTodaySubmissionList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetTodaySubmissionList16_Result">
-                <ScalarProperty Name="SubmissionId" ColumnName="SubmissionId" />
-                <ScalarProperty Name="AssignedId" ColumnName="AssignedId" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
-                <ScalarProperty Name="VendorContactNumber" ColumnName="VendorContactNumber" />
-                <ScalarProperty Name="VendorEmailId" ColumnName="VendorEmailId" />
-                <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
-                <ScalarProperty Name="FollowUpDate" ColumnName="FollowUpDate" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MktTeamCandidateReassign37" FunctionName="dashTech_crm_Model.Store.MktTeamCandidateReassign" />
-          <FunctionImportMapping FunctionImportName="RecurringMasterTemp_Insert71" FunctionName="dashTech_crm_Model.Store.RecurringMasterTemp_Insert" />
-          <FunctionImportMapping FunctionImportName="RecurringMasterTemp_Update71" FunctionName="dashTech_crm_Model.Store.RecurringMasterTemp_Update" />
-          <FunctionImportMapping FunctionImportName="VisaTitleMasterGet55" FunctionName="dashTech_crm_Model.Store.VisaTitleMasterGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.VisaTitleMasterGet55_Result">
-                <ScalarProperty Name="VisaId" ColumnName="VisaId" />
-                <ScalarProperty Name="VisaTitle" ColumnName="VisaTitle" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="VisaTitleMasterInsertUpdate55" FunctionName="dashTech_crm_Model.Store.VisaTitleMasterInsertUpdate" />
-          <FunctionImportMapping FunctionImportName="CandidateAssign_SrBatchRecruiter10" FunctionName="dashTech_crm_Model.Store.CandidateAssign_SrBatchRecruiter" />
-          <FunctionImportMapping FunctionImportName="CandidateAssign_TraineeBatchRecruiter110" FunctionName="dashTech_crm_Model.Store.CandidateAssign_TraineeBatchRecruiter1" />
-          <FunctionImportMapping FunctionImportName="CandidateMarketingDetails_AddByRecruiter27" FunctionName="dashTech_crm_Model.Store.CandidateMarketingDetails_AddByRecruiter" />
-          <FunctionImportMapping FunctionImportName="CandidateMarketingDetails_InsertMktContactStatus28" FunctionName="dashTech_crm_Model.Store.CandidateMarketingDetails_InsertMktContactStatus" />
-          <FunctionImportMapping FunctionImportName="CandidateMasterBindCandidate29" FunctionName="dashTech_crm_Model.Store.CandidateMasterBindCandidate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.CandidateMasterBindCandidate29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="CandidateTechnicalExpertDetails_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.CandidateTechnicalExpertDetails_InsertUpdate" />
-          <FunctionImportMapping FunctionImportName="CandidateTechnicalExpertDetailsGet29" FunctionName="dashTech_crm_Model.Store.CandidateTechnicalExpertDetailsGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.CandidateTechnicalExpertDetailsGet29_Result">
-                <ScalarProperty Name="CTAssignDate" ColumnName="CTAssignDate" />
-                <ScalarProperty Name="ReAssigned" ColumnName="ReAssigned" />
-                <ScalarProperty Name="CTAssingedRemarks" ColumnName="CTAssingedRemarks" />
-                <ScalarProperty Name="CTReassignedRemarks" ColumnName="CTReassignedRemarks" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="AssignedExpertName" ColumnName="AssignedExpertName" />
-                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
-                <ScalarProperty Name="RefAssignedCandidateId" ColumnName="RefAssignedCandidateId" />
-                <ScalarProperty Name="RefAssignedExpertId" ColumnName="RefAssignedExpertId" />
-                <ScalarProperty Name="CTId" ColumnName="CTId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="FollowUpMasterLog_Insert29" FunctionName="dashTech_crm_Model.Store.FollowUpMasterLog_Insert" />
-          <FunctionImportMapping FunctionImportName="GetAdminDashBoard14" FunctionName="dashTech_crm_Model.Store.GetAdminDashBoard" />
-          <FunctionImportMapping FunctionImportName="GetCandidateTimeLine30" FunctionName="dashTech_crm_Model.Store.GetCandidateTimeLine">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetCandidateTimeLine30_Result">
-                <ScalarProperty Name="CandidateStatus" ColumnName="CandidateStatus" />
-                <ScalarProperty Name="CandidateId" ColumnName="CandidateId" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="MarketingStartDate" ColumnName="MarketingStartDate" />
-                <ScalarProperty Name="PODate" ColumnName="PODate" />
-                <ScalarProperty Name="OnBoardingDate" ColumnName="OnBoardingDate" />
-                <ScalarProperty Name="SalesAssociateName" ColumnName="SalesAssociateName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetInterviewSubmissionCount22" FunctionName="dashTech_crm_Model.Store.GetInterviewSubmissionCount" />
-          <FunctionImportMapping FunctionImportName="GetSalesAssociateNameByCandidateDetails30" FunctionName="dashTech_crm_Model.Store.GetSalesAssociateNameByCandidateDetails" />
-          <FunctionImportMapping FunctionImportName="GetUsersByRole29" FunctionName="dashTech_crm_Model.Store.GetUsersByRole">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.GetUsersByRole29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskCategoryMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskCategoryMasterGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskCategoryMasterGet29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskManageMaster_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.TaskManageMaster_InsertUpdate" />
-          <FunctionImportMapping FunctionImportName="TaskManageMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskManageMasterGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskManageMasterGet29_Result">
-                <ScalarProperty Name="TMId" ColumnName="TMId" />
-                <ScalarProperty Name="RefCTId" ColumnName="RefCTId" />
-                <ScalarProperty Name="RefTaskCatId" ColumnName="RefTaskCatId" />
-                <ScalarProperty Name="TaskCatTitle" ColumnName="TaskCatTitle" />
-                <ScalarProperty Name="TaskDate" ColumnName="TaskDate" />
-                <ScalarProperty Name="TaskStartTime" ColumnName="TaskStartTime" />
-                <ScalarProperty Name="TaskEndTime" ColumnName="TaskEndTime" />
-                <ScalarProperty Name="TaskStatus" ColumnName="TaskStatus" />
-                <ScalarProperty Name="CandidateName" ColumnName="CandidateName" />
-                <ScalarProperty Name="ExpertName" ColumnName="ExpertName" />
-                <ScalarProperty Name="TotalMin" ColumnName="TotalMin" />
-                <ScalarProperty Name="TaskRemarks" ColumnName="TaskRemarks" />
-                <ScalarProperty Name="TeamLeadFeedback" ColumnName="TeamLeadFeedback" />
-                <ScalarProperty Name="FeedbackDate" ColumnName="FeedbackDate" />
-                <ScalarProperty Name="FeedbackBy" ColumnName="FeedbackBy" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskMasteGet_TechnicalExperts29" FunctionName="dashTech_crm_Model.Store.TaskMasteGet_TechnicalExperts">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskMasteGet_TechnicalExperts29_Result">
-                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
-                <ScalarProperty Name="AssignedByName" ColumnName="AssignedByName" />
-                <ScalarProperty Name="AssignedToName" ColumnName="AssignedToName" />
-                <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="defaultEndDate" ColumnName="defaultEndDate" />
-                <ScalarProperty Name="defaultEndTime" ColumnName="defaultEndTime" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="FeedBack" ColumnName="FeedBack" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskMaster_Delete29" FunctionName="dashTech_crm_Model.Store.TaskMaster_Delete" />
-          <FunctionImportMapping FunctionImportName="TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager29" FunctionName="dashTech_crm_Model.Store.TaskMaster_InsertUpdate_TechnicalLead_TechnicalTeamManager" />
-          <FunctionImportMapping FunctionImportName="TaskMasterGet29" FunctionName="dashTech_crm_Model.Store.TaskMasterGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskMasterGet29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
-                <ScalarProperty Name="AssignedByName" ColumnName="AssignedByName" />
-                <ScalarProperty Name="AssignedToName" ColumnName="AssignedToName" />
-                <ScalarProperty Name="AssignDate" ColumnName="AssignDate" />
-                <ScalarProperty Name="AssignTime" ColumnName="AssignTime" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="defaultEndDate" ColumnName="defaultEndDate" />
-                <ScalarProperty Name="defaultEndTime" ColumnName="defaultEndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="FeedBack" ColumnName="FeedBack" />
-                <ScalarProperty Name="TaskTitleId" ColumnName="TaskTitleId" />
-                <ScalarProperty Name="AssignTo" ColumnName="AssignTo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskTitleGet29" FunctionName="dashTech_crm_Model.Store.TaskTitleGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskTitleGet29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskTitleMaster_Delete29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_Delete" />
-          <FunctionImportMapping FunctionImportName="TaskTitleMaster_Get29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_Get">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TaskTitleMaster_Get29_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CDATE" ColumnName="CDATE" />
-                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TaskTitleMaster_InsertUpdate29" FunctionName="dashTech_crm_Model.Store.TaskTitleMaster_InsertUpdate" />
-          <FunctionImportMapping FunctionImportName="TeamDetailsGet30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGet" />
-          <FunctionImportMapping FunctionImportName="TeamDetailsGetDepartment30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGetDepartment">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsGetDepartment30_Result">
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TeamDetailsGetTeamManagerByDepartment30" FunctionName="dashTech_crm_Model.Store.TeamDetailsGetTeamManagerByDepartment">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsGetTeamManagerByDepartment30_Result">
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TeamDetailsInsertUpdate30" FunctionName="dashTech_crm_Model.Store.TeamDetailsInsertUpdate" />
-          <FunctionImportMapping FunctionImportName="TeamDetailsMembersGet30" FunctionName="dashTech_crm_Model.Store.TeamDetailsMembersGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.TeamDetailsMembersGet30_Result">
-                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="TEXT" ColumnName="TEXT" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UserAccountDetails_ChangePassword29" FunctionName="dashTech_crm_Model.Store.UserAccountDetails_ChangePassword" />
-          <FunctionImportMapping FunctionImportName="Useraccountdetails_insert_update73" FunctionName="dashTech_crm_Model.Store.Useraccountdetails_insert_update" />
-          <FunctionImportMapping FunctionImportName="UserAccountDetails_UpdateDefaultPassword29" FunctionName="dashTech_crm_Model.Store.UserAccountDetails_UpdateDefaultPassword">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetails_UpdateDefaultPassword29_Result">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
-                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
-                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UserAccountDetailsDelete30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsDelete" />
-          <FunctionImportMapping FunctionImportName="UserAccountDetailsGet30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsGet">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetailsGet30_Result">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
-                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
-                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
-                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
-                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UserAccountDetailsGetByUserId30" FunctionName="dashTech_crm_Model.Store.UserAccountDetailsGetByUserId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="dashTech_crm_Model.UserAccountDetailsGetByUserId30_Result">
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="RocketName" ColumnName="RocketName" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="RefLocationId" ColumnName="RefLocationId" />
-                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
-                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
-                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
-                <ScalarProperty Name="UserImageUrl" ColumnName="UserImageUrl" />
-                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ErrorLog_Insert" FunctionName="dashTech_crm_Model.Store.ErrorLog_Insert" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

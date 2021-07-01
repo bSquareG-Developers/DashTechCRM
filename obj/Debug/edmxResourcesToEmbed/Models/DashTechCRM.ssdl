@@ -70,6 +70,15 @@ warning 6013: The table/view 'DashTechDemostration.dashtechdemostration.Candidat
     <Property Name="RoleId" Type="int" />
     <Property Name="SOrder" Type="int" />
   </EntityType>
+  <EntityType Name="ErrorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ErrorMessage" Type="varchar(max)" />
+    <Property Name="ErrorURL" Type="varchar" MaxLength="200" />
+    <Property Name="Timest" Type="datetime" />
+  </EntityType>
   <EntityType Name="FollowUpStatusMaster">
     <Key>
       <PropertyRef Name="Id" />
@@ -1239,6 +1248,10 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
     <Parameter Name="CandidateId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
+  <Function Name="ErrorLog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
+    <Parameter Name="ErrorMessage" Type="varchar(max)" Mode="In" />
+    <Parameter Name="ErrorURL" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="GetCandidatetimeLineSalesAssociate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dashtechdemostration">
     <Parameter Name="EndDate" Type="date" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
@@ -1515,6 +1528,7 @@ warning 6013: The table/view 'DashTechDemostration.dbo.tblname' does not have a 
     <EntitySet Name="candidateTechnologyChangeLog" EntityType="Self.candidateTechnologyChangeLog" Schema="dashtechdemostration" store:Type="Tables" />
     <EntitySet Name="DepartmentMaster" EntityType="Self.DepartmentMaster" Schema="dashtechdemostration" store:Type="Tables" />
     <EntitySet Name="DepartmentRoleTable" EntityType="Self.DepartmentRoleTable" Schema="dashtechdemostration" store:Type="Tables" />
+    <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dashtechdemostration" store:Type="Tables" />
     <EntitySet Name="FollowUpStatusMaster" EntityType="Self.FollowUpStatusMaster" Schema="dashtechdemostration" store:Type="Tables" />
     <EntitySet Name="InterviewDetailsLogs" EntityType="Self.InterviewDetailsLogs" Schema="dashtechdemostration" store:Type="Tables" />
     <EntitySet Name="RecurringMasterTemp" EntityType="Self.RecurringMasterTemp" Schema="dashtechdemostration" store:Type="Tables" />

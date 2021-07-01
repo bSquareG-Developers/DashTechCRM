@@ -38,6 +38,15 @@ namespace DashTechCRM.Models
         {
             return dl.GetDataTable("select UAD.UserId as [ID],UAD.FullName as [TEXT] from TeamDetailsManage TDM INNER JOIN TeamMaster TM on TDM.TeamMasterId = TM.ID INNER JOIN UserAccountDetails UAD on UAD.UserId = TDM.MemberId where TM.LeaderId = " + userId);
         }
+
+        public static void InsertErrorLog(string Error, string ReportName)
+        {
+            ConnectionDB dl = new ConnectionDB();
+            List<SqlParameter> p = new List<SqlParameter>();
+            p.Add(new SqlParameter("@ErrorMessage", Error));
+            p.Add(new SqlParameter("@ErrorURL", ReportName));
+            dl.Execute_NonQuery("ErrorLog_Insert", p.ToArray());
+        }
     }
 
 
