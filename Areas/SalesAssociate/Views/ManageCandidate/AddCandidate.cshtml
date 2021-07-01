@@ -65,13 +65,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Recurring Type:  <i class="redColor">*</i></label>
+                            <label>Payment Terms:  <i class="redColor">*</i></label>
                             <select class="form-control select2" id="RefRecurringTypeId" name="RefRecurringTypeId">
                                 <option>Select</option>
                                 @foreach (RecurringType recurringType in db.RecurringTypes.ToList())
                                 {
-                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>
-}
+                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>}
                             </select>
                             <span id="reqRefRecurringTypeId" class="parsley-required" style="display: none"></span>
                         </div>
@@ -85,18 +84,32 @@
                             <input type="hidden" id="FalseAgreementSent" value="false" name="AgreementSent" />
                         </div>
                     </div>
-                    <div class="col-md-9 mt-2">
+                    <div class="col-md-3 mt-2">
                         <div class="form-group">
-                            <label>Agreement (%):  <i class="redColor">*</i></label>
+                            <label>Agreement (%): <i class="redColor">*</i></label>
                             <select class="form-control select2" id="Agreement"></select>
                             <span id="reqAgreement" class="parsley-required" style="display: none"></span>
-
                         </div>
                     </div>
+                    <div class="col-md-3 mt-2">
+                        <div class="form-group">
+                            <label>Re payment Month(s):  <i class="redColor">*</i></label>
+                            <select class="form-control select2" id="ddlRePaymentMonths"></select>
+                            <span id="reqddlRePaymentMonths" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3  mt-4">
+                        <div class="form-group">
+                            <label>is Rembursed .?:</label>
+                            <input type="checkbox" name="Rembursed" id="Rembursed" value="true" class="checkbox" />
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="row border mt-2 mb-3">
 
-                    <div class="col-md-9 mt-2" id="DivJobGarunteeIn" style="display: none">
+                    <div class="col-md-9 mt-2">
                         <div class="form-group">
                             <label for="ddlJobGaruntee">Job guarantee In  <i class="redColor">*</i></label>
                             <select id="ddlJobGaruntee" class="form-control select2"></select>
@@ -126,7 +139,8 @@
                                 <option></option>
                                 @foreach (string mode in strRec)
                                 {
-                    <option value="@mode">@mode</option>}
+                    <option value="@mode">@mode</option>
+}
                             </select>
                             <span id="reqrecIn" class="parsley-required" style="display: none"></span>
 
@@ -158,8 +172,7 @@
                                 <option>Select</option>
                                 @foreach (SalesServiceMaster salesService in db.SalesServiceMasters.ToList())
                                 {
-                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>
-}
+                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>}
                             </select>
                             <span id="reqRefServiceId" class="parsley-required" style="display: none"></span>
 
@@ -175,8 +188,7 @@
                                 <option>Select</option>
                                 @foreach (TechnologyMaster tech in db.TechnologyMasters.ToList())
                                 {
-                    <option value="@tech.TechId">@tech.TechTitle</option>
-}
+                    <option value="@tech.TechId">@tech.TechTitle</option>}
                             </select>
                             <span id="reqTechnologyId" class="parsley-required" style="display: none"></span>
                         </div>
@@ -287,10 +299,12 @@
         GetAgreementDropDown();
         BindVisaStatus();
         BindJobGaruntee();
+        BindRePaymentMonths();
     });
 
     function BindJobGaruntee() {
         var data = [
+            { ID: -1, TEXT: 'N/A' },
             { ID: 1, TEXT: '1 month' },
             { ID: 2, TEXT: '2 months' },
             { ID: 3, TEXT: '3 months' },
@@ -303,6 +317,30 @@
         jQuery.each(data,
             function (i, v) {
                 jQuery('#ddlJobGaruntee').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+            });
+    }
+
+    function BindRePaymentMonths() {
+
+        var data = [
+            { ID: 1, TEXT: '1 month' },
+            { ID: 2, TEXT: '2 months' },
+            { ID: 3, TEXT: '3 months' },
+            { ID: 4, TEXT: '4 months' },
+            { ID: 5, TEXT: '5 months' },
+            { ID: 6, TEXT: '6 months' },
+            { ID: 7, TEXT: '7 months' },
+            { ID: 8, TEXT: '8 months' },
+            { ID: 9, TEXT: '9 months' },
+            { ID: 10,TEXT: '10 months' },
+            { ID: 11,TEXT: '11 months' },
+            { ID: 12,TEXT: '12 months' },
+        ];
+        jQuery('#ddlRePaymentMonths').empty();
+        jQuery('#ddlRePaymentMonths').append('<option value="">Select</option>');
+        jQuery.each(data,
+            function (i, v) {
+                jQuery('#ddlRePaymentMonths').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
             });
     }
     function BindVisaStatus() {
@@ -435,10 +473,10 @@
             BindRecurringDetails();
         });
         recurringTypeText = $("#RefRecurringTypeId").find("option:selected").text();
-        if (recurringTypeText ==="$5500 one time payment")
-                $('#DivJobGarunteeIn').show();
-        else
-            $('#DivJobGarunteeIn').hide();
+        //if (recurringTypeText ==="$5500 one time payment")
+        //        $('#DivJobGarunteeIn').show();
+        //else
+        //    $('#DivJobGarunteeIn').hide();
     });
     $('#insR').change(function(e) {
         enrollmentAmt = parseInt($('#insR').val());
@@ -463,11 +501,13 @@
         var visaStatus = $('#VisaStatus').val() ? $('#VisaStatus').val() : '';
         var agreement = $('#Agreement').val() ? $('#Agreement').val():'';
         var agreementLink = $('#AgreementLink').val() ? $('#AgreementLink').val():'';
-        var remarks = $('#Remarks').val() ? $('#Remarks').val():'';
+        var remarks = $('#Remarks').val() ? $('#Remarks').val() : '';
+        var rePaymentMonths = $('#ddlRePaymentMonths').val() ? $('#ddlRePaymentMonths').val() : '';
         var agreementSent = $('#AgreementSent').is(":checked") ? 1 : 0;
         var inTraining = $('#InTraining').is(":checked") ? 1 : 0;
         var inMarketing = $('#InMarketing').is(":checked") ? 1 : 0;
         var expertCv = $('#ExpertCV').is(":checked") ? 1 : 0;
+        var rembursed = $('#Rembursed').is(":checked") ? 1 : 0;
         var inJobGaruntee = recurringTypeText === "$5500 one time payment" ? 1 : 0;
         var validEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
 
@@ -477,7 +517,7 @@
 
         let param = {
             candidateName, emailId, mobileNumber, recurringTypeId, totalAmmount, enrollmentAmount, serviceId, technologyId, recIn, visaStatus,
-            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate
+            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate, rembursed, rePaymentMonths
         }
         if (grandTotal > totalAmount) {
             DevExpress.ui.notify("Sum of Total paid amount is Greater than Total amount kindly check once.. ..!!", "error", 5000);
@@ -517,12 +557,36 @@
             $('#reqMobileNumber').hide();
         }
         if (!recurringTypeId || recurringTypeId === "Select") {
-            $('#reqRefRecurringTypeId').text('Please select Recurring Type');
+            $('#reqRefRecurringTypeId').text('Please select Payment Terms.');
             $('#reqRefRecurringTypeId').show();
             return false;
         } else {
             $('#reqRefRecurringTypeId').text('');
             $('#reqRefRecurringTypeId').hide();
+        }
+        if (!agreement) {
+            $('#reqAgreement').text('Please Enter Agreement Percentage');
+            $('#reqAgreement').show();
+            return false;
+        } else {
+            $('#reqAgreement').text('');
+            $('#reqAgreement').hide();
+        }
+        if (!rePaymentMonths) {
+            $('#reqddlRePaymentMonths').text('Please select Re payment Month');
+            $('#reqddlRePaymentMonths').show();
+            return false;
+        } else {
+            $('#reqddlRePaymentMonths').text('');
+            $('#reqddlRePaymentMonths').hide();
+        }
+        if (!$('#ddlJobGaruntee').val()) {
+            $('#reqJobGaruntee').text('Please select Months');
+            $('#reqJobGaruntee').show();
+            return false;
+        } else {
+            $('#reqJobGaruntee').text('');
+            $('#reqJobGaruntee').hide();
         }
         if (!recIn) {
             $('#reqrecIn').text('Please Enter Received In');
@@ -550,7 +614,7 @@
             $('#reqTechnologyId').hide();
         }
 
-        if (!visaStatus ) {
+        if (!visaStatus) {
             $('#reqVisaStatus').text('Please Enter Visa Status');
             $('#reqVisaStatus').show();
             return false;
@@ -558,34 +622,10 @@
             $('#reqVisaStatus').text('');
             $('#reqVisaStatus').hide();
         }
-        if (inJobGaruntee === 1) {
-            if (!$('#ddlJobGaruntee').val()) {
-                $('#reqJobGaruntee').text('Please select Months');
-                $('#reqJobGaruntee').show();
-                return false;
-            } else {
-                $('#reqJobGaruntee').text('');
-                $('#reqJobGaruntee').hide();
-            }
-        }
 
 
-        if (!agreement) {
-            $('#reqAgreement').text('Please Enter Agreement Percentage');
-            $('#reqAgreement').show();
-            return false;
-        } else {
-            $('#reqAgreement').text('');
-            $('#reqAgreement').hide();
-        }
-        //if (!agreementLink) {
-        //    $('#reqAgreementLink').text('Please Enter Agreement Link');
-        //    $('#reqAgreementLink').show();
-        //    return false;
-        //} else {
-        //    $('#reqAgreementLink').text('');
-        //    $('#reqAgreementLink').hide();
-        //}
+
+
         if (!remarks) {
             $('#reqRemarks').text('Please enter remarks');
             $('#reqRemarks').show();
