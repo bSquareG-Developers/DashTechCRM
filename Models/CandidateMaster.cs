@@ -48,6 +48,8 @@ namespace DashTechCRM.Models
         public string AgreementLink { get; set; }
         public Nullable<bool> isJobGaruntee { get; set; }
         public Nullable<System.DateTime> JobGarunteeLastDate { get; set; }
+        public Nullable<int> RePaymentMonths { get; set; }
+        public Nullable<bool> isRembursed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateMarketingDetail> CandidateMarketingDetails { get; set; }
