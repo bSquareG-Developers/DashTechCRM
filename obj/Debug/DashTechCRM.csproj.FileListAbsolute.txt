@@ -107,7 +107,6 @@ D:\git\DashTechCRM\bin\System.Web.WebPages.xml
 D:\git\DashTechCRM\bin\System.Web.WebPages.Deployment.xml
 D:\git\DashTechCRM\bin\System.Web.WebPages.Razor.xml
 D:\git\DashTechCRM\bin\Antlr3.Runtime.pdb
-D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.AssemblyReference.cache
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.CoreCompileInputs.cache
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.CopyComplete
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.dll
