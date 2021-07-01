@@ -1,5 +1,0 @@
-﻿*changed in CandidateMaster
-
-alter table CandidateMaster add AgreementSent bit null
-alter table CandidateMaster add Agreement decimal(10,2) null
-
