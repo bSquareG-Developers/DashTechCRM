@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashTechCRM", "DashTechCRM.csproj", "{5CE1C013-7986-49FC-A344-6C5B56D5B9AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CE1C013-7986-49FC-A344-6C5B56D5B9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE1C013-7986-49FC-A344-6C5B56D5B9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE1C013-7986-49FC-A344-6C5B56D5B9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE1C013-7986-49FC-A344-6C5B56D5B9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BCACE809-A0E4-484E-A537-9B08FC5EF886}
+	EndGlobalSection
+EndGlobal

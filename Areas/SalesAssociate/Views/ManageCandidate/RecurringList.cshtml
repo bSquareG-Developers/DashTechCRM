@@ -1,0 +1,318 @@
+﻿@using DashTechCRM.Models.User
+@using DashTechCRM.Models
+@{ ViewBag.Title = "Candidate Recurring";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int cid = -1;
+    if (Request.QueryString["id"] != null)
+    {
+        cid = int.Parse(Request.QueryString["id"].ToString());
+    }
+    else
+    {
+        UserObject user = new UserObject();
+
+    }
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12 border-right">
+                        <h4 class="mt-0 header-title mb-4">Candidate Recurring</h4>
+
+                        @if (cid == -1)
+                        {
+            <h2>Not Found!</h2>}
+                        <form method="post" action="@Url.Action("NewRecurring","ManageCandidate",new { @area = "SalesAssociate"})">
+                            <h5>Extra Payment Form</h5>
+                            <input type="hidden" name="RefCandidateId" value="@cid" id="RefCandidateId" class="refCid" />
+                            <table class="table">
+                                <tr>
+                                    <td>Paid Date</td>
+                                    <td>Amount</td>
+                                    <td>Received In</td>
+                                    <td>Remarks</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="date" name="PaidDate" class="form-control" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" min="0" name="Amount" class="form-control" required />
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="ReceivedIn" required>
+                                            <option></option>
+                                            <option value="Stripe">Stripe</option>
+                                            <option value="Stripe">Paypal</option>
+                                            <option value="Stripe">USA BANK</option>
+                                            <option value="Stripe">India BANK</option>
+                                            <option value="Stripe">Cash</option>
+                                            <option value="Stripe">Cheque</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <textarea name="remarks" class="form-control"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button class="btn btn-secondary" type="submit">Save</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h4 class="mt-0 header-title mb-4">Candidate Recurring</h4>
+                        <div class='rowCount' id="rowCount"></div>
+                        <div id="gridCandidateList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="bs-example-modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Recurring Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-10">
+
+                    <form action="@Url.Action("RecurringPayment","ManageCandidate",new { @area = "SalesAssociate"})" method="post">
+
+                        <input type="hidden" name="RecurringId" id="recurringid" />
+                        <table class="table" style="width:100%">
+                            <tr>
+                                <td>Amount</td>
+                                <td>
+                                    <input class="form-control" type="number" value="" name="Amount" id="Amount" required />
+                                    <input type="hidden" value="" name="OAmount" id="OAmount" required />
+                                </td>
+                            </tr>
+                            <tr class="remaining">
+                                <td>Remaining Amount</td>
+                                <td>
+                                    <input class="form-control" type="number" value="" name="RAmount" id="RAmount" />
+                                </td>
+                            </tr>
+                            <tr class="remaining">
+                                <td>Remaining Paid Date</td>
+                                <td>
+                                    <input class="form-control" type="date" name="RDate" id="RDate" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Payment Status</td>
+                                <td>
+                                    @{ string[] strRec = { "Paid", "UnPaid", "Refund", "Dispute" }; }
+
+                                    <select class="form-control" id="status" name="PaymentStatus">
+                                        @foreach (string st in strRec)
+                                        {
+                            <option value="@st">@st</option>}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Received In</td>
+                                <td>
+                                    @{ string[] recInList = { "PayPal", "Stripe", "US Bank", "Cheque", "India Bank", "Cash" }; }
+
+                                    <select class="form-control" id="status" name="ReceivedIn">
+                                        @foreach (string r in recInList)
+                                        {
+                            <option value="@r">@r</option>}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Remarks</td>
+                                <td>
+                                    <textarea class="form-control" id="message" name="remarks"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="" colspan="2" align="right">
+                                    <button class="btn btn-primary">Save</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div class="loadpanel"></div>
+
+<script>
+    $(".remaining").hide();
+    $("#Amount").change(function () {
+        var amt = parseFloat($(this).val());
+        var oamt = parseFloat($("#OAmount").val());
+        alert(amt);
+        alert(oamt);
+
+        if (amt < oamt) {
+            $(".remaining").show();
+            $("#RAmount").val(oamt - amt);
+        }
+    });
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+
+    $(function () {
+        GetCandidateList();
+    });
+
+    function GetCandidateList() {
+       //start getting data from GetCandidateList
+       loadPanel.show();
+        $.getJSON("@Url.Action("GetRecurringDetailsJson", "ManageCandidate", new { @area = "SalesAssociate"})?id=@cid", null, function (data) {
+            //alert(data);
+            loadPanel.hide();
+            var dataGrid = $("#gridCandidateList").dxDataGrid({
+                dataSource: data,
+                columns: [{dataField: "RecurringId", caption: "Recurring Edit",alignment:'center', width: 120,dataType:'string',type:'buttons',
+                        cellTemplate: function (container, options) {
+                            if (options.data.PaymentStatus !== 'Paid') {
+                                $('<i class="fa fa-info-circle" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').text('').on('dxclick',
+                                        function () {
+                                            showData(options.data.RecurringId, options.data.Amount);
+                                        })
+                                    .appendTo(container);
+                            }
+                        }
+                    },
+                    { dataField: "CandidateName", caption: "Candidate Name", width: 180, groupIndex: 0 ,dataType:'string',alignment:'center'},
+                    { dataField: "PaymentStatus", caption: "Payment Status", width: 170 ,dataType:'string',alignment:'center'},
+                    { dataField: "DueDate", caption:'Due Date', alignment: "center", dataType: "date",format:'dd MMM yyyy',  sortOrder: "desc", width: 150 },
+                    { dataField: "PaidDate", caption:'Paid Date', alignment: "center", dataType: "date",format:'dd MMM yyyy', sortOrder: "desc", width: 150 },
+                    { dataField: "TotalAmount", caption:'Total Amount', alignment: "right", format: "currency", width: 150, dataType: 'string'},
+                    { dataField: "PaidAmount", alignment: "right", format: "currency", width: 170, dataType: 'string' },
+                    { dataField: "Amount", caption: "Recurring Amount", width: 170, dataType: 'string', alignment: 'right'},
+                    { dataField: "ReceivedIn", caption: "Received In", width: 170, dataType: 'string', alignment: 'center' },
+                    { dataField: "ServiceName", caption: "Service Name", width: 170, dataType: 'string', alignment: 'center',
+                        cellTemplate: function (container, options) {
+                            var str = "";
+                            if (options.value === "AOG (Art Of Getting Job)")
+                                str = "AOG M";
+                            else if (options.value === "AOG (Art Of Getting Job) Training + Marketing")
+                                str = "AOG TM";
+                            else if (options.value === "Training")
+                                str = "AOG T";
+                            $("<div>").append($("<b>" + str + "</b>")).appendTo(container);
+                        }
+                    }],
+                summary: {
+                    totalItems: [
+                        { column: "TotalAmount", valueFormat: "currency", summaryType: "sum" },
+                        { column: "PaidAmount", valueFormat: "currency", summaryType: "sum" }]
+                },
+                columnsAutoWidth: true,
+                wordWrapEnabled: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                grouping: { autoExpandAll: true },
+                paging: { pageSize: 10 },
+                pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                headerFilter: { visible: true },
+                filterRow: { visible: true, applyFilter: "auto" },
+                allowColumnResizing: true,
+                groupPanel: { visible: true },
+                searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                export: {
+                    enabled: true,
+                    fileName: "Recurring List",
+                    allowExportSelectedData: true,
+                    customizeExcelCell: options => {
+                        if (options.gridCell.rowType === "header") {
+                            options.backgroundColor = _dxGridHeaderBGColor;
+                            options.font.color = _dxGridHeaderColor;
+                        }
+                    }
+                },
+                selection: { mode: "multiple" },
+                allowColumnReordering: true,
+                columnFixing: { enabled: false },
+                columnChooser: {
+                    enabled: true,
+                    mode: "select",
+                    allowSearch: true
+                },
+                onExporting: function(e) {
+                    e.component.beginUpdate();
+                    e.component.columnOption("Button", "visible", false);
+                    e.component.columnOption("CandidateStatus", "visible", false);
+                },
+                onExported: function(e) {
+                    e.component.columnOption("Button", "visible", true);
+                    e.component.columnOption("CandidateStatus", "visible", true);
+                    e.component.endUpdate();
+                },
+                onCellPrepared: function(e) {
+                    if (e.rowType === "header") {
+                        e.cellElement.css("text-align", "center");
+                        e.cellElement.css("font-weight", "bold");
+                    }
+                    if (e.rowType === "group") {
+                        e.cellElement.css("text-align", "center");
+                    }
+                },
+                onContentReady(e) {
+                    jQuery('#rowCount').html('Total Records : ' + jQuery("#gridCandidateList").dxDataGrid('instance').totalCount());
+                }
+            }).dxDataGrid('instance');
+
+
+
+            function getOrderDay(rowData) {
+                return (new Date(rowData.OrderDate)).getDay();
+            }
+
+        });
+        //end getting data from GetCandidateList
+
+    }
+    function showData(id,amt) {
+        $("#bs-example-modal-lg").modal("show");
+        $("#recurringid").val(id);
+        $("#Amount").val(amt);
+        $("#OAmount").val(amt);
+    }
+</script>

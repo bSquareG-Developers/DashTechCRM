@@ -1,0 +1,337 @@
+﻿@using DashTechCRM.Models
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseNewCandidateList" role="button" aria-expanded="true" aria-controls="collapseNewCandidateList"> <i class="fa fa-filter"></i> New Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse show" id="collapseNewCandidateList">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mt-0 header-title mb-4">New Candidate List</h4>
+                            <div class="rowCount" id="rowCount"></div>
+                            <div id="gridNewCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseCandidateList" role="button" aria-expanded="true" aria-controls="collapseCandidateList"> <i class="fa fa-filter"></i>  Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+            </div>
+            <div class="collapse" id="collapseCandidateList">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <h4 class="mt-0 header-title mb-4">Candidate List</h4>
+                                    <div class="rowCount" id="rowCount1"></div>
+                                    <div id="gridOldCandidateList"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="modal-resume" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Submission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form action="@Url.Action("SaveFollowup","dashboard",new { @area = "TechnicalTeamManager"})" method="post">
+                        <input type="hidden" name="candidateId" id="candidateId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>Expert CV Status</td>
+                                                <td>
+                                                    @{ string[] strRec = { "Technical: RUC Not Responding", "Technical: Screening Call Done", "Technical: Technology Decided", "Technical: RUC Issues", "Technical: On Hold Candidate", "Technical: Irregular in Training", "Technical: Not attending Webinars", "Technical: Not Doing Assessments" }; }
+
+                                                    <select class="form-control select2" id="status" name="status">
+                                                        <option></option>
+                                                        @foreach (string st in strRec)
+                                                        {
+                                            <option value="@st">@st</option>
+}
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Remarks</td>
+                                                <td>
+                                                    <textarea class="form-control" id="remarks" name="remarks"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2" align="right">
+                                                    <button class="btn btn-primary">Save</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>
+<div class="loadpanel"></div>
+<script>
+
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    var dataSourceNew = [];
+    var dataSourceOld = [];
+    var columnsList = [
+        { dataField: "Edit", caption: "Edit", width: 100, alignment: "center",
+            cellTemplate: function (container, options) {
+                $('<i class="fa fa-edit" aria-hidden="true" style="cursor: pointer; font-size: 15px;"></i>').on('dxclick',
+                    function () {
+                        showData(options.data.CandidateId);
+                    }).appendTo(container);
+            }
+
+        },
+        { dataField: "CandidateStatus", caption: "Marketing?", width: 150, alignment: "center", dataType: 'string', cellTemplate: function (container, options) {
+            $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+        }},
+
+        { dataField: "LocationName", caption: "Location", alignment: "center", width: 130, dataType: 'string', cellTemplate: function (container, options) {
+            var str = "";options.value === "Ahmedabad" ? str = "AHM" : str = "VIS";$('<b>' + str + '</b>').appendTo(container); }},
+
+        { dataField: "CandidateName", caption: "Name", alignment: "center", width: 200, dataType: 'string' },
+        { dataField: "TechTitle", caption:'Tech Title', alignment: "center", width: 130,dataType:'string' },
+        { dataField: "Date", caption: 'Date', alignment: "center", dataType: "date", width: 100, sortIndex: 0, format: 'dd MMM yyyy' },
+        { dataField: "EmailId",caption:'Email Id', alignment: "center", width: 180 ,dataType:'string'},
+        { dataField: "MobileNumber", caption: "Contact", alignment: "center", width: 100,dataType:'string' },
+        { dataField: "PaidAmount", caption: "$ Paid", alignment: "right", format: "currency", width: 120 },
+        {
+            dataField: "ServiceName", caption: "Service", width: 100, alignment: "center",  cellTemplate: function (container, options) {
+                var str = "";
+                if (options.value === "AOG (Art Of Getting Job)") { str = "AOG M"; }
+                else if (options.value === "AOG (Art Of Getting Job) Training + Marketing") { str = "AOG TM"; }
+                else if (options.value === "Training") { str = "AOG T"; }
+                $("<div>")
+                    .append($("<b>" + str + "</b>"))
+                    .appendTo(container);
+            }
+        },
+        { dataField: "RocketName", caption: "Sales", width: 100, alignment: "center",dataType:'string' }
+    ];
+
+
+
+
+    $(function() {
+        loadGrid();
+        getLatestCandidates();
+    });
+    function loadGrid() {
+        loadPanel.show();
+        $.getJSON("@Url.Action("GetCandidateList", "dashboard", new { @area = "TechnicalTeamManager" })",
+            null,
+            function(data) {
+                loadPanel.hide();
+                dataSourceOld = data;
+                var oldDataGrid = $("#gridOldCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: columnsList,
+                    summary: {
+                        totalItems: [{ column: "PaidAmount", summaryType: "sum", displayFormat: "Sum: {0}", valueFormat: "currency" }],
+                        groupItems: [{ column: "CandidateName", summaryType: "count" }]
+                    },
+
+
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+                    export: {
+                        enabled: true,
+                        fileName: "Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Edit", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function(e) {
+                        e.component.columnOption("Edit", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function(e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount1').html('Total Records : ' + jQuery("#gridOldCandidateList").dxDataGrid('instance').totalCount());
+                    }
+
+                }).dxDataGrid('instance');
+
+
+            });
+    }
+
+
+
+    function showData(id) {
+        $("#modal-resume").modal("show");
+        $("#candidateId").val(id);
+    }
+
+    function getLatestCandidates() {
+        loadPanel.show();
+        $.getJSON("@Url.Action("GetNewCandidateList", "dashboard", new { @area = "TechnicalTeamManager" })", null, function (data) {
+            loadPanel.hide();
+            dataSourceNew = data;
+            var newDataGrid = $("#gridNewCandidateList").dxDataGrid({
+                dataSource: data,
+
+                columns:columnsList,
+                summary: {
+                    totalItems: [{ column: "PaidAmount", summaryType: "sum" }],
+                    groupItems: [{ column: "CandidateName", summaryType: "count" }]
+                },
+                columnsAutoWidth: true,
+                rowAlternationEnabled: true,
+                wordWrapEnabled: true,
+                showBorders: true,
+                grouping: { autoExpandAll: true },
+                paging: { pageSize: 10 },
+                pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                headerFilter: { visible: true },
+                filterRow: { visible: true, applyFilter: "auto" },
+                allowColumnResizing: true,
+                groupPanel: { visible: true },
+                searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+                export: {
+                    enabled: true,
+                    fileName: "Candidate List New",
+                    allowExportSelectedData: true,
+                    customizeExcelCell: options => {
+                        if (options.gridCell.rowType === "header") {
+                            options.backgroundColor = _dxGridHeaderBGColor;
+                            options.font.color = _dxGridHeaderColor;
+                        }
+                    }
+                },
+                selection: { mode: "multiple" },
+                allowColumnReordering: true,
+                columnFixing: { enabled: false },
+                columnChooser: {
+                    enabled: true,
+                    mode: "select",
+                    allowSearch: true
+                },
+                onExporting: function(e) {
+                    e.component.beginUpdate();
+                    e.component.columnOption("Edit", "visible", false);
+                    e.component.columnOption("CandidateStatus", "visible", false);
+                },
+                onExported: function(e) {
+                    e.component.columnOption("Edit", "visible", true);
+                    e.component.columnOption("CandidateStatus", "visible", true);
+                    e.component.endUpdate();
+                },
+                onCellPrepared: function(e) {
+                    if (e.rowType === "header") {
+                        e.cellElement.css("text-align", "center");
+                        e.cellElement.css("font-weight", "bold");
+                    }
+                    if (e.rowType === "group") {
+                        e.cellElement.css("text-align", "center");
+                    }
+                },
+                onContentReady(e) {
+                    jQuery('#rowCount').html('Total Records : ' + jQuery("#gridNewCandidateList").dxDataGrid('instance').totalCount());
+                }
+
+
+            }).dxDataGrid('instance');
+        });
+    }
+
+
+</script>

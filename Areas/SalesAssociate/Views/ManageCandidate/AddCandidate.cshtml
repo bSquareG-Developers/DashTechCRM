@@ -1,0 +1,731 @@
+﻿@model DashTechCRM.Models.CandidateMaster
+@using DashTechCRM.Models
+
+@{ ViewBag.Title = "Add Candidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+
+
+@*CandidateName
+    EmailId
+    MobileNumber
+    RefRecurringTypeId
+    RefServiceId
+    TotalAmount
+    PaidAmount
+    Remarks
+    VisaStatus
+    TechnologyId
+    AgreementSent
+    Agreement*@
+
+<style>
+    .parsley-error, .parsley-required {
+        color: #F16C69;
+    }
+
+    .redColor {
+        color: red;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card m-b-20">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title">@ViewBag.title</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Candidate Name: <i class="redColor">*</i></label>
+                            <input type="text" name="CandidateName" id="CandidateName" class="form-control" required />
+                            <span id="reqcandidateName" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Email Address:  <i class="redColor">*</i></label>
+                            <input type="email" name="EmailId" id="EmailId" class="form-control" required />
+                            <span id="reqEmailId" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Contact Number:  <i class="redColor">*</i></label>
+                            <input type="text" name="MobileNumber" id="MobileNumber" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask required />
+                            <span id="reqMobileNumber" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Recurring Type:  <i class="redColor">*</i></label>
+                            <select class="form-control select2" id="RefRecurringTypeId" name="RefRecurringTypeId">
+                                <option>Select</option>
+                                @foreach (RecurringType recurringType in db.RecurringTypes.ToList())
+                                {
+                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>
+}
+                            </select>
+                            <span id="reqRefRecurringTypeId" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col-md-3 mt-4">
+                        <div class="form-group">
+                            <label>Agreement Sent:</label>
+                            <input type="checkbox" name="AgreementSent" id="AgreementSent" value="true" class="checkbox" />
+                            <input type="hidden" id="FalseAgreementSent" value="false" name="AgreementSent" />
+                        </div>
+                    </div>
+                    <div class="col-md-9 mt-2">
+                        <div class="form-group">
+                            <label>Agreement (%):  <i class="redColor">*</i></label>
+                            <select class="form-control select2" id="Agreement"></select>
+                            <span id="reqAgreement" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row border mt-2 mb-3">
+
+                    <div class="col-md-9 mt-2" id="DivJobGarunteeIn" style="display: none">
+                        <div class="form-group">
+                            <label for="ddlJobGaruntee">Job guarantee In  <i class="redColor">*</i></label>
+                            <select id="ddlJobGaruntee" class="form-control select2"></select>
+                            <span id="reqJobGaruntee" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Total Amount:</label>
+                            <input type="number" min="0" id="amtR" class="form-control" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enrollment Amount:</label>
+                            <input type="number" min="0" id="insR" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Received In  <i class="redColor">*</i></label>
+                            @{ string[] strRec = { "PayPal", "Stripe", "US Bank", "Cheque", "India Bank", "Cash" }; }
+                            <select class="form-group select2" name="recIn" id="recIn" style="width:100%" required>
+                                <option></option>
+                                @foreach (string mode in strRec)
+                                {
+                    <option value="@mode">@mode</option>}
+                            </select>
+                            <span id="reqrecIn" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Pending Installment :</label>
+                            <i class="fa fa-undo-alt btn btn-default mb-2" id="ResetGrid"></i>
+                            <div id="gridContainer"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card m-b-20">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Service Type:  <i class="redColor">*</i></label>
+                            <select class="form-control select2" id="RefServiceId" name="RefServiceId">
+                                <option>Select</option>
+                                @foreach (SalesServiceMaster salesService in db.SalesServiceMasters.ToList())
+                                {
+                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>
+}
+                            </select>
+                            <span id="reqRefServiceId" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Technology:  <i class="redColor">*</i></label>
+                            <select class="form-control select2" id="TechnologyId" name="TechnologyId">
+                                <option>Select</option>
+                                @foreach (TechnologyMaster tech in db.TechnologyMasters.ToList())
+                                {
+                    <option value="@tech.TechId">@tech.TechTitle</option>
+}
+                            </select>
+                            <span id="reqTechnologyId" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Visa Status:  <i class="redColor">*</i></label>
+                            @*<input type="text" min="0" name="VisaStatus" id="VisaStatus" class="form-control" required />*@
+                            <select id="VisaStatus" name="VisaStatus" class="form-control select2"></select>
+                            <span id="reqVisaStatus" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Attachment Url Link:</label>
+                            <input type="url" name="AgreementLink" id="AgreementLink" class="form-control" />
+                            <span id="reqAgreementLink" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="checkbox" id="InTraining" value="true" name="InTraining" />
+                            <input type="hidden" id="FalseInTraining" value="false" name="InTraining" /> In Training
+                            |
+                            <input type="checkbox" id="InMarketing" value="true" name="InMarketing" />
+                            <input type="hidden" id="FalseInMarketing" value="false" name="InMarketing" /> In Marketing
+                            |
+                            <input type="checkbox" id="ExpertCV" value="true" name="ExpertCV" />
+                            <input type="hidden" id="FalseExpertCV" value="false" name="ExpertCV" /> Expert CV
+                            |
+                            <input type="checkbox" id="Other" value="true" name="Other" />
+                            <input type="hidden" id="FalseOther" value="false" name="Other" /> Other
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Remakrs :  <i class="redColor">*</i></label>
+                            <textarea name="Remarks" id="Remarks" class="form-control"></textarea>
+                            <span id="reqRemarks" class="parsley-required" style="display: none"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button id="btnSubmit" class="btn btn-primary" style="padding:5px 90px" type="button">Save</button>
+                            <a href="@Url.Action("Index", "dashboard", new {@area = "SalesAssociate"})" style="padding:5px 90px" class="btn btn-danger">Back</a>
+                            @*<button id="btnGoback" class="btn btn-danger" style="padding:5px 90px" type="button">back</button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="loadpanel"></div>
+<link href="/content/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+<script src="/content/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="/content/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="/content/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="/content/plugins/select2/js/select2.min.js"></script>
+<script>
+    var grandTotal = 0;
+    var enrollmentAmt = 0;
+    var recurringDataArr = [];
+    var recurringInstallment = "";
+    var totalAmount = 0;
+    let sumPaidAmt = 0;
+    var remainingTotal = 0;
+    let AmountArr = [];
+    let days = 0;
+    let date = new Date();
+    let JobGarunteeLastDate = new Date();
+    var recurringTypeText = "";
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    $('[data-mask]').inputmask();
+
+    $('.select2').select2();
+
+    $(function() {
+        //BindRecurringDetails();
+        GetAgreementDropDown();
+        BindVisaStatus();
+        BindJobGaruntee();
+    });
+
+    function BindJobGaruntee() {
+        var data = [
+            { ID: 1, TEXT: '1 month' },
+            { ID: 2, TEXT: '2 months' },
+            { ID: 3, TEXT: '3 months' },
+            { ID: 4, TEXT: '4 months' },
+            { ID: 5, TEXT: '5 months' },
+            { ID: 6, TEXT: '6 months' }
+        ];
+        jQuery('#ddlJobGaruntee').empty();
+        jQuery('#ddlJobGaruntee').append('<option value="">Select</option>');
+        jQuery.each(data,
+            function (i, v) {
+                jQuery('#ddlJobGaruntee').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+            });
+    }
+    function BindVisaStatus() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("BindVisaStatus")",
+            success: function(data) {
+                data = JSON.parse(data);
+                jQuery('#VisaStatus').empty();
+                jQuery('#VisaStatus').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#VisaStatus').append('<option value="' + v.VisaTitle + '">' + v.VisaTitle + '</option>');
+                    });
+            }
+        });
+    }
+    function BindRecurringDetails() {
+        $("#gridContainer").dxDataGrid({
+            dataSource: recurringDataArr,
+            columns: [
+                { dataField: 'DueDate', caption: 'Due Date', alignment: 'center', dataType: 'date', format: 'dd MMM yyyy' },
+                { dataField: 'Amount', caption: 'Amount', alignment: 'center', dataType: 'number',  },
+                {
+                    dataField: 'PaymentStatus', caption: 'Payment Status', alignment: 'center', disabled: true, dataType: 'string',
+                    lookup: { dataSource: ['UnPaid','Paid', 'Refund', 'Deleted', 'Discount', 'Rejected', 'Un-Paid'] }
+                },
+                {
+                    dataField: 'ReceivedIn', caption: 'Received In', alignment: 'center', dataType: 'string',
+                    lookup: { dataSource: ['N/A',"PayPal", "Stripe", "US Bank", "Cheque", "India Bank", "Cash"] }
+                },
+
+                { dataField: 'SendRemainderEmail', caption: 'Send Remainder Email', alignment: 'center', dataType: 'string',
+                    lookup: { dataSource: ['Yes','No']
+                    }, validationRules: [{ type: "required" }]
+                }
+            ],
+            showBorders: true,
+            editing: {
+                mode: "row",
+                allowUpdating: remainingTotal === 0 ? false : true,
+                allowAdding: remainingTotal === 0 ? false : true
+            },
+
+            onRowInserted: function (e) {
+                delete e.data.__KEY__;
+                AmountArr.push(e.data.Amount);
+                sumPaidAmt = AmountArr.reduce(function (a, b) {
+                    return a + b;
+                }, 0);
+                grandTotal = sumPaidAmt + enrollmentAmt;
+                if (grandTotal > totalAmount) {
+                    DevExpress.ui.notify("Installment amount can not be greater than Total Amount ..!!", "error", 5000);
+                    grandTotal = enrollmentAmt;
+                    AmountArr.pop();
+                    recurringDataArr.pop();
+
+                } else {
+                    remainingTotal = totalAmount - grandTotal;
+                    recurringDataArr.push(e.data[0]);
+                    recurringDataArr.pop();
+                }
+                BindRecurringDetails(recurringDataArr);
+            },
+            onRowUpdated: function(e) {
+                delete e.data.__KEY__;
+                AmountArr.push(e.data.Amount);
+                sumPaidAmt = AmountArr.reduce(function (a, b) {
+                    return a + b;
+                }, 0);
+                grandTotal = sumPaidAmt + enrollmentAmt;
+                if (grandTotal > totalAmount) {
+                    DevExpress.ui.notify("Installment amount can not be greater than Total Amount ..!!", "error", 5000);
+                    grandTotal = enrollmentAmt;
+                    AmountArr.pop();
+                } else {
+                    remainingTotal = totalAmount - grandTotal;
+                }
+                BindRecurringDetails(recurringDataArr);
+            },
+
+            onInitNewRow: function(e) {
+                e.data.SendRemainderEmail = 'Yes';
+                e.data.PaymentStatus = 'UnPaid';
+                e.data.ReceivedIn = 'N/A';
+            }
+
+        });
+    }
+
+
+    $('#ResetGrid').click(function (e) {
+        recurringDataArr = [];
+        if ($('#RefRecurringTypeId').val() !== 'Select') {
+            BindRecurringDetails();
+        }
+        AmountArr = [];
+        remainingTotal = enrollmentAmt;
+    });
+    $('#InMarketing').change(function (e) {
+        $("#ExpertCV").prop('checked', true);
+    });
+
+
+    var getRemanningDays = function() {
+        var date = new Date();
+        var time = new Date(date.getTime());
+        time.setMonth(date.getMonth() + 1);
+        time.setDate(0);
+        var days =time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
+        return days;
+    }
+
+    $("#RefRecurringTypeId").change(function () {
+        var rid = $(this).val();
+        var url = "@Url.Action("GetRecurringType","ManageCandidate",new { @area = "SalesAssociate"})/?id=" + rid;
+        $.getJSON(url, null, function (data) {
+            //alert(data);
+            $("#amtR").val(data.Amount);
+            $("#insR").val(data.Pay);
+            sumPaidAmt = 0;
+            enrollmentAmt = data.Pay;
+            recurringInstallment = data.Installment;
+            totalAmount = data.Amount;
+            grandTotal = sumPaidAmt + enrollmentAmt;
+            remainingTotal = totalAmount - grandTotal;
+            recurringDataArr = [];
+            AmountArr = [];
+            BindRecurringDetails();
+        });
+        recurringTypeText = $("#RefRecurringTypeId").find("option:selected").text();
+        if (recurringTypeText ==="$5500 one time payment")
+                $('#DivJobGarunteeIn').show();
+        else
+            $('#DivJobGarunteeIn').hide();
+    });
+    $('#insR').change(function(e) {
+        enrollmentAmt = parseInt($('#insR').val());
+        grandTotal = sumPaidAmt + enrollmentAmt;
+        remainingTotal = totalAmount - grandTotal;
+        if ($('#RefRecurringTypeId').val() !== 'Select') {
+            BindRecurringDetails();
+        }
+
+    });
+
+    $('#btnSubmit').click(function (e) {
+        var candidateName = $('#CandidateName').val() ? $('#CandidateName').val():'';
+        var emailId = $('#EmailId').val() ? $('#EmailId').val():'';
+        var mobileNumber = $('#MobileNumber').val() ? $('#MobileNumber').val():'';
+        var recurringTypeId = $('#RefRecurringTypeId').val() ? $('#RefRecurringTypeId').val():'';
+        var totalAmmount = $('#amtR').val() ? $('#amtR').val():'';
+        var enrollmentAmount = $('#insR').val() ? $('#insR').val():'';
+        var serviceId = $('#RefServiceId').val() ? $('#RefServiceId').val():'';
+        var technologyId = $('#TechnologyId').val() ? $('#TechnologyId').val():'';
+        var recIn = $('#recIn').val() ? $('#recIn').val():'';
+        var visaStatus = $('#VisaStatus').val() ? $('#VisaStatus').val() : '';
+        var agreement = $('#Agreement').val() ? $('#Agreement').val():'';
+        var agreementLink = $('#AgreementLink').val() ? $('#AgreementLink').val():'';
+        var remarks = $('#Remarks').val() ? $('#Remarks').val():'';
+        var agreementSent = $('#AgreementSent').is(":checked") ? 1 : 0;
+        var inTraining = $('#InTraining').is(":checked") ? 1 : 0;
+        var inMarketing = $('#InMarketing').is(":checked") ? 1 : 0;
+        var expertCv = $('#ExpertCV').is(":checked") ? 1 : 0;
+        var inJobGaruntee = recurringTypeText === "$5500 one time payment" ? 1 : 0;
+        var validEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+
+        if (recurringDataArr.length === 0) {
+            recurringDataArr = [{ SendRemainderEmail: 'No', PaymentStatus: '', ReceivedIn: '', DueDate: new Date(), Amount: 0 }];
+        }
+
+        let param = {
+            candidateName, emailId, mobileNumber, recurringTypeId, totalAmmount, enrollmentAmount, serviceId, technologyId, recIn, visaStatus,
+            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate
+        }
+        if (grandTotal > totalAmount) {
+            DevExpress.ui.notify("Sum of Total paid amount is Greater than Total amount kindly check once.. ..!!", "error", 5000);
+            return false;
+        }
+        if (!candidateName) {
+            $('#reqcandidateName').text('Please Enter Candidate Name');
+            $('#reqcandidateName').show();
+            return false;
+        } else {
+            $('#reqcandidateName').text('');
+            $('#reqcandidateName').hide();
+        }
+        if (!emailId) {
+            $('#reqEmailId').text('Please enter Email Id');
+            $('#reqEmailId').show();
+            return false;
+        } else {
+            $('#reqEmailId').text('');
+            $('#reqEmailId').hide();
+        }
+        if (!emailId || !validEmail.test(emailId)) {
+            $('#reqEmailId').addClass('parsley-error');
+            $('#reqEmailId').text('Enter valid Email Id');
+            $('#reqEmailId').show();
+            return false;
+        } else {
+            $('#reqEmailId').removeClass('parsley-error');
+            $('#reqEmailId').hide();
+        }
+        if (!mobileNumber) {
+            $('#reqMobileNumber').text('Please enter Mobile No');
+            $('#reqMobileNumber').show();
+            return false;
+        } else {
+            $('#reqMobileNumber').text('');
+            $('#reqMobileNumber').hide();
+        }
+        if (!recurringTypeId || recurringTypeId === "Select") {
+            $('#reqRefRecurringTypeId').text('Please select Recurring Type');
+            $('#reqRefRecurringTypeId').show();
+            return false;
+        } else {
+            $('#reqRefRecurringTypeId').text('');
+            $('#reqRefRecurringTypeId').hide();
+        }
+        if (!recIn) {
+            $('#reqrecIn').text('Please Enter Received In');
+            $('#reqrecIn').show();
+            return false;
+        } else {
+            $('#reqrecIn').text('');
+            $('#reqrecIn').hide();
+        }
+        if (!serviceId || serviceId === "Select") {
+            $('#reqRefServiceId').text('Please select Service');
+            $('#reqRefServiceId').show();
+            return false;
+        } else {
+            $('#reqRefServiceId').text('');
+            $('#reqRefServiceId').hide();
+        }
+
+        if (!technologyId || technologyId === "Select") {
+            $('#reqTechnologyId').text('Please select Technology.');
+            $('#reqTechnologyId').show();
+            return false;
+        } else {
+            $('#reqTechnologyId').text('');
+            $('#reqTechnologyId').hide();
+        }
+
+        if (!visaStatus ) {
+            $('#reqVisaStatus').text('Please Enter Visa Status');
+            $('#reqVisaStatus').show();
+            return false;
+        } else {
+            $('#reqVisaStatus').text('');
+            $('#reqVisaStatus').hide();
+        }
+        if (inJobGaruntee === 1) {
+            if (!$('#ddlJobGaruntee').val()) {
+                $('#reqJobGaruntee').text('Please select Months');
+                $('#reqJobGaruntee').show();
+                return false;
+            } else {
+                $('#reqJobGaruntee').text('');
+                $('#reqJobGaruntee').hide();
+            }
+        }
+
+
+        if (!agreement) {
+            $('#reqAgreement').text('Please Enter Agreement Percentage');
+            $('#reqAgreement').show();
+            return false;
+        } else {
+            $('#reqAgreement').text('');
+            $('#reqAgreement').hide();
+        }
+        //if (!agreementLink) {
+        //    $('#reqAgreementLink').text('Please Enter Agreement Link');
+        //    $('#reqAgreementLink').show();
+        //    return false;
+        //} else {
+        //    $('#reqAgreementLink').text('');
+        //    $('#reqAgreementLink').hide();
+        //}
+        if (!remarks) {
+            $('#reqRemarks').text('Please enter remarks');
+            $('#reqRemarks').show();
+            return false;
+        } else {
+            $('#reqRemarks').text('');
+            $('#reqRemarks').hide();
+        }
+
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("SaveNewCandidate")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                loadPanel.hide();
+                if (response === '1')
+                    DevExpress.ui.notify("Candidate Added Successfully ..!!", "success", 5000);
+                else if (response === '0')
+                    DevExpress.ui.notify("Something went wrong ..!!", "error", 5000);
+                else if (response === "")
+                    DevExpress.ui.notify("Something went wrong Record Not Inserted", "error", 5000);
+                else
+                    DevExpress.ui.notify("Record Already Exists", "warning", 5000);
+                setTimeout(function(){
+                    window.location.reload(1);
+                }, 5000);
+            }
+        });
+    });
+
+    function GetAgreementDropDown() {
+        jQuery('#Agreement').empty();
+        jQuery('#Agreement').append('<option value="">Select</option>');
+        for (var i = 5; i < 21; i++) {
+            jQuery('#Agreement').append('<option value="' + i + '">' + i + '</option>');
+        }
+
+    }
+
+    $('#EmailId').change(function(e) {
+        let value = this.value;
+        let flag = "EmailId";
+        param = { flag, value }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("CheckExistMobileorEmail")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                if (response ==="1") {
+                    $('#reqEmailId').text('Email Id Already Exist please try another.');
+                    $('#reqEmailId').show();
+                    return false;
+                } else {
+                    $('#reqEmailId').text('');
+                    $('#reqEmailId').hide();
+                }
+            }
+        });
+    });
+    $('#MobileNumber').change(function(e) {
+        let value = this.value;
+        let flag = "Mobile";
+        param = { flag, value }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("CheckExistMobileorEmail")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                if (response === "1") {
+                    $('#reqMobileNumber').text('Mobile No Already Exist please try another.');
+                    $('#reqMobileNumber').show();
+                    return false;
+                } else {
+                    $('#reqMobileNumber').text('');
+                    $('#reqMobileNumber').hide();
+                }
+            }
+        });
+    });
+
+    function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+    }
+
+    Date.prototype.addDays = function(days) {
+        this.setDate(this.getDate() + parseInt(days));
+        return this;
+    };
+    $('#ddlJobGaruntee').change(function (e) {
+        let noOfMonths = parseInt(this.value);
+        if (noOfMonths === 1) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+
+        }
+        else if (noOfMonths === 2) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+        }
+        else if (noOfMonths === 3) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+        }
+        else if (noOfMonths === 4) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+        }
+        else if (noOfMonths === 5) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+        }
+        else if (noOfMonths === 6) {
+            days = getRemanningDays();
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+            days += daysInMonth(date.getMonth() + 1, date.getFullYear());
+        }
+        else {
+            days = 0;
+        }
+        JobGarunteeLastDate = new Date();
+        JobGarunteeLastDate.addDays(days);
+
+    });
+
+</script>

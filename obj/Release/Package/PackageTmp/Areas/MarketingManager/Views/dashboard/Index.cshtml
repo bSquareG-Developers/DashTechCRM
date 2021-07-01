@@ -1,0 +1,770 @@
+﻿@using DashTechCRM.Models
+
+@{ ViewBag.Title = "Candidate List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
+
+
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+
+    .parsley-error, .parsley-required {
+        color: #F16C69;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseTodayCandidateList" role="button" aria-expanded="true" aria-controls="collapseTodayCandidateList"> <i class="fa fa-filter"></i> New Candidate List   <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse show" id="collapseTodayCandidateList">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mt-0 header-title mb-4">Today's Assigned Candidate List</h4>
+                            <div class='rowCount' id="rowCount1"></div>
+                            <div id="gridNewCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapsePendingCandidateList" role="button" aria-expanded="true" aria-controls="collapsePendingCandidateList"> <i class="fa fa-filter"></i> Pending Candidate List <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse" id="collapsePendingCandidateList">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mt-0 header-title mb-4">Pending Candidate List</h4>
+                            <div class='rowCount' id="rowCount2"></div>
+                            <div id="gridPCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;" data-toggle="collapse" href="#collapseCandidateList" role="button" aria-expanded="true" aria-controls="collapseCandidateList"> <i class="fa fa-filter"></i> Re Assign Candidate List <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i></div>
+                <hr />
+                <div class="collapse" id="collapseCandidateList">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="mt-0 header-title mb-4">Re Assign Candidate .?</h4>
+                            <div class='rowCount' id="rowCount3"></div>
+                            <div id="gridCandidateList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="AssignModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Assign Candidate To Recruiter Details :</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="box box-default">
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Marketing Email Id</label>
+                                            <input class="form-control" type="email" name="MarketingEmailId" id="MarketingEmailId" style="width: 100%;" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Marketing Contact Number</label>
+                                            <input class="form-control" name="MarketingContactNumber" id="MarketingContactNumber" style="width: 100%;" data-inputmask='"mask": "(999) 999-9999"' data-mask readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Assing To</label>
+                                            <select class="form-control select2" name="ddlteamid" id="ddlteamid" style="width: 100%">
+                                            </select>
+                                            <span id="reqddlteamid" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Original Resume (Link)</label>
+                                            <input type="url" class="form-control" name="OriginalResume" id="OriginalResume" style="width: 100%;" />
+                                            <span id="reqOriginalResume" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Marketing Resume (Link)</label>
+                                            <input class="form-control" type="url" name="MarketingResume" id="MarketingResume" style="width: 100%;" />
+                                            <span id="reqMarketingResume" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="LocationConcern" id="LocationConcern" />
+                                            <label class="form-check-label" for="LocationConcern">
+                                                Location Concern
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="DIVLoccationList" style="display: none">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Required Location List</label>
+                                            <textarea class="form-control" type="text" name="RequiredLocationList" id="RequiredLocationList" style="width: 100%;"></textarea>
+                                            <span id="reqRequiredLocationList" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Remarks</label>
+                                            <textarea class="form-control" name="OtherRemarks" id="OtherRemarks" style="width: 100%" required></textarea>
+                                            <span id="reqOtherRemarks" class="parsley-required" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-danger" id="btnSubmit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="ReAssignModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Re Assign</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-default">
+
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="form-group">
+                                            <label>Assing To</label>
+                                            <select class="form-control select2" name="ddlReAssignteamid" id="ddlReAssignteamid" style="width:100%"></select>
+                                            <span id="reqReAssignteamid" class="parsley-required" style="display: none"></span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                <button type="button" id="btnReAssignCandidate" class="btn btn-danger">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="InterviewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Submission</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("NewInterview","SubmissionsManage",new { @area = "Recruiter"})" method="post">
+                    <input type="hidden" value="" id="assignedId" name="aid" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Interview Date</label>
+                                                <input class="form-control" type="date" name="DateOfInterview" id="DateOfInterview" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Time Of Interview</label>
+                                                <input class="form-control" type="time" name="TimeOfInterview" id="TimeOfInterview" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Mode Of Interview</label>
+                                                <select class="form-control select2" name="RefModeOfInterview" id="RefModeOfInterview" required>
+                                                    <option></option>
+                                                    @foreach (InterviewMode item in db.InterviewModes.ToList())
+                                                    {
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
+}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Round Of Interview</label>
+                                                <input class="form-control" name="RoundOfInterv" id="RoundOfInterv" style="width: 100%;" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Interview Support?</label>
+                                                <input type="checkbox" name="InterviewSupport" id="InterviewSupport" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Interview Support Name</label>
+                                                <input class="form-control" name="InterviewSupportName" id="InterviewSupportName" style="width: 100%;" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label>Job Description</label>
+                                                <textarea class="form-control" name="JobDescription" id="JobDescription" style="width: 100%;" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Interview Details</label>
+                                                <textarea class="form-control" name="InterviewDetails" id="InterviewDetails" style="width: 100%;" required></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Interview Joining Details</label>
+                                                <textarea class="form-control" name="InterviewJoiningDetails" id="InterviewJoiningDetails" style="width: 100%;" required></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-danger">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loadpanel"></div>
+
+<script>
+    var MarketingId = "";
+    $('[data-mask]').inputmask();
+    $('.select2').select2();
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+
+    $(function () {
+        GetCandidateListNew();
+        GetCandidateListPending();
+        GetCandidateList();
+        GetTeamLeaders();
+    });
+
+    function GetTeamLeaders() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetTeamLeaders")",
+            success: function(data) {
+                data = JSON.parse(data);
+                jQuery('#ddlteamid').empty();
+                jQuery('#ddlteamid').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#ddlteamid').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+
+                jQuery('#ddlReAssignteamid').empty();
+                jQuery('#ddlReAssignteamid').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#ddlReAssignteamid').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+    function GetCandidateListNew() {
+        //start getting data from GetCandidateList
+        loadPanel.show();
+        $.getJSON("@Url.Action("GetTodayCandidateList", "dashboard", new {@area = "MarketingManager"})", null, function (data) {
+            loadPanel.hide();
+            var dataGrid = $("#gridNewCandidateList").dxDataGrid({
+                dataSource: data,
+                columns: [
+
+                    { dataField: "CandidateName", caption: "Candidate Name", alignment: 'center', width: 180, dataType: 'string' },
+                    {
+                        dataField: "CandidateStatus", caption: "Marketing", alignment: "center", width: 150, dataType: 'string',
+                        cellTemplate: function (container, options) {
+                            $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+                        }
+                    },
+                    { dataField: "VisaStatus", caption: "Visa Status", alignment: "center", width: 150, dataType: 'string' },
+                    { dataField: "EnrolledDate", caption: "Enrolled Date", alignment: "center", width: 150, dataType: "date", sortIndex: 0, sortOrder: "desc", format: 'dd MMM yyyy' },
+                    { dataField: "MarketingStartDate", caption: "Marketing Start Date", alignment: "center", dataType: "date", width: 150 },
+                    { dataField: "MarketingContactNumber", caption: "Marketing Contact Number", alignment: "center", dataType: "string", width: 150 },
+                    { dataField: "MarketingEmailId", caption: "Marketing Email Id", alignment: "center", dataType: "string", width: 150 }],
+
+                columnsAutoWidth: true,
+                wordWrapEnabled: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                grouping: { autoExpandAll: true },
+                paging: { pageSize: 10 },
+                pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                headerFilter: { visible: true },
+                filterRow: { visible: true, applyFilter: "auto" },
+                allowColumnResizing: true,
+                groupPanel: { visible: true },
+                searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                export: {
+                    enabled: true, fileName: "Pending Candidate List", allowExportSelectedData: true,
+                    customizeExcelCell: options => {
+                        if (options.gridCell.rowType === "header") {
+                            options.backgroundColor = _dxGridHeaderBGColor;
+                            options.font.color = _dxGridHeaderColor;
+                        }
+                    }
+                },
+                selection: { mode: "multiple" },
+                allowColumnReordering: true,
+                columnFixing: { enabled: false },
+                columnChooser: {
+                    enabled: true,
+                    mode: "select",
+                    allowSearch: true
+                },
+                onExporting: function (e) {
+                    e.component.beginUpdate();
+                    e.component.columnOption("Button", "visible", false);
+                    e.component.columnOption("CandidateStatus", "visible", false);
+                },
+                onExported: function (e) {
+                    e.component.columnOption("Button", "visible", true);
+                    e.component.columnOption("CandidateStatus", "visible", true);
+                    e.component.endUpdate();
+                },
+                onCellPrepared: function (e) {
+                    if (e.rowType === "header") {
+                        e.cellElement.css("text-align", "center");
+                        e.cellElement.css("font-weight", "bold");
+                    }
+                    if (e.rowType === "group") {
+                        e.cellElement.css("text-align", "center");
+                    }
+                },
+                onContentReady(e) {
+                    jQuery('#rowCount1').html('Total Records : ' + jQuery("#gridNewCandidateList").dxDataGrid('instance').totalCount());
+                }
+            }).dxDataGrid('instance');
+
+
+        });
+        //end getting data from GetCandidateTimeLine
+
+    }
+    function GetCandidateListPending() {
+        //start getting data from Not in Marketing New Marketing
+        loadPanel.show();
+        $.getJSON("@Url.Action("GetPendingMarketingCandidateList", "dashboard", new { @area = "MarketingManager" })", null, function (data) {
+            loadPanel.hide();
+            var dataGrid = $("#gridPCandidateList").dxDataGrid({
+                dataSource: data,
+                columns: [
+                    {
+                        dataField: 'request', caption: 'Request Status', alignment: 'center', dataType: 'string', width: 120, type: 'buttons', cellTemplate: function (container, options) {
+                            if (options.data.MktEmailContactStatusFlag === null) {
+                                jQuery('<span class="fa fa-paper-plane" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                    request(options.data);
+                                }).appendTo(container);
+                            }
+                            if (options.data.MktEmailContactStatusFlag === 1 ) {
+                                jQuery('<span class="fa fa-spinner" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                }).appendTo(container);
+                            }
+                            if (options.data.MktEmailContactStatusFlag === 2) {
+                                jQuery('<span class="fa fa-check" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                }).appendTo(container);
+                            }
+                        }
+                    },
+
+                    {
+                        dataField: "Button", caption: "Assign Candidate", width: 120, alignment: 'center', type: "buttons",
+                        cellTemplate: function (container, options) {
+                            if (options.data.AgreementLink === "")
+                                $("<div>").text('');
+                            else if (options.data.MarketingEmailId && options.data.MarketingContactNumber && options.data.MktEmailContactStatusFlag == "2" && options.data.CandidateStatus == 'ExpertCv: End Process') {
+                                $("<div>").text('').on('dxclick', function () {
+                                    AssignCandidate(options.data);
+                                }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Start" }))).appendTo(container);
+                            }
+                        }
+                    },
+                    { dataField: "CandidateName", caption: "Candidate Name", alignment: 'center', width: 180, dataType: 'string' },
+                    {
+                        dataField: "CandidateStatus", caption: "Marketing", alignment: "center", width: 150, dataType: 'string',
+                        cellTemplate: function (container, options) {
+                            $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+                        }
+                    },
+                    { dataField: "VisaStatus", caption: "Visa Status", alignment: "center", width: 150, dataType: 'string' },
+                    { dataField: "EnrolledDate", caption: "Enrolled Date", alignment: "center", width: 150, dataType: "date", sortIndex: 0, sortOrder: "desc", format: 'dd MMM yyyy' },
+                    { dataField: "MarketingStartDate", caption: "Marketing Start Date", alignment: "center", dataType: "date", width: 150, format: 'dd MMM yyyy' },
+                    { dataField: "MarketingContactNumber", caption: "Marketing Contact Number", alignment: "center", dataType: "string", width: 150 },
+                    { dataField: "MarketingEmailId", caption: "Marketing Email Id", alignment: "center", dataType: "string", width: 150 }],
+
+                columnsAutoWidth: true,
+                wordWrapEnabled: true,
+                rowAlternationEnabled: true,
+                showBorders: true,
+                grouping: { autoExpandAll: true },
+                paging: { pageSize: 10 },
+                pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                headerFilter: { visible: true },
+                filterRow: { visible: true, applyFilter: "auto" },
+                allowColumnResizing: true,
+                groupPanel: { visible: true },
+                searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                export: {
+                    enabled: true, fileName: "Pending Candidate List", allowExportSelectedData: true,
+                    customizeExcelCell: options => {
+                        if (options.gridCell.rowType === "header") {
+                            options.backgroundColor = _dxGridHeaderBGColor;
+                            options.font.color = _dxGridHeaderColor;
+                        }
+                    }
+                },
+                selection: { mode: "multiple" },
+                allowColumnReordering: true,
+                columnFixing: { enabled: false },
+                columnChooser: {
+                    enabled: true,
+                    mode: "select",
+                    allowSearch: true
+                },
+                onExporting: function (e) {
+                    e.component.beginUpdate();
+                    e.component.columnOption("Button", "visible", false);
+                    e.component.columnOption("CandidateStatus", "visible", false);
+                },
+                onExported: function (e) {
+                    e.component.columnOption("Button", "visible", true);
+                    e.component.columnOption("CandidateStatus", "visible", true);
+                    e.component.endUpdate();
+                },
+                onCellPrepared: function (e) {
+                    if (e.rowType === "header") {
+                        e.cellElement.css("text-align", "center");
+                        e.cellElement.css("font-weight", "bold");
+                    }
+                    if (e.rowType === "group") {
+                        e.cellElement.css("text-align", "center");
+                    }
+                },
+                onContentReady(e) {
+                    jQuery('#rowCount2').html('Total Records : ' + jQuery("#gridPCandidateList").dxDataGrid('instance').totalCount());
+                }
+
+            }).dxDataGrid('instance');
+        });
+        //end getting data from Not in Marketing
+
+    }
+    //start getting data from GetCandidateList New Marketing
+    function GetCandidateList() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetCandidateList")",
+            success: function (data) {
+                data = JSON.parse(data);
+                loadPanel.hide();
+                var dataGrid = $("#gridCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        { dataField: "Button", caption: "Re Assign", width: 150, alignment: 'center', dataType: 'string', type: "buttons",
+                            cellTemplate: function (container, options) { $("<div>").text('').on('dxclick',
+                                    function () {
+                                        ReAssignCandidate(options.data);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": "Re-Assign" })))
+                                .appendTo(container);
+                            }
+                        },
+                        { dataField: "CandidateName", caption: "Candidate Name", width: 140, alignment: 'center', dataType: 'string' },
+                        { dataField: "MarketingName", caption: "Marketing person Name", width: 140, alignment: 'center', dataType: 'string' },
+                        { dataField: "MobileNumber", caption: "Contact", width: 150, alignment: 'center', dataType: 'string' },
+                        { dataField: "CandidateStatus", caption: "Marketing?", alignment: 'center', dataType: 'string', width: 150, type: "buttons",
+                            cellTemplate: function (container, options) {
+                                $('<i></i>').append(options.data.CandidateStatus).appendTo(container);
+                            }
+                        },
+                        { dataField: "VisaStatus", caption: "Visa", alignment: "center", width: 120, dataType: 'string' },
+                        { dataField: "Date", caption: 'Date', alignment: "center", dataType: "date", sortIndex: 0, sortOrder: "desc", width: 120, format: 'dd MMM yyyy' },
+                        { dataField: "MarketingStartDate", caption: 'Marketing Start Date', alignment: "center", dataType: "date", width: 150, format: 'dd MMM yyyy' },
+                        { dataField: "MarketingContactNumber", caption: "Marketing Contact Number", alignment: "center", dataType: "string", width: 150 },
+                        { dataField: "MarketingEmailId", caption: "Marketing Email Id", alignment: "center", dataType: "string", width: 150 }
+                    ],
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: true,
+                        fileName: "Re Assigned Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function (e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("AgreementSent", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function (e) {
+                        e.component.columnOption("AgreementSent", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function (e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount3').html('Total Records : ' + jQuery("#gridCandidateList").dxDataGrid('instance').totalCount());
+                    }
+                }).dxDataGrid('instance');
+            }
+        });
+    }
+    function AssignCandidate(data) {
+        MarketingId = data.MarketingId;
+        $("#AssignModal").modal("show");
+        $('#MarketingEmailId').val(data.MarketingEmailId);
+        $('#MarketingContactNumber').val(data.MarketingContactNumber);
+        $("#CId").val(data.CandidateId);
+    }
+
+
+
+    $('#LocationConcern').change(function (e) {
+        $("#ExpertCV").prop('checked', true);
+
+        var locationConcern = $('#LocationConcern').is(":checked") ? 1 : 0;
+
+        if (locationConcern ===1)
+            $('#DIVLoccationList').show();
+        else
+            $('#DIVLoccationList').hide();
+
+
+    });
+    function request(data) {
+        param = { CandidateName: data.CandidateName, CandidateId: data.CandidateId }
+        var result = DevExpress.ui.dialog.confirm("<i>Send Request for Generating Marketing Email Id and Contact Number .?</i>", "Are you sure? ");
+        result.done(function(res) {
+            if (res) {
+                loadPanel.show();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action("SendMailToRequest")",
+                    data: "{parameter:'" + JSON.stringify(param) + "'}",
+                    success: function(response) {
+                        loadPanel.hide();
+                        if (response === 'True')
+                            DevExpress.ui.notify("Request send successfully..!!", "success", 5000);
+                        GetCandidateListPending();
+                    }
+                });
+            }
+        });
+    }
+
+    $('#btnSubmit').click(function (e) {
+        var originalResume = $('#OriginalResume').val() ? $('#OriginalResume').val():'';
+        var marketingResume = $('#MarketingResume').val() ? $('#MarketingResume').val():'';
+        var locationConcern = $('#LocationConcern').is(":checked") ? 1 : 0;
+        var requiredLocationList = $('#RequiredLocationList').val() ? $('#RequiredLocationList').val() : '';
+        var teamLeadId = $('#ddlteamid').val() ? $('#ddlteamid').val():'';
+        var otherRemarks = $('#OtherRemarks').val() ? $('#OtherRemarks').val() : '';
+        if (!teamLeadId) {
+            $('#reqddlteamid').text('Please select Assign To..!!');
+            $('#reqddlteamid').show();
+            return false;
+        } else {
+            $('#reqddlteamid').text('');
+            $('#reqddlteamid').hide();
+        }
+        if (!originalResume) {
+            $('#reqOriginalResume').text('Please insert original resume link..!!');
+            $('#reqOriginalResume').show();
+            return false;
+        } else {
+            $('#reqOriginalResume').text('');
+            $('#reqOriginalResume').hide();
+        }
+        if (!marketingResume) {
+            $('#reqMarketingResume').text('Please enter marketing resume link..!!');
+            $('#reqMarketingResume').show();
+            return false;
+        } else {
+            $('#reqMarketingResume').text('');
+            $('#reqMarketingResume').hide();
+        }
+        if (locationConcern ===1) {
+            if (!requiredLocationList) {
+                $('#reqRequiredLocationList').text('Please enter required location list..!!');
+                $('#reqRequiredLocationList').show();
+                return false;
+            } else {
+                $('#reqRequiredLocationList').text('');
+                $('#reqRequiredLocationList').hide();
+            }
+        }
+
+        if (!otherRemarks) {
+            $('#reqOtherRemarks').text('Pleaase enter remarks ..!!');
+            $('#reqOtherRemarks').show();
+            return false;
+        } else {
+            $('#reqOtherRemarks').text('');
+            $('#reqOtherRemarks').hide();
+        }
+        param = { originalResume, marketingResume, locationConcern, requiredLocationList, teamLeadId, otherRemarks, MarketingId };
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("AssignCandidateAdd")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                loadPanel.hide();
+                if (response === '1')
+                    DevExpress.ui.notify("Marketing details saved successfully..!!", "success", 5000);
+                $("#AssignModal").modal("hide");
+                GetCandidateListPending();
+            }
+        });
+    });
+    function ReAssignCandidate(data) {
+        this.MarketingId = data.MarketingId;
+        $("#ReAssignModal").modal("show");
+        $("#MarketingId").val(MarketingId);
+    }
+    $('#btnReAssignCandidate').click(function(e) {
+        var teamLeadId = $('#ddlReAssignteamid').val() ? $('#ddlReAssignteamid').val() : '';
+        if (!teamLeadId) {
+            $('#reqReAssignteamid').text('Please Select Assign To..!!');
+            $('#reqReAssignteamid').show();
+            return false;
+        } else {
+            $('#reqReAssignteamid').text('');
+            $('#reqReAssignteamid').hide();
+        }
+        param = { teamLeadId, MarketingId }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("ReAssignCandidate")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("ReAssign Successfully.!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                setTimeout(function() {
+                        window.location.reload(1);
+                    },
+                    5000);
+            }
+        });
+
+    });
+</script>

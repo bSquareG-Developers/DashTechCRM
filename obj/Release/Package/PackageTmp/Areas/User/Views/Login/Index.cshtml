@@ -1,0 +1,225 @@
+﻿
+@{ Layout = null;
+    ViewBag.title = "DashTechCRM: Login"; }
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>@ViewBag.title</title>
+    <meta content="Admin Dashboard" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <link rel="shortcut icon" href="/content/Content/assets/images/favicon.ico">
+
+    <link href="/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/Content/assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/Content/assets/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        .parsley-error, .parsley-required {
+            color: #F16C69;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 class="alert alert-danger">@ViewBag.ErrorMessage</h3>
+    <!-- Background -->
+    <div class="account-pages"></div>
+    <!-- Begin page -->
+    <div class="wrapper-page">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h3 class="text-center m-0">
+                    @*<a href="index.html" class="logo logo-admin"><img src="/Content/assets/images/logo.png" height="30" alt="logo"></a>*@
+                    Dash Tech CRM
+                </h3>
+
+                <div class="p-3">
+                    <h4 class="text-muted font-18 m-b-5 text-center">Welcome Back !</h4>
+                    <p class="text-muted text-center">Sign in to continue to Dash Tech.</p>
+
+                    <form class="form-horizontal m-t-30" action="@Url.Action("Index")" method="post">
+
+                        <div class="form-group">
+                            <label for="username">User Email Address</label>
+                            <input type="email" class="form-control" id="emailId" name="emailId" placeholder="Enter Email Address" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userpassword">Password</label>
+                            <input type="password" class="form-control" id="userpassword" name="password" placeholder="Enter password" required>
+                        </div>
+
+                        <div class="form-group row m-t-20">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customControlInline">
+                                    <label class="custom-control-label" for="customControlInline">Remember me</label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-t-10 mb-0 row">
+                            <div class="col-12 m-t-20">
+                                @Html.Partial("_alertBox")
+                                <i id="iForgotPassword" class="text-muted" style="cursor: pointer;"><i class="mdi mdi-lock"></i> Forgot your password?</i>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="m-t-40 text-center">
+            <p class="text-muted">© 2021 DashTechInc. CRM Tool <i class="mdi mdi-heart text-primary"></i> by DashTechInc.</p>
+        </div>
+    </div>
+    <div id="modalForgotPassword" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0" id="myLargeModalLabel">Recover password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="text-left">Rocket Name</label>
+                                <input type="text" class="form-control" id="txtRocketName" />
+                                <span id="reqtxtRocketName" class="parsley-required" style="display: none"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="text-left">Email Id</label>
+                                <input type="email" class="form-control" id="txtEmailId" />
+                                <span id="reqtxtEmailId" class="parsley-required" style="display: none"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-block btn-primary" id="btnSendPassword">SEND PASSWORD</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-block btn-outline-primary" id="btnReset">RESET</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p><strong>Note:</strong> Please fill the RocketName and Email.Password will sent to your registered E-Mail address.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END wrapper -->
+    <!-- jQuery  -->
+    <script src="/Content/assets/js/jquery.min.js"></script>
+    <script src="/Content/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/Content/assets/js/jquery.slimscroll.js"></script>
+    <script src="/Content/assets/js/waves.min.js"></script>
+
+    <script src="/Content/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- App js -->
+    <script src="/Content/assets/js/app.js"></script>
+    <script>
+        var validEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        //var validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        $(function () {
+
+        });
+        $('#iForgotPassword').click(function (e) {
+            $('#modalForgotPassword').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+        $('#btnSendPassword').click(function (e) {
+            var rocketName = $('#txtRocketName').val();
+            var emailId = $('#txtEmailId').val();
+
+            if (!rocketName) {
+                $('#txtRocketName').addClass('parsley-error');
+                $('#reqtxtRocketName').text('Rocket Name is Required');
+                $('#reqtxtRocketName').show();
+                return false;
+            } else {
+                $('#reqtxtRocketName').hide();
+                $('#txtRocketName').removeClass('parsley-error');
+            }
+            if (!emailId) {
+                $('#txtEmailId').addClass('parsley-error');
+                $('#reqtxtEmailId').text('Enter valid Email Id');
+                $('#reqtxtEmailId').show();
+                return false;
+            } else {
+                $('#reqtxtEmailId').hide();
+                $('#txtEmailId').removeClass('parsley-error');
+            }
+            if (!emailId || !validEmail.test(emailId)) {
+                $('#reqtxtEmailId').addClass('parsley-error');
+                $('#reqtxtEmailId').text('Enter valid Email Id');
+                $('#reqtxtEmailId').show();
+                return false;
+            } else {
+                $('#reqtxtEmailId').removeClass('parsley-error');
+                $('#reqtxtEmailId').hide();
+            }
+            param = { rocketName, emailId };
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Login/ForgetPassword/",
+                data: "{parameter:'" + JSON.stringify(param) + "'}",
+                success: function (response) {
+                    response = JSON.parse(response);
+                    response = response[0];
+                    if (response.Column1 === 1)
+                        alert('something went wrong please check your rocketName and EmailId with DashTechnologies still have issue then try to contact with Administrator by email or call');
+                    else
+                        SendConfirmationEmail(response);
+                }
+            });
+        });
+
+        function SendConfirmationEmail(data) {
+            param = data;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Login/SendMailUpdatedForgotPassword/",
+                data: "{parameter:'" + JSON.stringify(param) + "'}",
+                success: function (response) {
+                    console.log(response);
+
+                    if (response == 'True') {
+                        alert('We have send you your updated password on your emailId. kindly check.');
+                    }
+                    location.reload();
+                }
+            });
+        }
+
+        $('#btnReset').click(function (e) {
+            $('#txtRocketName').val('');
+            $('#txtEmailId').val('');
+        });
+    </script>
+</body>
+
+</html>

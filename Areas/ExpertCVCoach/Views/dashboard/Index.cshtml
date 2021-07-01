@@ -1,0 +1,870 @@
+﻿﻿
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+
+@*<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>*@
+
+<!-- DevExtreme themes -->
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.common.css">
+<link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/20.2.5/css/dx.light.css">
+
+<!-- DevExtreme library -->
+<script type="text/javascript" src="https://cdn3.devexpress.com/jslib/20.2.5/js/dx.all.js"></script>
+<style>
+    .rowCount {
+        color: #F16C69;
+        font-size: large;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit {
+        white-space: normal;
+    }
+
+    .ui-autocomplete {
+        z-index: 100000 !important;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;"
+                     data-toggle="collapse"
+                     href="#collapsetodayCandidateList"
+                     role="button"
+                     aria-expanded="true"
+                     aria-controls="collapsetodayCandidateList">
+                    <i class="fa fa-filter"></i> Today's Candidate List
+                    <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i>
+                </div>
+                <hr />
+                <div id="collapsetodayCandidateList" class="collapse show">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <h4 class="mt-0 header-title mb-4">Today's Candidate List</h4>
+                                            <div class='rowCount' id="rowCount"></div>
+                                            <div id="gridNewCandidateList"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="color: #f16c69; cursor: pointer;"
+                     data-toggle="collapse"
+                     href="#collapseCandidateList"
+                     role="button"
+                     aria-expanded="false"
+                     aria-controls="collapseCandidateList">
+                    <i class="fa fa-filter"></i> Candidate List
+                    <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i>
+                </div>
+                <hr />
+                <div id="collapseCandidateList" class="collapse">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="col-xl-12 border-right">
+                                                <h4 class="mt-0 header-title mb-4">Candidate List</h4>
+                                                <div class='rowCount' id="rowCount1"></div>
+                                                <div id="gridOldCandidateList"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="modal-resume" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Add Follow Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body">
+                    <form action="@Url.Action("SaveFollowup","dashboard",new { @area = "ExpertCVCoach"})" method="post">
+                        <input type="hidden" name="candidateId" id="candidateId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>Expert CV Status</td>
+                                                <td>
+                                                    <select class="form-control select2" id="status" name="status" required></select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Remarks</td>
+                                                <td>
+                                                    <textarea class="form-control" id="remarks" name="remarks" required></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="2" align="right">
+                                                    <button class="btn btn-primary">Save</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>
+
+<div id="modalUserFollowUpDetails" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabelFollowUp">Follow Up Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="rowCount1"></div>
+                        <div id="gridFollowUpDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalMarketingStartEnd" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="MyMarketingTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Process Status</label>
+                            <select id="ddlProcessStatus" class="form-control"></select>
+                            <span id="reqProcessStatus" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label id="lblEndMarketingRemarks" for="txtFollowUpMessageRemarks">Remarks :</label>
+                            <textarea id="txtFollowUpMessageRemarks" rows="5" class="form-control"></textarea>
+                            <span id="reqFollowUpMessageRemarks" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" id="btnSaveEndMarketingRemarks">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalChangeTechnology" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Change Technology</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Technology</label>
+                                <input type="text" id="txtTechnology" class="form-control" />
+                                <span id="reqtxtTechnology" class="parsley-required" style="display: none"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button id="btnChangetechnology" class="btn btn-primary">Change Technology</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loadpanel"></div>
+<script>
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+
+    $(function () {
+        getNewCandidateList();
+        getCandidateList();
+        BindFollowUpStatusExpertCv();
+        GetTechnology();
+        BindprogressStatus();
+    });
+
+
+    function BindFollowUpStatusExpertCv() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("BindFollowUpStatusExpertCv")",
+            success: function(data) {
+                data = JSON.parse(data);
+                jQuery('#status').empty();
+                jQuery('#status').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#status').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+
+
+    function BindprogressStatus() {
+        let data = [{ ID: 'Start', TEXT: 'Start' }, { ID: 'In Progress', TEXT: 'In Progress' }, { ID: 'End', TEXT: 'End' }];
+        jQuery('#ddlProcessStatus').empty();
+        jQuery('#ddlProcessStatus').append('<option value="">Select</option>');
+        jQuery.each(data,
+            function(i, v) {
+                jQuery('#ddlProcessStatus').append('<option value="' + v.ID + '">' + v.TEXT + '</option>');
+            });
+    }
+
+
+
+    function GetTechnology() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetTechnology")",
+            success: function (data) {
+                data = JSON.parse(data);
+                data = data.map(x => x.TechTitle);
+                $("#txtTechnology").autocomplete({
+                    source: data
+                });
+
+            }
+        });
+    }
+    function getNewCandidateList() {
+        loadPanel.show();
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetNewCandidateList")",
+            success: function (data) {
+                data = JSON.parse(data);
+                loadPanel.hide();
+                var dataGrid = $("#gridNewCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        { dataField: "CandidateName", caption: "Candidate Name", alignment: 'center', width: 140, dataType: 'string' },
+                        { dataField: "MobileNumber", caption: "Mobile Number", alignment: 'center', width: 140, dataType: 'string' },
+                        { dataField: "EmailId", caption: 'Email Id', alignment: "center", width: 180, dataType: 'string' },
+                        { dataField: "CandidateStatus", caption: 'Candidate Status', alignment: "center", width: 130, dataType: 'string' },
+                        { dataField: "EnrolledDate", caption: 'Enrolled Date', alignment: "center", dataType: "date", width: 120, format: 'dd MMM yyyy' },
+                        { dataField: 'TechTitle', caption: 'Technology', alignment: 'center', dataType: 'string', width: 130, format: '' },
+                        {
+                            dataField: "changeTechnology", caption: "Change Technology", alignment: "center", width: 150, cellTemplate: function (container, options) {
+                                $('<span class="fa fa-edit" style:"cursor: pointer">').text('').on('dxclick', function () {
+
+                                    changeTechnology(options.data.CandidateId);
+                                }).appendTo(container);
+                            }
+                        },
+                        {
+                            dataField: "Agreement", caption: "Agreement Per(%)", alignment: "center", width: 140, dataType: 'fixedPoint', format: {
+                                type: 'fixedPoint',
+                                precision: '2'
+                            }
+                        },
+
+                        { dataField: "TotalAmount", caption: 'Total Amount', alignment: "right", format: "currency", width: 100, dataType: 'string' },
+                        { dataField: "PaidAmount", caption: 'Paid Amount', alignment: "right", format: "currency", width: 150, dataType: 'string' },
+                        {
+                            dataField: "ServiceName", caption: "Service Name", width: 120, alignment: "center", dataType: 'string',
+                            cellTemplate: function (container, options) {
+                                var str = "";
+                                if (options.value === "AOG (Art Of Getting Job)")
+                                    str = "AOG M";
+                                else if (options.value === "AOG (Art Of Getting Job) Training + Marketing")
+                                    str = "AOG TM";
+                                else if (options.value === "Training")
+                                    str = "AOG T";
+                                $("<div>").append($("<b>" + str + "</b>")).appendTo(container);
+                            }
+
+                        },
+                        {
+                            dataField: 'starProcess', caption: 'Start Process', alignment: 'center', dataType: 'string', width: 80, type: 'buttons', cellTemplate: function (container, options) {
+
+                                if (options.data.ProcessStart === '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Process Start');
+                                        options.data.FollowUpStatus = 'Process Start';
+                                        MarketingEndStart(options.data, options.data.ProcessStart);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ProcessStart ? options.data.ProcessStart : "Start" }))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: 'resumePreparation', caption: 'Resume Preparation', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ProcessStart !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Preparation');
+                                        options.data.FollowUpStatus = 'Resume Preparation';
+                                        MarketingEndStart(options.data, options.data.ResumePreparation);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumePreparation ? options.data.ResumePreparation : "Start" }))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: 'resumeVerification', caption: 'Resume Verification', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumePreparation !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Verification');
+                                        options.data.FollowUpStatus = 'Resume Verification';
+                                        MarketingEndStart(options.data, options.data.ResumeVerification);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumeVerification ? options.data.ResumeVerification : "Start" }))).appendTo(container);
+                                }
+
+                            }
+                        }, {
+                            dataField: 'resumeModification', caption: 'Resume Modification', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumeVerification !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Modification');
+                                        options.data.FollowUpStatus = 'Resume Modification';
+                                        MarketingEndStart(options.data, options.data.ResumeModification);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumeModification ? options.data.ResumeModification : 'Start' }))).appendTo(container);
+                                }
+                            }
+                        }, {
+                            dataField: 'resumeRUC', caption: 'RUC', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumeModification !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('RUC');
+                                        options.data.FollowUpStatus = 'RUC';
+                                        MarketingEndStart(options.data, options.data.RUC);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.RUC ? options.data.RUC : "Start" }))).appendTo(container);
+                                }
+                            }
+                        },
+
+                        {
+                            dataField: 'endprocess', caption: 'End Process', alignment: 'center', dataType: 'string', width: 80, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ProcessStart !== '' && options.data.ResumePreparation !== '' && options.data.ResumeVerification !== '' && options.data.ResumeModification !== '' && options.data.RUC !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('End Process');
+                                        options.data.FollowUpStatus = 'End Process';
+                                        MarketingEndStart(options.data, options.data.ProcessEnd);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ProcessEnd ? options.data.ProcessEnd : "Start" }))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: "ViewFollowUp", caption: "Follow Up View", width: 120, Alignment: 'center', type: 'buttons', cellTemplate: function (container, options) {
+                                $('<span class="fa fa-eye" style:"cursor: pointer">').text('').on('dxclick', function () {
+                                    GetFollowUpDetails(options.data.CandidateId);
+                                }).appendTo(container);
+                            }
+                        }
+                    ],
+                    summary: {
+                        totalItems: [{ column: "PaidAmount", summaryType: "sum", format: "currency" }, { column: "TotalAmount", summaryType: "sum", format: "currency" }]
+                    },
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: true,
+                        fileName: "New Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function (e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Button", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function (e) {
+                        e.component.columnOption("Button", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function (e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount').html('Total Records : ' + jQuery("#gridNewCandidateList").dxDataGrid('instance').totalCount());
+                    }
+
+
+                }).dxDataGrid('instance');
+            }
+        });
+    }
+    function getCandidateList() {
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetCandidateList")",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                var dataGrid = $("#gridOldCandidateList").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        { dataField: "CandidateName", caption: "Candidate Name", alignment: 'center', width: 140, dataType: 'string' },
+                        { dataField: "MobileNumber", caption: "Mobile Number", alignment: 'center', width: 140, dataType: 'string' },
+                        { dataField: "EmailId", caption: 'Email Id', alignment: "center", width: 180, dataType: 'string' },
+                        { dataField: "CandidateStatus", caption: 'Candidate Status', alignment: "center", width: 130, dataType: 'string' },
+                        { dataField: "EnrolledDate", caption: 'Enrolled Date', alignment: "center", dataType: "date", width: 120, format: 'dd MMM yyyy' },
+                        { dataField: 'TechTitle', caption: 'Technology', alignment: 'center', dataType: 'string', width: 130, format: '' },
+                        {
+                            dataField: "changeTechnology", caption: "Change Technology", alignment: "center", width: 150, cellTemplate: function (container, options) {
+                                $('<span class="fa fa-edit" style:"cursor: pointer">').text('').on('dxclick', function () {
+
+                                    changeTechnology(options.data.CandidateId);
+                                }).appendTo(container);
+                            }
+                        },
+                        {
+                            dataField: "Agreement", caption: "Agreement Per(%)", alignment: "center", width: 140, dataType: 'fixedPoint', format: {
+                                type: 'fixedPoint',
+                                precision: '2'
+                            }
+                        },
+
+                        { dataField: "TotalAmount", caption: 'Total Amount', alignment: "right", format: "currency", width: 100, dataType: 'string' },
+                        { dataField: "PaidAmount", caption: 'Paid Amount', alignment: "right", format: "currency", width: 150, dataType: 'string' },
+                        {
+                            dataField: "ServiceName", caption: "Service Name", width: 120, alignment: "center", dataType: 'string',
+                            cellTemplate: function (container, options) {
+                                var str = "";
+                                if (options.value === "AOG (Art Of Getting Job)")
+                                    str = "AOG M";
+                                else if (options.value === "AOG (Art Of Getting Job) Training + Marketing")
+                                    str = "AOG TM";
+                                else if (options.value === "Training")
+                                    str = "AOG T";
+                                $("<div>").append($("<b>" + str + "</b>")).appendTo(container);
+                            }
+
+                        },
+                        {
+                            dataField: 'starProcess', caption: 'Start Process', alignment: 'center', dataType: 'string', width: 80, type: 'buttons', cellTemplate: function (container, options) {
+
+                                if (options.data.ProcessStart === '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Process Start');
+                                        options.data.FollowUpStatus = 'Process Start';
+                                        MarketingEndStart(options.data, options.data.ProcessStart);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ProcessStart ? options.data.ProcessStart : "Start" }))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: 'resumePreparation', caption: 'Resume Preparation', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ProcessStart !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Preparation');
+                                        options.data.FollowUpStatus = 'Resume Preparation';
+                                        MarketingEndStart(options.data, options.data.ResumePreparation);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumePreparation ? options.data.ResumePreparation:"Start" }))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: 'resumeVerification', caption: 'Resume Verification', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumePreparation !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Verification');
+                                        options.data.FollowUpStatus = 'Resume Verification';
+                                        MarketingEndStart(options.data, options.data.ResumeVerification);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumeVerification ? options.data.ResumeVerification:"Start" }))).appendTo(container);
+                                }
+
+                            }
+                        }, {
+                            dataField: 'resumeModification', caption: 'Resume Modification', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumeVerification !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('Resume Modification');
+                                        options.data.FollowUpStatus = 'Resume Modification';
+                                        MarketingEndStart(options.data, options.data.ResumeModification);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ResumeModification ? options.data.ResumeModification:'Start'}))).appendTo(container);
+                                }
+                            }
+                        }, {
+                            dataField: 'resumeRUC', caption: 'RUC', alignment: 'center', dataType: 'string', width: 100, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ResumeModification !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('RUC');
+                                        options.data.FollowUpStatus = 'RUC';
+                                        MarketingEndStart(options.data, options.data.RUC);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.RUC ? options.data.RUC:"Start" }))).appendTo(container);
+                                }
+                            }
+                        },
+
+                        {
+                            dataField: 'endprocess', caption: 'End Process', alignment: 'center', dataType: 'string', width: 80, type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.ProcessStart !== '' && options.data.ResumePreparation !== '' && options.data.ResumeVerification !== '' && options.data.ResumeModification !== '' && options.data.RUC !== '') {
+                                    $("<div>").text('').on('dxclick', function () {
+                                        $('#MyMarketingTitle').html('End Process');
+                                        options.data.FollowUpStatus = 'End Process';
+                                        MarketingEndStart(options.data, options.data.ProcessEnd);
+                                    }).append($("<button>", { "class": "btn btn-primary btn-sm" }).append($("<b>", { "text": options.data.ProcessEnd ? options.data.ProcessEnd:"Start"}))).appendTo(container);
+                                }
+
+                            }
+                        },
+                        {
+                            dataField: "ViewFollowUp", caption: "Follow Up View", width: 120, Alignment: 'center', type: 'buttons', cellTemplate: function (container, options) {
+                                $('<span class="fa fa-eye" style:"cursor: pointer">').text('').on('dxclick', function () {
+                                    GetFollowUpDetails(options.data.CandidateId);
+                                }).appendTo(container);
+                            }
+                        }
+                    ],
+                    summary: {
+                        totalItems: [{ column: "PaidAmount", summaryType: "sum", format: "currency" }, { column: "TotalAmount", summaryType: "sum", format: "currency", }]
+                    },
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: true,
+                        fileName: "Pending Candidate List",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function (e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Button", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function (e) {
+                        e.component.columnOption("Button", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function (e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount1').html('Total Records : ' + jQuery("#gridOldCandidateList").dxDataGrid('instance').totalCount());
+                    }
+                }).dxDataGrid('instance');
+            }
+        });
+    }
+
+
+
+    function showData(id) {
+        $("#modal-resume").modal("show");
+        $("#candidateId").val(id);
+    }
+
+
+    $('[data-mask]').inputmask();
+    $('.select2').select2();
+
+
+    function GetFollowUpDetails(CandidatId) {
+        param = { CandidatId};
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetexpertcvCandidateDetailsByCandidatId")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(data) {
+                data = JSON.parse(data);
+                $("#gridFollowUpDetails").dxDataGrid({
+                    dataSource: data,
+                    columns: [
+                        { dataField: 'FollowUpDate', caption: 'Follow-Up Date', alignment: 'center', dataType: 'date', width: 150, format: 'dd MMM yyyy' },
+                        { dataField: 'FollowUpTime', caption: 'Follow-Up Time', alignment: 'center', dataType: 'string', width: 150,  },
+                        { dataField: 'FollowUpStatus', caption: 'Follow Up Status', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'FollowUpMessage', caption: 'Follow Up Message', alignment: 'center', dataType: 'string', width: 150, format: '' },
+                        { dataField: 'Department', caption: 'Department', alignment: 'center', dataType: 'string', width: 150, format: '' }
+                    ],
+                    columnsAutoWidth: true,
+                    wordWrapEnabled: true,
+                    rowAlternationEnabled: true,
+                    showBorders: true,
+                    grouping: { autoExpandAll: true },
+                    paging: { pageSize: 10 },
+                    pager: { showPageSizeSelector: true, allowedPageSizes: [10, 25, 50, 100] },
+                    headerFilter: { visible: true },
+                    filterRow: { visible: true, applyFilter: "auto" },
+                    allowColumnResizing: true,
+                    groupPanel: { visible: true },
+                    searchPanel: { visible: true, width: 240, placeholder: "Search..." },
+
+                    export: {
+                        enabled: true,
+                        fileName: "Follow Up Details",
+                        allowExportSelectedData: true,
+                        customizeExcelCell: options => {
+                            if (options.gridCell.rowType === "header") {
+                                options.backgroundColor = _dxGridHeaderBGColor;
+                                options.font.color = _dxGridHeaderColor;
+                            }
+                        }
+                    },
+                    selection: { mode: "multiple" },
+                    allowColumnReordering: true,
+                    columnFixing: { enabled: false },
+                    columnChooser: {
+                        enabled: true,
+                        mode: "select",
+                        allowSearch: true
+                    },
+                    onExporting: function(e) {
+                        e.component.beginUpdate();
+                        e.component.columnOption("Button", "visible", false);
+                        e.component.columnOption("CandidateStatus", "visible", false);
+                    },
+                    onExported: function(e) {
+                        e.component.columnOption("Button", "visible", true);
+                        e.component.columnOption("CandidateStatus", "visible", true);
+                        e.component.endUpdate();
+                    },
+                    onCellPrepared: function(e) {
+                        if (e.rowType === "header") {
+                            e.cellElement.css("text-align", "center");
+                            e.cellElement.css("font-weight", "bold");
+                        }
+                        if (e.rowType === "group") {
+                            e.cellElement.css("text-align", "center");
+                        }
+                    },
+                    onContentReady(e) {
+                        jQuery('#rowCount1').html('Total Records : ' + jQuery("#gridFollowUpDetails").dxDataGrid('instance').totalCount());
+                    }
+                });
+            }
+        });
+        $('#modalUserFollowUpDetails').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    var FollowUpStatus = '';
+    var CandidateId = '';
+    function MarketingEndStart(data,setprocessStatus) {
+        FollowUpStatus = data.FollowUpStatus;
+        CandidateId = data.CandidateId;
+        $('#ddlProcessStatus').val('');
+        $('#txtFollowUpMessageRemarks').val('');
+        $('#ddlProcessStatus').val(setprocessStatus);
+        $('#modalMarketingStartEnd').modal({ backdrop: 'static', keyboard: false });
+    }
+    $('#btnSaveEndMarketingRemarks').click(function (e) {
+        var followUpMessage = $('#txtFollowUpMessageRemarks').val() ? $('#txtFollowUpMessageRemarks').val() : '';
+        var processStatus = $('#ddlProcessStatus').val() ? $('#ddlProcessStatus').val() : '';
+
+
+        if (followUpMessage === "") {
+            $('#reqFollowUpMessageRemarks').show();
+            $('#reqFollowUpMessageRemarks').text("Please enter Remarks..!!");
+            return false;
+        } else {
+            $('#reqFollowUpMessageRemarks').hide();
+            $('#reqFollowUpMessageRemarks').text("");
+        }
+        if (processStatus === "") {
+            $('#reqProcessStatus').show();
+            $('#reqProcessStatus').text("Please Select process Status..!!");
+            return false;
+        } else {
+            $('#reqProcessStatus').hide();
+            $('#reqProcessStatus').text("");
+        }
+        param = { FollowUpStatus, followUpMessage, CandidateId, processStatus};
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("InsertFollowUpDetails")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Remarks Added successfully..!!", "success", 5000);
+                setTimeout(function(){
+                    getNewCandidateList();
+                    getCandidateList();
+                    $('#modalMarketingStartEnd').modal('hide');
+                }, 2000);
+            }
+        });
+    });
+
+    function changeTechnology(CandidateId) {
+        this.CandidateId = CandidateId;
+        $('#txtTechnology').val('');
+        $('#modalChangeTechnology').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    $('#btnChangetechnology').click(function (e) {
+        var technologyName = $('#txtTechnology').val() ? $('#txtTechnology').val():'';
+        if (technologyName === "") {
+            $('#reqtxtTechnology').show();
+            $('#reqtxtTechnology').text("Please Enter Technology Name..!!");
+            return false;
+        } else {
+            $('#reqtxtTechnology').hide();
+            $('#reqtxtTechnology').text("");
+        }
+        param = { technologyName, CandidateId }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("changeTechnology")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Technology Change Successfully.!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Somethig went wrong.!!", "warning", 5000);
+                setTimeout(function() {
+                        getNewCandidateList();
+                        getCandidateList();
+                        $('#modalChangeTechnology').modal('hide');
+                    },
+                    2000);
+            }
+        });
+    });
+</script>

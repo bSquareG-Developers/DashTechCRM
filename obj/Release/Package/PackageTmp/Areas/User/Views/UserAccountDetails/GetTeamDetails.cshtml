@@ -1,0 +1,335 @@
+﻿
+@{ ViewBag.Title = "GetTeamDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<style>
+    .parsley-required {
+        color: #dc3545;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnAddTeamDetails" class="btn btn-primary"> Add Team Member</button>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger">
+                            Team Members :  <span class="badge badge-light" id="rowCount"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+
+                    <div class="col-md-6">
+                        <table id="newDataTable" class="table table-responsive nowrap" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Team Member Name</th>
+                                    <th>Team Lead Name</th>
+                                    <th>TeamManager Name</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalTeamDetails" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myLargeModalLabel">Team Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="ddlDepartment" class="form-control select2"></select>
+                            <span id="reqDepartment" class="parsley-required" style="display: none">Please select Department</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Team Manager</label>
+                            <select id="ddlTeamManager" class="form-control select2"></select>
+                            <span id="reqTeamManager" class="parsley-required" style="display: none">Please select Team Manager</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Team Lead</label>
+                            <select id="ddlTeamLead" class="form-control select2"></select>
+                            <span id="reqTeamLead" class="parsley-required" style="display: none">Please select Team Lead</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Member</label>
+                            <select id="ddlMember" class="form-control select2"></select>
+                            <span id="reqMember" class="parsley-required" style="display: none">Please select Member</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" id="btnSave">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loadpanel"></div>
+
+<script>
+    var table = '';
+    var TeamDetail = '';
+    var flag = 'INS';
+    var teamId = '';
+    var loadPanel = $(".loadpanel").dxLoadPanel({
+        shadingColor: "rgba(0,0,0,0.4)",
+        visible: false,
+        showIndicator: true,
+        showPane: true,
+        shading: true,
+        closeOnOutsideClick: false
+    }).dxLoadPanel("instance");
+    $('[data-mask]').inputmask();
+
+    $('.select2').select2();
+    $('#btnAddTeamDetails').click(function (e) {
+        flag = 'INS';
+        teamId = '';
+        $('#modalTeamDetails').modal('show');
+    });
+    var _BASEURL = '/UserAccountDetails/';
+    $(function () {
+        BindDepartment();
+        BindRemainingMembers('NotAll');
+        GetTeamDetails();
+        jQuery('#ddlTeamManager').empty();
+        jQuery('#ddlTeamManager').append('<option value="">Select</option>');
+        jQuery('#ddlTeamLead').empty();
+        jQuery('#ddlTeamLead').append('<option value="">Select</option>');
+    });
+
+    function GetTeamDetails() {
+        loadPanel.show();
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: _BASEURL + "TeamDetailsGet",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                $('#rowCount').text(data.length);
+                $('#newDataTable').DataTable({
+                    data: data,
+                    columns: [
+                        { 'data': 'TeamMemberName' },
+                        { 'data': 'TeamLeadName' },
+                        { 'data': 'TeamManagerName' },
+                        { 'data': 'Department' },
+                        { 'data': 'ActiveMembers' }
+                    ]
+                });
+                table = $('#newDataTable').DataTable();
+            }
+        });
+    }
+
+    $('#newDataTable').on('click', 'tr', function () {
+        $('#modalTeamDetails').modal('show');
+        TeamDetail = table.row(this).data();
+
+        BindDepartment(TeamDetail.Department);
+        BindRemainingMembers('All', TeamDetail.TeamMemberId);
+        BindTeamManagerByDepartment(TeamDetail.Department);
+
+
+        BindTeamLeadByTeamManagerAndDepartment();
+        flag = 'UPD';
+        teamId = TeamDetail.TeamId;
+    });
+    function BindDepartment(val) {
+        $.ajax({
+            type: "GET",
+            url: _BASEURL + "TeamDetailsGetDepartment",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                jQuery('#ddlDepartment').empty();
+                jQuery('#ddlDepartment').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function (i, v) {
+                        jQuery('#ddlDepartment').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+                if (val)
+                    $('#ddlDepartment').val(val);
+            }
+        });
+    }
+
+
+    $('#ddlDepartment').change(function (e) {
+        BindTeamManagerByDepartment();
+    });
+
+    function BindTeamManagerByDepartment(dept, val) {
+        var department = $('#ddlDepartment').val() ? $('#ddlDepartment').val() : dept;
+        param = { department }
+        loadPanel.show();
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: _BASEURL + "TeamDetailsGetTeamManagerByDepartment",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                jQuery('#ddlTeamManager').empty();
+                jQuery('#ddlTeamManager').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function (i, v) {
+                        jQuery('#ddlTeamManager').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+                if (val)
+                    $('#ddlDepartment').val(val);
+            }
+        });
+
+    }
+
+    $('#ddlTeamManager').change(function (e) {
+        BindTeamLeadByTeamManagerAndDepartment();
+    });
+
+    function BindTeamLeadByTeamManagerAndDepartment() {
+        var department = $('#ddlDepartment').val();
+        var teamManager = $('#ddlTeamManager').val();
+        param = { department, teamManager };
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: _BASEURL + "TeamDetailsGetTeamLeadByTeamManagerAndDepartment",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                jQuery('#ddlTeamLead').empty();
+                jQuery('#ddlTeamLead').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function (i, v) {
+                        jQuery('#ddlTeamLead').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+            }
+        });
+    }
+
+    function BindRemainingMembers(flag, val) {
+        param = { flag }
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: _BASEURL + "TeamDetailsMembersRemaining",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                loadPanel.hide();
+                data = JSON.parse(data);
+                jQuery('#ddlMember').empty();
+                jQuery('#ddlMember').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function (i, v) {
+                        jQuery('#ddlMember').append('<option value="' + v.VALUE + '">' + v.TEXT + '</option>');
+                    });
+
+                if (val)
+                    $('#ddlMember').val(val);
+            }
+        });
+
+    }
+
+    $('#btnSave').click(function (e) {
+        var department = $('#ddlDepartment').val() ? $('#ddlDepartment').val() : '';
+        var teamManager = $('#ddlTeamManager').val() ? $('#ddlTeamManager').val() : '';
+        var teamLead = $('#ddlTeamLead').val() ? $('#ddlTeamLead').val() : '';
+        var member = $('#ddlMember').val() ? $('#ddlMember').val() : '';
+        if (!department) {
+            $('#ddlDepartment').addClass('parsley-error');
+            $('#reqDepartment').show();
+            return false;
+        } else {
+            $('#reqDepartment').hide();
+            $('#ddlDepartment').removeClass('parsley-error');
+        }
+        if (!teamManager) {
+            $('#ddlTeamManager').addClass('parsley-error');
+            $('#reqTeamManager').show();
+            return false;
+        } else {
+            $('#reqTeamManager').hide();
+            $('#ddlTeamManager').removeClass('parsley-error');
+        }
+        if (!teamLead) {
+            $('#ddlTeamLead').addClass('parsley-error');
+            $('#reqTeamLead').show();
+            return false;
+        } else {
+            $('#reqTeamLead').hide();
+            $('#ddlTeamLead').removeClass('parsley-error');
+        }
+        if (!member) {
+            $('#ddlMember').addClass('parsley-error');
+            $('#reqMember').show();
+            return false;
+        } else {
+            $('#reqMember').hide();
+            $('#ddlMember').removeClass('parsley-error');
+        }
+
+        var isEnabledTeam = 0;
+        var objTeam = { department, teamManager, teamLead, member, flag, isEnabledTeam, teamId };
+        saveOrUpdate(objTeam);
+    });
+
+    function saveOrUpdate(data) {
+        param = data;
+        loadPanel.show();
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "dataType",
+            url: _BASEURL + "TeamDetailsInsertUpdate",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                loadPanel.hide();
+                if (data === '1')
+                    alert('Record Updated successfully');
+                else
+                    alert('Record Inserted successfully');
+                BindDepartment();
+                BindRemainingMembers();
+                BindTeamManagerByDepartment();
+                BindTeamLeadByTeamManagerAndDepartment();
+                location.reload();
+            }
+        });
+    }
+</script>
