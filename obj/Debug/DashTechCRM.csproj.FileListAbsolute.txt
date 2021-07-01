@@ -111,3 +111,4 @@ D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.CoreCompileInputs.cache
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.CopyComplete
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.dll
 D:\git\DashTechCRM\obj\Debug\DashTechCRM.pdb
+D:\git\DashTechCRM\obj\Debug\DashTechCRM.csproj.AssemblyReference.cache

@@ -32,7 +32,15 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
         #region Get Data Json
         public JsonResult GetCandidateDetails(int id)
         {
-            return Json(db.CandidateMasters.Find(id), JsonRequestBehavior.AllowGet);
+            try
+            {
+                return Json(db.CandidateMasters.Find(id), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public JsonResult GetFollowUpJson(int id)
         {
