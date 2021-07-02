@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public CandidateBatchDetail()
         {
             this.CandidateTechnicalExpertDetails = new HashSet<CandidateTechnicalExpertDetail>();
+            this.CandidateTechnicalExpertDetails1 = new HashSet<CandidateTechnicalExpertDetail>();
         }
     
         public int BatchId { get; set; }
@@ -38,6 +39,9 @@ namespace DashTechCRM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails1 { get; set; }
         public virtual TechnologyMaster TechnologyMaster { get; set; }
+        public virtual TechnologyMaster TechnologyMaster1 { get; set; }
     }
 }

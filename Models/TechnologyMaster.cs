@@ -18,8 +18,11 @@ namespace DashTechCRM.Models
         public TechnologyMaster()
         {
             this.CandidateBatchDetails = new HashSet<CandidateBatchDetail>();
+            this.CandidateBatchDetails1 = new HashSet<CandidateBatchDetail>();
             this.CandidateMasters = new HashSet<CandidateMaster>();
+            this.CandidateMasters1 = new HashSet<CandidateMaster>();
             this.SessionListDetails = new HashSet<SessionListDetail>();
+            this.SessionListDetails1 = new HashSet<SessionListDetail>();
         }
     
         public int TechId { get; set; }
@@ -28,8 +31,14 @@ namespace DashTechCRM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateBatchDetail> CandidateBatchDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateBatchDetail> CandidateBatchDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateMaster> CandidateMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateMaster> CandidateMasters1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SessionListDetail> SessionListDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SessionListDetail> SessionListDetails1 { get; set; }
     }
 }

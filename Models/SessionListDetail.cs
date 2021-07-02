@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public SessionListDetail()
         {
             this.BatchSessionDetails = new HashSet<BatchSessionDetail>();
+            this.BatchSessionDetails1 = new HashSet<BatchSessionDetail>();
         }
     
         public int SessionId { get; set; }
@@ -38,6 +39,9 @@ namespace DashTechCRM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchSessionDetail> BatchSessionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BatchSessionDetail> BatchSessionDetails1 { get; set; }
         public virtual TechnologyMaster TechnologyMaster { get; set; }
+        public virtual TechnologyMaster TechnologyMaster1 { get; set; }
     }
 }

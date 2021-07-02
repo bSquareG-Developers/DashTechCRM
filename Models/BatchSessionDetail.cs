@@ -25,6 +25,8 @@ namespace DashTechCRM.Models
         public string OtherDetails { get; set; }
     
         public virtual CandidateTechnicalExpertDetail CandidateTechnicalExpertDetail { get; set; }
+        public virtual CandidateTechnicalExpertDetail CandidateTechnicalExpertDetail1 { get; set; }
         public virtual SessionListDetail SessionListDetail { get; set; }
+        public virtual SessionListDetail SessionListDetail1 { get; set; }
     }
 }

@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public TeamDetail()
         {
             this.CandidateAssigns = new HashSet<CandidateAssign>();
+            this.CandidateAssigns1 = new HashSet<CandidateAssign>();
         }
     
         public int TeamId { get; set; }
@@ -26,13 +27,16 @@ namespace DashTechCRM.Models
         public int TeamManager { get; set; }
         public string Department { get; set; }
         public Nullable<bool> IsEnabledTeam { get; set; }
-        public Nullable<int> SrTeamLead { get; set; }
-        public Nullable<int> SrRecruitment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateAssign> CandidateAssigns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateAssign> CandidateAssigns1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
         public virtual UserAccountDetail UserAccountDetail1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail2 { get; set; }
+        public virtual UserAccountDetail UserAccountDetail3 { get; set; }
+        public virtual UserAccountDetail UserAccountDetail4 { get; set; }
+        public virtual UserAccountDetail UserAccountDetail5 { get; set; }
     }
 }

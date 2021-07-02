@@ -25,7 +25,10 @@ namespace DashTechCRM.Models
         public bool Closed { get; set; }
     
         public virtual CandidateMaster CandidateMaster { get; set; }
+        public virtual CandidateMaster CandidateMaster1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
         public virtual UserAccountDetail UserAccountDetail1 { get; set; }
+        public virtual UserAccountDetail UserAccountDetail2 { get; set; }
+        public virtual UserAccountDetail UserAccountDetail3 { get; set; }
     }
 }

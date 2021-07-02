@@ -56,5 +56,6 @@ namespace DashTechCRM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OnBoardingMaster> OnBoardingMasters { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
+        public virtual UserAccountDetail UserAccountDetail1 { get; set; }
     }
 }

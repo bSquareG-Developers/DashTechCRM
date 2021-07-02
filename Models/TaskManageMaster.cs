@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public TaskManageMaster()
         {
             this.TaskStatusDetails = new HashSet<TaskStatusDetail>();
+            this.TaskStatusDetails1 = new HashSet<TaskStatusDetail>();
         }
     
         public int TMId { get; set; }
@@ -35,8 +36,12 @@ namespace DashTechCRM.Models
         public string FeedbackBy { get; set; }
     
         public virtual CandidateTechnicalExpertDetail CandidateTechnicalExpertDetail { get; set; }
+        public virtual CandidateTechnicalExpertDetail CandidateTechnicalExpertDetail1 { get; set; }
         public virtual TaskCategoryMaster TaskCategoryMaster { get; set; }
+        public virtual TaskCategoryMaster TaskCategoryMaster1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskStatusDetail> TaskStatusDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskStatusDetail> TaskStatusDetails1 { get; set; }
     }
 }

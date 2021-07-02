@@ -29,5 +29,6 @@ namespace DashTechCRM.Models
         public string Feedback { get; set; }
     
         public virtual UserAccountDetail UserAccountDetail { get; set; }
+        public virtual UserAccountDetail UserAccountDetail1 { get; set; }
     }
 }

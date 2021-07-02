@@ -14,8 +14,7 @@ namespace DashTechCRM.Models
     
     public partial class DepartmentMaster
     {
-        public int Id { get; set; }
+        public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
-        public Nullable<bool> isActive { get; set; }
     }
 }

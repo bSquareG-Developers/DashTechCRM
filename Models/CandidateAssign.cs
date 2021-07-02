@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public CandidateAssign()
         {
             this.SubmissionDetails = new HashSet<SubmissionDetail>();
+            this.SubmissionDetails1 = new HashSet<SubmissionDetail>();
         }
     
         public int AssignedId { get; set; }
@@ -25,14 +26,14 @@ namespace DashTechCRM.Models
         public System.DateTime Date { get; set; }
         public bool IsActive { get; set; }
         public int refMarketingId { get; set; }
-        public Nullable<int> refAssignRecruiter { get; set; }
-        public Nullable<int> SrBatchRecruiter { get; set; }
-        public Nullable<int> JrBatchRecruiter { get; set; }
-        public Nullable<int> TraineeBatchRecruiter { get; set; }
     
         public virtual CandidateMarketingDetail CandidateMarketingDetail { get; set; }
+        public virtual CandidateMarketingDetail CandidateMarketingDetail1 { get; set; }
         public virtual TeamDetail TeamDetail { get; set; }
+        public virtual TeamDetail TeamDetail1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubmissionDetail> SubmissionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubmissionDetail> SubmissionDetails1 { get; set; }
     }
 }

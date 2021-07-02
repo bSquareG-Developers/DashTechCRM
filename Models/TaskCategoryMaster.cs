@@ -18,6 +18,7 @@ namespace DashTechCRM.Models
         public TaskCategoryMaster()
         {
             this.TaskManageMasters = new HashSet<TaskManageMaster>();
+            this.TaskManageMasters1 = new HashSet<TaskManageMaster>();
         }
     
         public int TaskCatId { get; set; }
@@ -26,5 +27,7 @@ namespace DashTechCRM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskManageMaster> TaskManageMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskManageMaster> TaskManageMasters1 { get; set; }
     }
 }

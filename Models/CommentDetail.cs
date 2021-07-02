@@ -22,5 +22,6 @@ namespace DashTechCRM.Models
         public string CommentText { get; set; }
     
         public virtual CandidateMaster CandidateMaster { get; set; }
+        public virtual CandidateMaster CandidateMaster1 { get; set; }
     }
 }

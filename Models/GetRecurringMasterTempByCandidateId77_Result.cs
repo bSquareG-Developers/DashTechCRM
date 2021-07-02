@@ -10,13 +10,17 @@
 namespace DashTechCRM.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class InterviewDetailsLog
+    public partial class GetRecurringMasterTempByCandidateId77_Result
     {
         public int Id { get; set; }
-        public Nullable<int> InterviewId { get; set; }
-        public Nullable<int> AddedBy { get; set; }
-        public Nullable<System.DateTime> Timest { get; set; }
+        public Nullable<System.DateTime> DueDate { get; set; }
+        public Nullable<System.DateTime> PaidDate { get; set; }
+        public Nullable<decimal> Amount { get; set; }
+        public string CandidateName { get; set; }
+        public string ReceivedIn { get; set; }
+        public string PaymentStatus { get; set; }
+        public string Remarks { get; set; }
+        public string SendRemainderEmail { get; set; }
     }
 }

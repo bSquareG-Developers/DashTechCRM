@@ -10,13 +10,10 @@
 namespace DashTechCRM.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class SubmissionDetailsLog
+    public partial class VisaTitleMasterGet60_Result
     {
-        public int Id { get; set; }
-        public Nullable<int> SubmissionId { get; set; }
-        public Nullable<int> AddedBy { get; set; }
-        public Nullable<System.DateTime> Timest { get; set; }
+        public int VisaId { get; set; }
+        public string VisaTitle { get; set; }
     }
 }

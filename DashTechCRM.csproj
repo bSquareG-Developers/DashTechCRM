@@ -481,9 +481,6 @@
     <Compile Include="Models\DepartmentRoleTable.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ErrorLog.cs">
-      <DependentUpon>DashTechCRM.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\FollowUpMaster.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1108,6 +1105,9 @@
     <Compile Include="Models\GetRecurringMasterTempByCandidateId76_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetRecurringMasterTempByCandidateId77_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetRecurringMasterTempByCandidateId7_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1597,9 +1597,6 @@
     <Compile Include="Models\InterviewDetail.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\InterviewDetailsLog.cs">
-      <DependentUpon>DashTechCRM.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\InterviewMode.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
@@ -1740,9 +1737,6 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubmissionDetail.cs">
-      <DependentUpon>DashTechCRM.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SubmissionDetailsLog.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SubmissionMaster.cs">
@@ -3474,6 +3468,9 @@
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VisaTitleMasterGet5_Result.cs">
+      <DependentUpon>DashTechCRM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VisaTitleMasterGet60_Result.cs">
       <DependentUpon>DashTechCRM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VisaTitleMasterGet6_Result.cs">

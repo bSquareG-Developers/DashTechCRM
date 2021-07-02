@@ -18,7 +18,9 @@ namespace DashTechCRM.Models
         public CandidateTechnicalExpertDetail()
         {
             this.BatchSessionDetails = new HashSet<BatchSessionDetail>();
+            this.BatchSessionDetails1 = new HashSet<BatchSessionDetail>();
             this.TaskManageMasters = new HashSet<TaskManageMaster>();
+            this.TaskManageMasters1 = new HashSet<TaskManageMaster>();
         }
     
         public int CTId { get; set; }
@@ -35,10 +37,17 @@ namespace DashTechCRM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BatchSessionDetail> BatchSessionDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BatchSessionDetail> BatchSessionDetails1 { get; set; }
         public virtual CandidateBatchDetail CandidateBatchDetail { get; set; }
+        public virtual CandidateBatchDetail CandidateBatchDetail1 { get; set; }
         public virtual CandidateMaster CandidateMaster { get; set; }
+        public virtual CandidateMaster CandidateMaster1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
+        public virtual UserAccountDetail UserAccountDetail1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskManageMaster> TaskManageMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TaskManageMaster> TaskManageMasters1 { get; set; }
     }
 }

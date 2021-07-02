@@ -24,5 +24,6 @@ namespace DashTechCRM.Models
         public string Department { get; set; }
     
         public virtual CandidateMaster CandidateMaster { get; set; }
+        public virtual CandidateMaster CandidateMaster1 { get; set; }
     }
 }

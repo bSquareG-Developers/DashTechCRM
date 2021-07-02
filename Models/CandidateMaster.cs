@@ -18,13 +18,21 @@ namespace DashTechCRM.Models
         public CandidateMaster()
         {
             this.CandidateMarketingDetails = new HashSet<CandidateMarketingDetail>();
+            this.CandidateMarketingDetails1 = new HashSet<CandidateMarketingDetail>();
             this.CandidateTechnicalExpertDetails = new HashSet<CandidateTechnicalExpertDetail>();
+            this.CandidateTechnicalExpertDetails1 = new HashSet<CandidateTechnicalExpertDetail>();
             this.CandidateTimeLines = new HashSet<CandidateTimeLine>();
+            this.CandidateTimeLines1 = new HashSet<CandidateTimeLine>();
             this.CommentDetails = new HashSet<CommentDetail>();
+            this.CommentDetails1 = new HashSet<CommentDetail>();
             this.FollowUpMasters = new HashSet<FollowUpMaster>();
+            this.FollowUpMasters1 = new HashSet<FollowUpMaster>();
             this.MarketingRevenueDetails = new HashSet<MarketingRevenueDetail>();
+            this.MarketingRevenueDetails1 = new HashSet<MarketingRevenueDetail>();
             this.RecurringMasters = new HashSet<RecurringMaster>();
+            this.RecurringMasters1 = new HashSet<RecurringMaster>();
             this.RequestMasters = new HashSet<RequestMaster>();
+            this.RequestMasters1 = new HashSet<RequestMaster>();
         }
     
         public int CandidateId { get; set; }
@@ -46,30 +54,46 @@ namespace DashTechCRM.Models
         public Nullable<bool> AgreementSent { get; set; }
         public Nullable<decimal> Agreement { get; set; }
         public string AgreementLink { get; set; }
-        public Nullable<bool> isJobGaruntee { get; set; }
-        public Nullable<System.DateTime> JobGarunteeLastDate { get; set; }
-        public Nullable<int> RePaymentMonths { get; set; }
-        public Nullable<bool> isRembursed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateMarketingDetail> CandidateMarketingDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateMarketingDetail> CandidateMarketingDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateTimeLine> CandidateTimeLines { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CandidateTimeLine> CandidateTimeLines1 { get; set; }
         public virtual RecurringType RecurringType { get; set; }
+        public virtual RecurringType RecurringType1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
+        public virtual UserAccountDetail UserAccountDetail1 { get; set; }
         public virtual SalesServiceMaster SalesServiceMaster { get; set; }
+        public virtual SalesServiceMaster SalesServiceMaster1 { get; set; }
         public virtual TechnologyMaster TechnologyMaster { get; set; }
+        public virtual TechnologyMaster TechnologyMaster1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CommentDetail> CommentDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CommentDetail> CommentDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FollowUpMaster> FollowUpMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FollowUpMaster> FollowUpMasters1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MarketingRevenueDetail> MarketingRevenueDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MarketingRevenueDetail> MarketingRevenueDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecurringMaster> RecurringMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RecurringMaster> RecurringMasters1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestMaster> RequestMasters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequestMaster> RequestMasters1 { get; set; }
     }
 }
