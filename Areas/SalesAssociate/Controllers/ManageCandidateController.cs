@@ -911,37 +911,7 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
                     model.Department = status.Split(':')[0];
                 else
                     model.Department = status;
-                #region Comments
 
-                //if (status.Contains("Sale"))
-                //{
-                //    model.Department = "Sales";
-                //}
-                //else if (status.Contains("Resume"))
-                //{
-                //    model.Department = "Expert CV";
-                //}
-                //else if (status.Contains("Account"))
-                //{
-                //    model.Department = "Account";
-                //}
-                //else if (status.Contains("Dispute"))
-                //{
-                //    model.Department = "Account";
-                //}
-                //else if (status.Contains("Marketing"))
-                //{
-                //    model.Department = "Marketing";
-                //}
-                //else if (status.Contains("Onboarding"))
-                //{
-                //    model.Department = "Account";
-                //}
-                //else
-                //{
-                //    model.Department = "Admin";
-                //}
-                #endregion
 
                 db.FollowUpMasters.Add(model);
                 db.SaveChanges();
@@ -955,27 +925,44 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
             catch (Exception ex)
             {
                 TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = ex.Message };
+                CommonHelperClass.InsertErrorLog(ex.Message, "ManageCandidate/ChangeStatus");
             }
             return RedirectToAction("Index", "Dashboard");
         }
 
         public string CheckExistMobileorEmail(string parameter)
         {
-            dynamic prm = JObject.Parse(parameter);
-            List<SqlParameter> p = new List<SqlParameter>();
-            ConnectionDB dl = new ConnectionDB();
-            p.Add(new SqlParameter("@Flag", Convert.ToString(prm.flag)));
-            p.Add(new SqlParameter("@Value", Convert.ToString(prm.value)));
-            object result = dl.Execute_Scaler("CandidatemasterCheckExistingEmailOrMobile", p.ToArray());
-            return result.ToString();
+            try
+            {
+                dynamic prm = JObject.Parse(parameter);
+                List<SqlParameter> p = new List<SqlParameter>();
+                ConnectionDB dl = new ConnectionDB();
+                p.Add(new SqlParameter("@Flag", Convert.ToString(prm.flag)));
+                p.Add(new SqlParameter("@Value", Convert.ToString(prm.value)));
+                object result = dl.Execute_Scaler("CandidatemasterCheckExistingEmailOrMobile", p.ToArray());
+                return result.ToString();
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/CheckExistMobileorEmail");
+                throw;
+            }
         }
 
         public string BindVisaStatus()
         {
-            ConnectionDB dl = new ConnectionDB();
-            DataTable dt = new DataTable();
-            dt = dl.GetDataTable("select * FROM VisaTitleMaster");
-            return CommonHelperClass._serializeDatatable(dt);
+            try
+            {
+                ConnectionDB dl = new ConnectionDB();
+                DataTable dt = new DataTable();
+                dt = dl.GetDataTable("select * FROM VisaTitleMaster");
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/BindVisaStatus");
+                throw;
+            }
         }
 
         public ActionResult ViewInterviewSubmissions()
