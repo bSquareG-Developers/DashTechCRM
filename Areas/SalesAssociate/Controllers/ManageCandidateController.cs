@@ -491,7 +491,7 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/SaveNewCandidate");
                 return "";
             }
         }
