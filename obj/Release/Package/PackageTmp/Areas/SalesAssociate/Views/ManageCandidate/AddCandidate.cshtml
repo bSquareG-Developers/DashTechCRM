@@ -6,19 +6,6 @@
     dashTech_crm_Entities db = new dashTech_crm_Entities(); }
 
 
-@*CandidateName
-    EmailId
-    MobileNumber
-    RefRecurringTypeId
-    RefServiceId
-    TotalAmount
-    PaidAmount
-    Remarks
-    VisaStatus
-    TechnologyId
-    AgreementSent
-    Agreement*@
-
 <style>
     .parsley-error, .parsley-required {
         color: #F16C69;
@@ -26,6 +13,10 @@
 
     .redColor {
         color: red;
+    }
+
+    .rightMargin {
+        margin-right: 0.5rem;
     }
 </style>
 <div class="row">
@@ -62,20 +53,73 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div style="display: flex;" class="flex-grow-1">
+                                <div style="display: flex;display: block; margin-right: 0.5rem">
+                                    <input id="rbtisOneTime" type="radio" name="RecurringType" value="isOneTime" style="padding-right: 5px" class="rightMargin" checked="checked">
+                                    <label for="rbtisOneTime">is One Time .?</label>
+                                </div>
+                                <div style="display: flex; display: block">
+                                    <input type="radio" id="rbtRecurringType" name="RecurringType" value="is5500" class="rightMargin">
+                                    <label for="rbtRecurringType">5500 one time</label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Payment Terms:  <i class="redColor">*</i></label>
-                            <select class="form-control select2" id="RefRecurringTypeId" name="RefRecurringTypeId">
-                                <option>Select</option>
-                                @foreach (RecurringType recurringType in db.RecurringTypes.ToList())
-                                {
-                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>}
-                            </select>
+                            <select class="form-control select2" id="RefRecurringTypeId" name="RefRecurringTypeId"></select>
                             <span id="reqRefRecurringTypeId" class="parsley-required" style="display: none"></span>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Total Amount:</label>
+                            <input type="number" min="0" id="amtR" class="form-control" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Received In  <i class="redColor">*</i></label>
+                            @{ string[] strRec = { "PayPal", "Stripe", "US Bank", "Cheque", "India Bank", "Cash" }; }
+                            <select class="form-group select2" name="recIn" id="recIn" style="width:100%" required>
+                                <option></option>
+                                @foreach (string mode in strRec)
+                                {
+                    <option value="@mode">@mode</option>}
+                            </select>
+                            <span id="reqrecIn" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Enrollment / Collected Amount:</label>
+                            <input type="number" min="0" id="insR" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="txtContractedAmount">Contracted Amount</label>
+                            <input type="number" id="txtContractedAmount" class="form-control" />
+                            <span id="reqContractedAmount" class="parsley-required" style="display: none"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row border">
                     <div class="col-md-3 mt-4">
                         <div class="form-group">
@@ -117,36 +161,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Total Amount:</label>
-                            <input type="number" min="0" id="amtR" class="form-control" readonly />
 
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Enrollment Amount:</label>
-                            <input type="number" min="0" id="insR" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Received In  <i class="redColor">*</i></label>
-                            @{ string[] strRec = { "PayPal", "Stripe", "US Bank", "Cheque", "India Bank", "Cash" }; }
-                            <select class="form-group select2" name="recIn" id="recIn" style="width:100%" required>
-                                <option></option>
-                                @foreach (string mode in strRec)
-                                {
-                    <option value="@mode">@mode</option>
-}
-                            </select>
-                            <span id="reqrecIn" class="parsley-required" style="display: none"></span>
-
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -157,7 +172,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -172,7 +186,8 @@
                                 <option>Select</option>
                                 @foreach (SalesServiceMaster salesService in db.SalesServiceMasters.ToList())
                                 {
-                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>}
+                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>
+}
                             </select>
                             <span id="reqRefServiceId" class="parsley-required" style="display: none"></span>
 
@@ -188,7 +203,8 @@
                                 <option>Select</option>
                                 @foreach (TechnologyMaster tech in db.TechnologyMasters.ToList())
                                 {
-                    <option value="@tech.TechId">@tech.TechTitle</option>}
+                    <option value="@tech.TechId">@tech.TechTitle</option>
+}
                             </select>
                             <span id="reqTechnologyId" class="parsley-required" style="display: none"></span>
                         </div>
@@ -300,6 +316,7 @@
         BindVisaStatus();
         BindJobGaruntee();
         BindRePaymentMonths();
+        GetRecurringType(1);
     });
 
     function BindJobGaruntee() {
@@ -359,12 +376,39 @@
             }
         });
     }
+    $('input[type=radio][name=RecurringType]').change(function() {
+        console.log(this.value);
+        let isOneTime = this.value == 'isOneTime' ? 1 : 0;
+        GetRecurringType(isOneTime);
+    });
+
+    function GetRecurringType(IsOneTime) {
+        param = { IsOneTime }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetRecurringTypeBind")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                data = JSON.parse(data);
+                jQuery('#RefRecurringTypeId').empty();
+                jQuery('#RefRecurringTypeId').append('<option value="">Select</option>');
+                jQuery.each(data,
+                    function(i, v) {
+                        jQuery('#RefRecurringTypeId').append('<option value="' + v.RecurringTypeId + '">' + v.RecurringTitle + '</option>');
+                    });
+                //if (data.find(x => x.RecurringTitle === '$5500 one time payment')){
+                //    $('#RefRecurringTypeId').val(data.find(x => x.RecurringTitle === '$5500 one time payment').RecurringTypeId);
+                //}
+            }
+        });
+    }
     function BindRecurringDetails() {
         $("#gridContainer").dxDataGrid({
             dataSource: recurringDataArr,
             columns: [
                 { dataField: 'DueDate', caption: 'Due Date', alignment: 'center', dataType: 'date', format: 'dd MMM yyyy' },
-                { dataField: 'Amount', caption: 'Amount', alignment: 'center', dataType: 'number',  },
+                { dataField: 'Amount', caption: 'Amount', alignment: 'center', dataType: 'number' },
                 {
                     dataField: 'PaymentStatus', caption: 'Payment Status', alignment: 'center', disabled: true, dataType: 'string',
                     lookup: { dataSource: ['UnPaid','Paid', 'Refund', 'Deleted', 'Discount', 'Rejected', 'Un-Paid'] }
@@ -471,6 +515,7 @@
             recurringDataArr = [];
             AmountArr = [];
             BindRecurringDetails();
+            $('#txtContractedAmount').val(remainingTotal);
         });
         recurringTypeText = $("#RefRecurringTypeId").find("option:selected").text();
         //if (recurringTypeText ==="$5500 one time payment")
@@ -478,10 +523,12 @@
         //else
         //    $('#DivJobGarunteeIn').hide();
     });
-    $('#insR').change(function(e) {
+    $('#insR').change(function (e) {
+
         enrollmentAmt = parseInt($('#insR').val());
         grandTotal = sumPaidAmt + enrollmentAmt;
         remainingTotal = totalAmount - grandTotal;
+        $('#txtContractedAmount').val(remainingTotal);
         if ($('#RefRecurringTypeId').val() !== 'Select') {
             BindRecurringDetails();
         }
@@ -503,6 +550,7 @@
         var agreementLink = $('#AgreementLink').val() ? $('#AgreementLink').val():'';
         var remarks = $('#Remarks').val() ? $('#Remarks').val() : '';
         var rePaymentMonths = $('#ddlRePaymentMonths').val() ? $('#ddlRePaymentMonths').val() : '';
+        var contractedAmount = $('#txtContractedAmount').val() ? $('#txtContractedAmount').val() : '';
         var agreementSent = $('#AgreementSent').is(":checked") ? 1 : 0;
         var inTraining = $('#InTraining').is(":checked") ? 1 : 0;
         var inMarketing = $('#InMarketing').is(":checked") ? 1 : 0;
@@ -517,7 +565,7 @@
 
         let param = {
             candidateName, emailId, mobileNumber, recurringTypeId, totalAmmount, enrollmentAmount, serviceId, technologyId, recIn, visaStatus,
-            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate, rembursed, rePaymentMonths
+            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate, rembursed, rePaymentMonths, contractedAmount
         }
         if (grandTotal > totalAmount) {
             DevExpress.ui.notify("Sum of Total paid amount is Greater than Total amount kindly check once.. ..!!", "error", 5000);
@@ -564,6 +612,22 @@
             $('#reqRefRecurringTypeId').text('');
             $('#reqRefRecurringTypeId').hide();
         }
+        if (!recIn) {
+            $('#reqrecIn').text('Please Enter Received In');
+            $('#reqrecIn').show();
+            return false;
+        } else {
+            $('#reqrecIn').text('');
+            $('#reqrecIn').hide();
+        }
+        if (!contractedAmount) {
+            $('#reqContractedAmount').text('Please Enter Contracted Amount..!!');
+            $('#reqContractedAmount').show();
+            return false;
+        } else {
+            $('#reqContractedAmount').text('');
+            $('#reqContractedAmount').hide();
+        }
         if (!agreement) {
             $('#reqAgreement').text('Please Enter Agreement Percentage');
             $('#reqAgreement').show();
@@ -588,14 +652,7 @@
             $('#reqJobGaruntee').text('');
             $('#reqJobGaruntee').hide();
         }
-        if (!recIn) {
-            $('#reqrecIn').text('Please Enter Received In');
-            $('#reqrecIn').show();
-            return false;
-        } else {
-            $('#reqrecIn').text('');
-            $('#reqrecIn').hide();
-        }
+
         if (!serviceId || serviceId === "Select") {
             $('#reqRefServiceId').text('Please select Service');
             $('#reqRefServiceId').show();
@@ -622,10 +679,6 @@
             $('#reqVisaStatus').text('');
             $('#reqVisaStatus').hide();
         }
-
-
-
-
         if (!remarks) {
             $('#reqRemarks').text('Please enter remarks');
             $('#reqRemarks').show();
@@ -676,8 +729,8 @@
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("CheckExistMobileorEmail")",
             data: "{parameter:'" + JSON.stringify(param) + "'}",
-            success: function (response) {
-                if (response ==="1") {
+            success: function(response) {
+                if (response === "1") {
                     $('#reqEmailId').text('Email Id Already Exist please try another.');
                     $('#reqEmailId').show();
                     return false;
@@ -686,7 +739,7 @@
                     $('#reqEmailId').hide();
                 }
             }
-        });
+    });
     });
     $('#MobileNumber').change(function(e) {
         let value = this.value;
