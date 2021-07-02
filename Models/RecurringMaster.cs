@@ -24,8 +24,8 @@ namespace DashTechCRM.Models
         public string PaymentStatus { get; set; }
         public string remarks { get; set; }
         public string InstallmentNumber { get; set; }
+        public Nullable<bool> IsCompletepaid { get; set; }
     
         public virtual CandidateMaster CandidateMaster { get; set; }
-        public virtual CandidateMaster CandidateMaster1 { get; set; }
     }
 }

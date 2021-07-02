@@ -24,8 +24,6 @@ namespace DashTechCRM.Models
         public string Remarks { get; set; }
     
         public virtual CandidateMaster CandidateMaster { get; set; }
-        public virtual CandidateMaster CandidateMaster1 { get; set; }
         public virtual UserAccountDetail UserAccountDetail { get; set; }
-        public virtual UserAccountDetail UserAccountDetail1 { get; set; }
     }
 }

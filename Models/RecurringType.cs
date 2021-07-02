@@ -18,7 +18,6 @@ namespace DashTechCRM.Models
         public RecurringType()
         {
             this.CandidateMasters = new HashSet<CandidateMaster>();
-            this.CandidateMasters1 = new HashSet<CandidateMaster>();
         }
     
         public int RecurringTypeId { get; set; }
@@ -28,7 +27,5 @@ namespace DashTechCRM.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateMaster> CandidateMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateMaster> CandidateMasters1 { get; set; }
     }
 }

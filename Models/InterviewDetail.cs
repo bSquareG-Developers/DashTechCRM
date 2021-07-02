@@ -31,6 +31,5 @@ namespace DashTechCRM.Models
         public Nullable<int> PreviousInterview { get; set; }
     
         public virtual SubmissionDetail SubmissionDetail { get; set; }
-        public virtual SubmissionDetail SubmissionDetail1 { get; set; }
     }
 }

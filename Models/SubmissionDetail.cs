@@ -18,7 +18,6 @@ namespace DashTechCRM.Models
         public SubmissionDetail()
         {
             this.InterviewDetails = new HashSet<InterviewDetail>();
-            this.InterviewDetails1 = new HashSet<InterviewDetail>();
         }
     
         public int SubmissionId { get; set; }
@@ -38,10 +37,7 @@ namespace DashTechCRM.Models
         public string JobPortal { get; set; }
     
         public virtual CandidateAssign CandidateAssign { get; set; }
-        public virtual CandidateAssign CandidateAssign1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InterviewDetail> InterviewDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InterviewDetail> InterviewDetails1 { get; set; }
     }
 }

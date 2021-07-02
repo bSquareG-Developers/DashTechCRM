@@ -22,6 +22,5 @@ namespace DashTechCRM.Models
         public string StatusRemarks { get; set; }
     
         public virtual TaskManageMaster TaskManageMaster { get; set; }
-        public virtual TaskManageMaster TaskManageMaster1 { get; set; }
     }
 }

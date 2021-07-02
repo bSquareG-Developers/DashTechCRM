@@ -18,7 +18,6 @@ namespace DashTechCRM.Models
         public CandidateMarketingDetail()
         {
             this.CandidateAssigns = new HashSet<CandidateAssign>();
-            this.CandidateAssigns1 = new HashSet<CandidateAssign>();
         }
     
         public int MarketingId { get; set; }
@@ -33,12 +32,17 @@ namespace DashTechCRM.Models
         public bool LocationConcern { get; set; }
         public string RequiredLocationList { get; set; }
         public Nullable<System.DateTime> EntryDate { get; set; }
+        public Nullable<int> MktEmailContactStatusFlag { get; set; }
+        public string PassportNumber { get; set; }
+        public string SSN { get; set; }
+        public string EAD { get; set; }
+        public string VISA { get; set; }
+        public Nullable<int> i20 { get; set; }
+        public Nullable<int> workAuthorization { get; set; }
+        public Nullable<int> DrivingLicence { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateAssign> CandidateAssigns { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateAssign> CandidateAssigns1 { get; set; }
         public virtual CandidateMaster CandidateMaster { get; set; }
-        public virtual CandidateMaster CandidateMaster1 { get; set; }
     }
 }

@@ -18,27 +18,16 @@ namespace DashTechCRM.Models
         public UserAccountDetail()
         {
             this.CandidateMasters = new HashSet<CandidateMaster>();
-            this.CandidateMasters1 = new HashSet<CandidateMaster>();
             this.CandidateTechnicalExpertDetails = new HashSet<CandidateTechnicalExpertDetail>();
-            this.CandidateTechnicalExpertDetails1 = new HashSet<CandidateTechnicalExpertDetail>();
             this.CandidateTimeLines = new HashSet<CandidateTimeLine>();
-            this.CandidateTimeLines1 = new HashSet<CandidateTimeLine>();
             this.LeadMasters = new HashSet<LeadMaster>();
-            this.LeadMasters1 = new HashSet<LeadMaster>();
             this.MarketingRevenueDetails = new HashSet<MarketingRevenueDetail>();
-            this.MarketingRevenueDetails1 = new HashSet<MarketingRevenueDetail>();
             this.PODetails = new HashSet<PODetail>();
-            this.PODetails1 = new HashSet<PODetail>();
             this.RequestMasters = new HashSet<RequestMaster>();
             this.RequestMasters1 = new HashSet<RequestMaster>();
-            this.RequestMasters2 = new HashSet<RequestMaster>();
-            this.RequestMasters3 = new HashSet<RequestMaster>();
             this.TeamDetails = new HashSet<TeamDetail>();
             this.TeamDetails1 = new HashSet<TeamDetail>();
             this.TeamDetails2 = new HashSet<TeamDetail>();
-            this.TeamDetails3 = new HashSet<TeamDetail>();
-            this.TeamDetails4 = new HashSet<TeamDetail>();
-            this.TeamDetails5 = new HashSet<TeamDetail>();
         }
     
         public int UserId { get; set; }
@@ -57,36 +46,20 @@ namespace DashTechCRM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateMaster> CandidateMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateMaster> CandidateMasters1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateTechnicalExpertDetail> CandidateTechnicalExpertDetails1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CandidateTimeLine> CandidateTimeLines { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CandidateTimeLine> CandidateTimeLines1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LeadMaster> LeadMasters { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LeadMaster> LeadMasters1 { get; set; }
         public virtual LocationMaster LocationMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MarketingRevenueDetail> MarketingRevenueDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MarketingRevenueDetail> MarketingRevenueDetails1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PODetail> PODetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PODetail> PODetails1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestMaster> RequestMasters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RequestMaster> RequestMasters1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RequestMaster> RequestMasters2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RequestMaster> RequestMasters3 { get; set; }
         public virtual RoleMaster RoleMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TeamDetail> TeamDetails { get; set; }
@@ -94,11 +67,5 @@ namespace DashTechCRM.Models
         public virtual ICollection<TeamDetail> TeamDetails1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TeamDetail> TeamDetails2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamDetail> TeamDetails3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamDetail> TeamDetails4 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamDetail> TeamDetails5 { get; set; }
     }
 }
