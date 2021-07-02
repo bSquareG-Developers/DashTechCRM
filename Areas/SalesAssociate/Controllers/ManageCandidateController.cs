@@ -351,6 +351,7 @@ END
                 p.Add(new SqlParameter("@JobGarunteeLastDate", Convert.ToString(prm.JobGarunteeLastDate)));
                 p.Add(new SqlParameter("@RePaymentMonths", Convert.ToString(prm.rePaymentMonths)));
                 p.Add(new SqlParameter("@isRembursed", Convert.ToString(prm.rembursed)));
+                p.Add(new SqlParameter("@ContractedAmount", Convert.ToString(prm.contractedAmount)));
                 p.Add(new SqlParameter("@TVPRecurringMaster", (DataTable)JsonConvert.DeserializeObject(Convert.ToString(prm.recurringDataArr), (typeof(DataTable)))));
                 object resultInsertCandidate = dl.Execute_Scaler("CandidateMaster_Insert", p.ToArray());
 
@@ -998,12 +999,15 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
             }
         }
 
-        public string GetRecurringType()
+        public string GetRecurringTypeBind(string parameter)
         {
             try
             {
+                List<SqlParameter> p = new List<SqlParameter>();
                 DataTable dt = new DataTable();
-                dt = dl.GetDataTable("GetRecurringType");
+                dynamic prm = JObject.Parse(parameter);
+                p.Add(new SqlParameter("@IsOneTime", Convert.ToString(prm.IsOneTime)));
+                dt = dl.GetDataTable("GetRecurringType", p.ToArray());
                 return CommonHelperClass._serializeDatatable(dt);
             }
             catch (Exception e)
