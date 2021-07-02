@@ -502,6 +502,7 @@ END
             catch (Exception ex)
             {
                 TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = ex.Message };
+                CommonHelperClass.InsertErrorLog(ex.Message, "ManageCandidate/UpdateCandidate");
             }
             return View();
         }
@@ -885,7 +886,7 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
             {
 
                 TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = ex.Message };
-
+                CommonHelperClass.InsertErrorLog(ex.Message, "ManageCandidate/RecurringPayment");
             }
 
             return RedirectToAction("ReccurringDetails");
