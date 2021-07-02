@@ -38,41 +38,59 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetCandidateDetails");
                 throw;
             }
         }
         public JsonResult GetFollowUpJson(int id)
         {
-            UserObject user = Session["userInfo"] as UserObject;
-            directDb.query = string.Format(@"select FollowUpBy , Convert(varchar,FollowUpDate,106) as FollowUpDate,FollowUpTime, FollowUpMessage,Department,FollowUpStatus from FollowUpMaster where RefCandidateId= {0} order by FollowUpDate desc ", id);
-            var data = directDb.GetDictionary();
-            return Json(data, JsonRequestBehavior.AllowGet);
+            try
+            {
+                UserObject user = Session["userInfo"] as UserObject;
+                directDb.query = string.Format(@"select FollowUpBy , Convert(varchar,FollowUpDate,106) as FollowUpDate,FollowUpTime, FollowUpMessage,Department,FollowUpStatus from FollowUpMaster where RefCandidateId= {0} order by FollowUpDate desc ", id);
+                var data = directDb.GetDictionary();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetFollowUpJson");
+                throw;
+            }
         }
         public JsonResult GetIndexJson()
         {
-            UserObject user = Session["userInfo"] as UserObject;
-            directDb.query = @"
-select CandidateMaster.CandidateId,CandidateMaster.CandidateName, CandidateMaster.EmailId,AgreementPercentage,AgreementSent,CandidateMaster.Date as EnrolledDate, TotalAmount, PaidAmount,ServiceName from CandidateMaster 
-inner join UserAccountDetails on RefSalesAssociate = UserId
-inner join SalesServiceMaster on ServiceId = RefServiceId
-inner join RecurringType on RecurringTypeId = RefRecurringTypeId
-left join CandidateMarketingDetails on CandidateMarketingDetails.RefCandidateId = CandidateMaster.CandidateId
-left join CandidateAssign on refMarketingId = MarketingId
-left join TeamDetails on TeamId = RefTeamId
-left join PODetails on CandidateMaster.CandidateId = PODetails.CandidateId where  CandidateMaster.CandidateId = (
-CASE When CandidateAssign.AssignedId is null then CandidateMaster.CandidateId
-        when CandidateAssign.AssignedId is not null and CandidateAssign.IsActive = 1 then   CandidateMaster.CandidateId
-            else -1
-END
-) and UserId = " + user.UserId + "order by CandidateMaster.Date desc";
-            var data = directDb.GetDictionary();
-            return Json(data, JsonRequestBehavior.AllowGet);
+            try
+            {
+                UserObject user = Session["userInfo"] as UserObject;
+                directDb.query = @"
+            select CandidateMaster.CandidateId,CandidateMaster.CandidateName, CandidateMaster.EmailId,AgreementPercentage,AgreementSent,CandidateMaster.Date as EnrolledDate, TotalAmount, PaidAmount,ServiceName from CandidateMaster 
+            inner join UserAccountDetails on RefSalesAssociate = UserId
+            inner join SalesServiceMaster on ServiceId = RefServiceId
+            inner join RecurringType on RecurringTypeId = RefRecurringTypeId
+            left join CandidateMarketingDetails on CandidateMarketingDetails.RefCandidateId = CandidateMaster.CandidateId
+            left join CandidateAssign on refMarketingId = MarketingId
+            left join TeamDetails on TeamId = RefTeamId
+            left join PODetails on CandidateMaster.CandidateId = PODetails.CandidateId where  CandidateMaster.CandidateId = (
+            CASE When CandidateAssign.AssignedId is null then CandidateMaster.CandidateId
+                    when CandidateAssign.AssignedId is not null and CandidateAssign.IsActive = 1 then   CandidateMaster.CandidateId
+                        else -1
+            END
+            ) and UserId = " + user.UserId + "order by CandidateMaster.Date desc";
+                var data = directDb.GetDictionary();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetIndexJson");
+                throw;
+            }
         }
         public JsonResult GetRecurringJson()
         {
-            UserObject user = Session["userInfo"] as UserObject;
-            directDb.query = @"
+            try
+            {
+                UserObject user = Session["userInfo"] as UserObject;
+                directDb.query = @"
             select CM.CandidateName, CM.EmailId,AgreementPercentage,AgreementSent,CM.Date as EnrolledDate, TotalAmount, PaidAmount,ServiceName, RM.* 
             from CandidateMaster CM
             inner join UserAccountDetails UAD on CM.RefSalesAssociate = UAD.UserId
@@ -87,13 +105,21 @@ END
                     when CA.AssignedId is not null and CA.IsActive = 1 then   CM.CandidateId
                         else -1
             END) and UserId=" + user.UserId + "order by CM.Date desc";
-            var data = directDb.GetDictionary();
-            return Json(data, JsonRequestBehavior.AllowGet);
+                var data = directDb.GetDictionary();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetRecurringJson");
+                throw;
+            }
         }
         public JsonResult GetRecurringDetailsJson(int id)
         {
-            UserObject user = Session["userInfo"] as UserObject;
-            directDb.query = @"
+            try
+            {
+                UserObject user = Session["userInfo"] as UserObject;
+                directDb.query = @"
             select CandidateMaster.CandidateId,CandidateMaster.CandidateName, TotalAmount, PaidAmount,ServiceName, RecurringMaster.* from CandidateMaster 
             inner join UserAccountDetails on RefSalesAssociate = UserId
             inner join SalesServiceMaster on ServiceId = RefServiceId
@@ -108,8 +134,14 @@ END
                         else -1
             END
             ) and CandidateMaster.CandidateId = " + id;
-            var data = directDb.GetDictionary();
-            return Json(data, JsonRequestBehavior.AllowGet);
+                var data = directDb.GetDictionary();
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetRecurringDetailsJson");
+                throw;
+            }
         }
         public JsonResult GetRecurringType(int id)
         {
