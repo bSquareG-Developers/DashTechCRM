@@ -399,7 +399,7 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
                 p.Add(new SqlParameter("@isJobGaruntee", Convert.ToString(prm.inJobGaruntee)));
                 p.Add(new SqlParameter("@JobGarunteeLastDate", Convert.ToString(prm.JobGarunteeLastDate)));
                 p.Add(new SqlParameter("@RePaymentMonths", Convert.ToString(prm.rePaymentMonths)));
-                p.Add(new SqlParameter("@isRembursed", Convert.ToString(prm.rembursed)));
+                p.Add(new SqlParameter("@isRembursed", Convert.ToString(prm.isRembursed)));
                 p.Add(new SqlParameter("@ContractedAmount", Convert.ToString(prm.contractedAmount)));
                 p.Add(new SqlParameter("@TVPRecurringMaster", (DataTable)JsonConvert.DeserializeObject(Convert.ToString(prm.recurringDataArr), (typeof(DataTable)))));
                 object resultInsertCandidate = dl.Execute_Scaler("CandidateMaster_Insert", p.ToArray());

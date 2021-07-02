@@ -35,16 +35,31 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
 
         public string GetCandidateList()
         {
-            string query = string.Format
-                (@"SELECT CM.CandidateId,CM.CandidateName,CM.CandidateStatus,cm.MobileNumber,cm.EmailId,cm.AgreementSent,cm.Agreement,CM.Date AS EnrolledDate,CM.TotalAmount,cm.PaidAmount,SSM.ServiceName,TM.TechTitle,CVF.ProcessStart,CVF.ResumePreparation,CVF.ResumeVerification,CVF.ResumeModification,CVF.RUC,CVF.ProcessEnd FROM CandidateMaster CM INNER JOIN UserAccountDetails UAD ON UAD.UserId = CM.RefSalesAssociate INNER JOIN LocationMaster LM ON LM.LocationId = UAD.RefLocationId INNER JOIN SalesServiceMaster SSM ON SSM.ServiceId = CM.RefServiceId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId LEFT JOIN CandidateExpertCVFollowupDetails CVF on CVF.CandidateId = CM.CandidateId where (CM.CandidateStatus = 'Sales' OR CM.CandidateStatus like '%Expert%') and CM.Date < '{0}' order by CM.CandidateId desc", DateTime.Now.Date.ToString("yyyy-MM-dd"));
-            return CommonHelperClass._serializeDatatable(dl.GetDataTable(query));
+            try
+            {
+                string query = string.Format
+                    (@"SELECT CM.CandidateId,CM.CandidateName,CM.CandidateStatus,cm.MobileNumber,cm.EmailId,cm.AgreementSent,cm.Agreement,CM.Date AS EnrolledDate,CM.TotalAmount,cm.PaidAmount,SSM.ServiceName,TM.TechTitle,CVF.ProcessStart,CVF.ResumePreparation,CVF.ResumeVerification,CVF.ResumeModification,CVF.RUC,CVF.ProcessEnd FROM CandidateMaster CM INNER JOIN UserAccountDetails UAD ON UAD.UserId = CM.RefSalesAssociate INNER JOIN LocationMaster LM ON LM.LocationId = UAD.RefLocationId INNER JOIN SalesServiceMaster SSM ON SSM.ServiceId = CM.RefServiceId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId LEFT JOIN CandidateExpertCVFollowupDetails CVF on CVF.CandidateId = CM.CandidateId where (CM.CandidateStatus = 'Sales' OR CM.CandidateStatus like '%Expert%') and CM.Date < '{0}' order by CM.CandidateId desc", DateTime.Now.Date.ToString("yyyy-MM-dd"));
+                return CommonHelperClass._serializeDatatable(dl.GetDataTable(query));
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/GetCandidateList");
+                throw;
+            }
         }
 
         public string GetNewCandidateList()
         {
-            string query = string.Format(@"SELECT CM.CandidateId,CM.CandidateName,CM.CandidateStatus,cm.MobileNumber,cm.EmailId,cm.AgreementSent,cm.Agreement,CM.Date AS EnrolledDate,CM.TotalAmount,cm.PaidAmount,SSM.ServiceName,TM.TechTitle,CVF.ProcessStart,CVF.ResumePreparation,CVF.ResumeVerification,CVF.ResumeModification,CVF.RUC,CVF.ProcessEnd FROM CandidateMaster CM INNER JOIN UserAccountDetails UAD ON UAD.UserId = CM.RefSalesAssociate INNER JOIN LocationMaster LM ON LM.LocationId = UAD.RefLocationId INNER JOIN SalesServiceMaster SSM ON SSM.ServiceId = CM.RefServiceId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId INNER JOIN CandidateExpertCVFollowupDetails CVF on CVF.CandidateId = CM.CandidateId where CM.Date = '{0}' order by CM.CandidateId desc", DateTime.Now.Date.ToString("yyyy-MM-dd"));
-
-            return CommonHelperClass._serializeDatatable(dl.GetDataTable(query));
+            try
+            {
+                string query = string.Format(@"SELECT CM.CandidateId,CM.CandidateName,CM.CandidateStatus,cm.MobileNumber,cm.EmailId,cm.AgreementSent,cm.Agreement,CM.Date AS EnrolledDate,CM.TotalAmount,cm.PaidAmount,SSM.ServiceName,TM.TechTitle,CVF.ProcessStart,CVF.ResumePreparation,CVF.ResumeVerification,CVF.ResumeModification,CVF.RUC,CVF.ProcessEnd FROM CandidateMaster CM INNER JOIN UserAccountDetails UAD ON UAD.UserId = CM.RefSalesAssociate INNER JOIN LocationMaster LM ON LM.LocationId = UAD.RefLocationId INNER JOIN SalesServiceMaster SSM ON SSM.ServiceId = CM.RefServiceId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId INNER JOIN CandidateExpertCVFollowupDetails CVF on CVF.CandidateId = CM.CandidateId where CM.Date = '{0}' order by CM.CandidateId desc", DateTime.Now.Date.ToString("yyyy-MM-dd"));
+                return CommonHelperClass._serializeDatatable(dl.GetDataTable(query));
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/GetNewCandidateList");
+                throw;
+            }
         }
 
         //public JsonResult GetNewCandidateList()
@@ -88,9 +103,9 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
                 dl.Execute_NonQuery("FollowUpMasterLog_Insert", p.ToArray());
 
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/SaveFollowup");
 
             }
             return RedirectToAction("Index");
@@ -98,11 +113,19 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
 
         public string GetexpertcvCandidateDetailsByCandidatId(string parameter)
         {
-            dynamic prm = JObject.Parse(parameter);
-            string CandidateId = Convert.ToString(prm.CandidatId);
-            dt = dl.GetDataTable(
-                "select CONVERT(varchar,FM.FollowUpDate,106)  as FollowUpDate,Convert(varchar(8),FM.FollowUpTime) as FollowUpTime,FM.FollowUpMessage,FM.FollowUpStatus, FM.Department, CM.CandidateName, CM.MobileNumber, CM.EmailId from FollowUpMaster FM inner join CandidateMaster CM on CM.CandidateId = FM.RefCandidateId where  FM.Department = 'ExpertCv' and FM.RefCandidateId = " + CandidateId);
-            return CommonHelperClass._serializeDatatable(dt);
+            try
+            {
+                dynamic prm = JObject.Parse(parameter);
+                string CandidateId = Convert.ToString(prm.CandidatId);
+                dt = dl.GetDataTable(
+                    "select CONVERT(varchar,FM.FollowUpDate,106)  as FollowUpDate,Convert(varchar(8),FM.FollowUpTime) as FollowUpTime,FM.FollowUpMessage,FM.FollowUpStatus, FM.Department, CM.CandidateName, CM.MobileNumber, CM.EmailId from FollowUpMaster FM inner join CandidateMaster CM on CM.CandidateId = FM.RefCandidateId where  FM.Department = 'ExpertCv' and FM.RefCandidateId = " + CandidateId);
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/GetexpertcvCandidateDetailsByCandidatId");
+                throw;
+            }
         }
         public string InsertFollowUpDetails(string parameter)
         {
@@ -140,7 +163,7 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/InsertFollowUpDetails");
                 throw;
             }
         }
@@ -152,6 +175,7 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
             }
             catch (Exception e)
             {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/BindFollowUpStatusExpertCv");
                 return "";
             }
         }
@@ -165,6 +189,7 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
             }
             catch (Exception e)
             {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/GetTechnology");
                 return "";
             }
         }
@@ -185,6 +210,7 @@ namespace DashTechCRM.Areas.ExpertCVCoach.Controllers
             }
             catch (Exception e)
             {
+                CommonHelperClass.InsertErrorLog(e.Message, "ExpertCVCoach/dashboard/changeTechnology");
                 return "";
             }
         }

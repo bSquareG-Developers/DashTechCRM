@@ -60,18 +60,21 @@
                             <div style="display: flex;" class="flex-grow-1">
                                 <div style="display: flex;display: block; margin-right: 0.5rem">
                                     <input id="rbtisOneTime" type="radio" name="RecurringType" value="isOneTime" style="padding-right: 5px" class="rightMargin" checked="checked">
-                                    <label for="rbtisOneTime">is One Time .?</label>
+                                    <label for="rbtisOneTime">One Time Payment</label>
                                 </div>
-                                <div style="display: flex; display: block">
+                                <div style="display: flex; display: block; margin-right: 0.5rem">
                                     <input type="radio" id="rbtRecurringType" name="RecurringType" value="is5500" class="rightMargin">
-                                    <label for="rbtRecurringType">5500 one time</label>
+                                    <label for="rbtRecurringType">$5500 - Ultra Elite Plan</label>
                                 </div>
 
+                                <div style="display: flex; display: block">
+                                    <input type="radio" id="rbtSubscriptionPlan" name="RecurringType" value="isSubscriptionPlan" class="rightMargin">
+                                    <label for="rbtSubscriptionPlan">Subscription Plan</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="row">
                     <div class="col-md-12">
@@ -121,9 +124,9 @@
                 </div>
 
                 <div class="row border">
-                    <div class="col-md-3 mt-4">
+                    <div class="col-md-2 mt-4">
                         <div class="form-group">
-                            <label>Agreement Sent:</label>
+                            <label for="AgreementSent">Agreement Sent:</label>
                             <input type="checkbox" name="AgreementSent" id="AgreementSent" value="true" class="checkbox" />
                             <input type="hidden" id="FalseAgreementSent" value="false" name="AgreementSent" />
                         </div>
@@ -142,10 +145,25 @@
                             <span id="reqddlRePaymentMonths" class="parsley-required" style="display: none"></span>
                         </div>
                     </div>
-                    <div class="col-md-3  mt-4">
+                    <div class="col-md-4  mt-4">
                         <div class="form-group">
-                            <label>is Rembursed .?:</label>
-                            <input type="checkbox" name="Rembursed" id="Rembursed" value="true" class="checkbox" />
+                            @*<label>is Rembursed .?:</label>
+                                <input type="checkbox" name="Rembursed" id="Rembursed" value="true" class="checkbox" />*@
+                            <div class="card">
+                                <label class="d-block">Rembursed Type :</label>
+                                <div style="display: flex;" class="flex-grow-1">
+                                    <div style="display: flex; display: block; margin-right: 0.5rem">
+                                        <input id="rbtisRembursed" type="radio" name="RembursedType" value="isRembursed" style="padding-right: 5px" class="rightMargin" checked="checked">
+                                        <label for="rbtisRembursed">Rembursed</label>
+                                    </div>
+                                    <div style="display: flex; display: block; margin-right: 0.5rem">
+                                        <input type="radio" id="rbtNonRembursed" name="RembursedType" value="isNotRembursed" class="rightMargin">
+                                        <label for="rbtNonRembursed">non Rembursed</label>
+                                    </div>
+
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -298,6 +316,7 @@
     let date = new Date();
     let JobGarunteeLastDate = new Date();
     var recurringTypeText = "";
+    let isRembursed = 1;
     var loadPanel = $(".loadpanel").dxLoadPanel({
         shadingColor: "rgba(0,0,0,0.4)",
         visible: false,
@@ -377,10 +396,24 @@
         });
     }
     $('input[type=radio][name=RecurringType]').change(function() {
-        console.log(this.value);
-        let isOneTime = this.value == 'isOneTime' ? 1 : 0;
+        let isOneTime = 0;
+        if (this.value === 'isOneTime')
+            isOneTime = 1;
+
+        else if (this.value === 'is5500')
+            isOneTime = 0;
+        else if (this.value === 'isSubscriptionPlan')
+            isOneTime = 2;
+
         GetRecurringType(isOneTime);
     });
+
+    $('input[type=radio][name=RembursedType]').change(function() {
+        isRembursed = this.value === 'isRembursed' ?1:0;
+    });
+
+
+
 
     function GetRecurringType(IsOneTime) {
         param = { IsOneTime }
@@ -397,9 +430,32 @@
                     function(i, v) {
                         jQuery('#RefRecurringTypeId').append('<option value="' + v.RecurringTypeId + '">' + v.RecurringTitle + '</option>');
                     });
-                //if (data.find(x => x.RecurringTitle === '$5500 one time payment')){
-                //    $('#RefRecurringTypeId').val(data.find(x => x.RecurringTitle === '$5500 one time payment').RecurringTypeId);
-                //}
+                if (data.find(x => x.RecurringTitle === '$5500 one time payment')){
+                    $('#RefRecurringTypeId').val(data.find(x => x.RecurringTitle === '$5500 one time payment').RecurringTypeId);
+                    enrollmentAmt = parseInt($('#insR').val());
+                    grandTotal = sumPaidAmt + enrollmentAmt;
+                    remainingTotal = totalAmount - grandTotal;
+                    $('#txtContractedAmount').val(remainingTotal);
+                    if ($('#RefRecurringTypeId').val() !== 'Select') {
+                        var rid = $('#RefRecurringTypeId').val();
+                        var url = "@Url.Action("GetRecurringType","ManageCandidate",new { @area = "SalesAssociate"})/?id=" + rid;
+                        $.getJSON(url, null, function (data) {
+                            //alert(data);
+                            $("#amtR").val(data.Amount);
+                            $("#insR").val(data.Pay);
+                            sumPaidAmt = 0;
+                            enrollmentAmt = data.Pay;
+                            recurringInstallment = data.Installment;
+                            totalAmount = data.Amount;
+                            grandTotal = sumPaidAmt + enrollmentAmt;
+                            remainingTotal = totalAmount - grandTotal;
+                            recurringDataArr = [];
+                            AmountArr = [];
+                            BindRecurringDetails();
+                            $('#txtContractedAmount').val(remainingTotal);
+                        });
+                    }
+                }
             }
         });
     }
@@ -555,7 +611,7 @@
         var inTraining = $('#InTraining').is(":checked") ? 1 : 0;
         var inMarketing = $('#InMarketing').is(":checked") ? 1 : 0;
         var expertCv = $('#ExpertCV').is(":checked") ? 1 : 0;
-        var rembursed = $('#Rembursed').is(":checked") ? 1 : 0;
+
         var inJobGaruntee = recurringTypeText === "$5500 one time payment" ? 1 : 0;
         var validEmail = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
 
@@ -565,7 +621,7 @@
 
         let param = {
             candidateName, emailId, mobileNumber, recurringTypeId, totalAmmount, enrollmentAmount, serviceId, technologyId, recIn, visaStatus,
-            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate, rembursed, rePaymentMonths, contractedAmount
+            agreement, agreementLink, remarks, agreementSent, inTraining, inMarketing, expertCv, recurringDataArr, recurringInstallment, grandTotal, inJobGaruntee, JobGarunteeLastDate, isRembursed, rePaymentMonths, contractedAmount
         }
         if (grandTotal > totalAmount) {
             DevExpress.ui.notify("Sum of Total paid amount is Greater than Total amount kindly check once.. ..!!", "error", 5000);
