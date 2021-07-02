@@ -145,12 +145,20 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
         }
         public JsonResult GetRecurringType(int id)
         {
-            var d = db.RecurringTypes.Find(id);
-            var dictionary = new Dictionary<string, dynamic>();
-            dictionary.Add("Amount", d.Amount);
-            dictionary.Add("Pay", d.Amount / d.Installment);
-            dictionary.Add("Installment", d.Installment);
-            return Json(dictionary, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var d = db.RecurringTypes.Find(id);
+                var dictionary = new Dictionary<string, dynamic>();
+                dictionary.Add("Amount", d.Amount);
+                dictionary.Add("Pay", d.Amount / d.Installment);
+                dictionary.Add("Installment", d.Installment);
+                return Json(dictionary, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetRecurringType");
+                throw;
+            }
         }
         #endregion
 
@@ -158,13 +166,21 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
         [HttpPost]
         public ActionResult NewRecurring(RecurringMaster data)
         {
-            data.PaymentStatus = "Paid";
-            data.DueDate = DateTime.Now.Date;
-            data.InstallmentNumber = "";
-            data.SendReminderEmail = false;
-            db.RecurringMasters.Add(data);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                data.PaymentStatus = "Paid";
+                data.DueDate = DateTime.Now.Date;
+                data.InstallmentNumber = "";
+                data.SendReminderEmail = false;
+                db.RecurringMasters.Add(data);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/NewRecurring");
+                throw;
+            }
         }
 
         public ActionResult DeleteCandidate(int cid)
@@ -184,7 +200,7 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/DeleteCandidate");
                 throw;
             }
         }
@@ -337,6 +353,7 @@ namespace DashTechCRM.Areas.SalesAssociate.Controllers
                 result = result == null ? "" : result.ToString();
                 //TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = ex.Message };
                 TempData["alert"] = new AlertBoxModel() { Type = "Error", Message = "their are chance to have same details already present in our system with mobile Number or Email Id..!! Entry might be done by : " + result };
+                CommonHelperClass.InsertErrorLog(ex.Message, "ManageCandidate/AddCandidate");
             }
             return View();
         }
