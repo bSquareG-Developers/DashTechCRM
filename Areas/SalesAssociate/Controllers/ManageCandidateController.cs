@@ -984,10 +984,33 @@ mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt;mso-border-insideh:
 
         public string GetSubmissionInterviewDetails()
         {
-            UserObject user = Session["userInfo"] as UserObject;
-            string UserId = user == null ? "" : user.UserId.ToString();
-            return CommonHelperClass._serializeDatatable(dl.GetDataTable(
-                "SELECT TeamManager.FullName as MarketingManager ,TeamLead.FullName as MarketingTeamLead ,UADMember.FullName as RecruiterName ,CM.CandidateName ,COUNT(ID.InteviewId) AS Interviews ,COUNT(SD.RefAssignedId) AS Submissions ,CM.VisaStatus ,TM.TechTitle FROM SubmissionDetails SD LEFT JOIN InterviewDetails ID ON ID.RefSumissionId = SD.SubmissionId INNER JOIN CandidateAssign CA ON CA.AssignedId = SD.RefAssignedId INNER JOIN CandidateMarketingDetails CMD ON CMD.MarketingId = CA.refMarketingId INNER JOIN CandidateMaster CM ON CM.CandidateId = CMD.RefCandidateId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId INNER JOIN TeamDetails TD on TD.TeamId = CA.RefTeamId LEFT JOIN UserAccountDetails UADMember ON CA.refAssignRecruiter = UADMember.UserId INNER JOIN UserAccountDetails TeamLead ON TD.TeamLead = TeamLead.UserId INNER JOIN UserAccountDetails TeamManager ON TD.TeamManager = TeamManager.UserId where TeamLead.RefRoleId = 3 and TeamManager.UserId =" + UserId + " GROUP BY CM.CandidateName,CM.VisaStatus,TM.TechTitle,UADMember.FullName,TeamLead.FullName,TeamManager.FullName"));
+            try
+            {
+                UserObject user = Session["userInfo"] as UserObject;
+                string UserId = user == null ? "" : user.UserId.ToString();
+                return CommonHelperClass._serializeDatatable(dl.GetDataTable(
+                    "SELECT TeamManager.FullName as MarketingManager ,TeamLead.FullName as MarketingTeamLead ,UADMember.FullName as RecruiterName ,CM.CandidateName ,COUNT(ID.InteviewId) AS Interviews ,COUNT(SD.RefAssignedId) AS Submissions ,CM.VisaStatus ,TM.TechTitle FROM SubmissionDetails SD LEFT JOIN InterviewDetails ID ON ID.RefSumissionId = SD.SubmissionId INNER JOIN CandidateAssign CA ON CA.AssignedId = SD.RefAssignedId INNER JOIN CandidateMarketingDetails CMD ON CMD.MarketingId = CA.refMarketingId INNER JOIN CandidateMaster CM ON CM.CandidateId = CMD.RefCandidateId INNER JOIN TechnologyMaster TM ON TM.TechId = CM.TechnologyId INNER JOIN TeamDetails TD on TD.TeamId = CA.RefTeamId LEFT JOIN UserAccountDetails UADMember ON CA.refAssignRecruiter = UADMember.UserId INNER JOIN UserAccountDetails TeamLead ON TD.TeamLead = TeamLead.UserId INNER JOIN UserAccountDetails TeamManager ON TD.TeamManager = TeamManager.UserId where TeamLead.RefRoleId = 3 and TeamManager.UserId =" + UserId + " GROUP BY CM.CandidateName,CM.VisaStatus,TM.TechTitle,UADMember.FullName,TeamLead.FullName,TeamManager.FullName"));
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetSubmissionInterviewDetails");
+                throw;
+            }
+        }
+
+        public string GetRecurringType()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = dl.GetDataTable("GetRecurringType");
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "ManageCandidate/GetRecurringType");
+                throw;
+            }
         }
 
     }

@@ -70,7 +70,8 @@
                                 <option>Select</option>
                                 @foreach (RecurringType recurringType in db.RecurringTypes.ToList())
                                 {
-                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>}
+                    <option value="@recurringType.RecurringTypeId">@recurringType.RecurringTitle</option>
+}
                             </select>
                             <span id="reqRefRecurringTypeId" class="parsley-required" style="display: none"></span>
                         </div>
@@ -127,7 +128,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Enrollment Amount:</label>
+                            <label>Enrollment / Collected Amount:</label>
                             <input type="number" min="0" id="insR" class="form-control" />
                         </div>
                     </div>
@@ -139,8 +140,7 @@
                                 <option></option>
                                 @foreach (string mode in strRec)
                                 {
-                    <option value="@mode">@mode</option>
-}
+                    <option value="@mode">@mode</option>}
                             </select>
                             <span id="reqrecIn" class="parsley-required" style="display: none"></span>
 
@@ -172,7 +172,8 @@
                                 <option>Select</option>
                                 @foreach (SalesServiceMaster salesService in db.SalesServiceMasters.ToList())
                                 {
-                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>}
+                    <option value="@salesService.ServiceId">@salesService.ServiceName</option>
+}
                             </select>
                             <span id="reqRefServiceId" class="parsley-required" style="display: none"></span>
 
@@ -188,7 +189,8 @@
                                 <option>Select</option>
                                 @foreach (TechnologyMaster tech in db.TechnologyMasters.ToList())
                                 {
-                    <option value="@tech.TechId">@tech.TechTitle</option>}
+                    <option value="@tech.TechId">@tech.TechTitle</option>
+}
                             </select>
                             <span id="reqTechnologyId" class="parsley-required" style="display: none"></span>
                         </div>
