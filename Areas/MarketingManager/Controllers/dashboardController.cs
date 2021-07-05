@@ -285,8 +285,8 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
                 ConnectionDB dl = new ConnectionDB();
                 bool result = false;
                 string userName = user != null ? user.RocketName.ToString() : "";
-                //string emailId = "kautilya.dashtechinc@gmail.com";
-                string emailId = "rakesh.giri@dashtechinc.com";
+                string emailId = "nirav@dashtechinc.com";
+                //string emailId = "rakesh.giri@dashtechinc.com";
                 //string emailId = "kiran@dashtechinc.com";
                 string candidateName = Convert.ToString(prm.CandidateName);
                 string emailBody = "<p>Hello Mr.Rakesh,</p><p> Mr {UserName} have requested you to generate Email and contact number for the candidate : {CandidateName} for marketing purpose.</p><p><br></p><p>Thank You</p>";

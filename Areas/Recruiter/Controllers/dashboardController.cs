@@ -71,7 +71,7 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
         public string GetCandidatesJson()
         {
             UserObject user = Session["userInfo"] as UserObject;
-            string query = string.Format(@"SELECT CA.AssignedId,CM.CandidateId,UADRecruiter.FullName,SrSalesRecruiter.FullName AS SeniorSalesRecruiter,JrBatchRecruiter.FullName AS JuniorSalesRecruiter,TraineeBatchRecruiter.FullName AS TraineeSalesRecruiter,CM.CandidateName,CM.CandidateStatus,CM.VisaStatus,CM.Date AS EnrolledDate,CM.MarketingStartDate,CMD.MarketingId,CMD.MarketingEmailId,CMD.MarketingContactNumber, (SELECT COUNT(SubmissionId) FROM SubmissionDetails SD WHERE CA.AssignedId = SD.RefAssignedId AND SD.Date = '{0}') AS TodaySubmissionCount,(SELECT COUNT(SubmissionId) FROM SubmissionDetails SD WHERE CA.AssignedId = SD.RefAssignedId) AS TotalSubmissionCount,(SELECT COUNT(InteviewId) FROM InterviewDetails ID INNER JOIN SubmissionDetails SD ON SD.SubmissionId = ID.RefSumissionId AND CA.AssignedId = SD.RefAssignedId) AS TotalInterviewCount,(SELECT COUNT(InteviewId) FROM InterviewDetails ID INNER JOIN SubmissionDetails SD ON SD.SubmissionId = ID.RefSumissionId AND CA.AssignedId = SD.RefAssignedId AND SD.Date = '{0}')AS TodayInterviewCount,TM.TechTitle as [Technology] FROM CandidateAssign CA INNER JOIN UserAccountDetails UADRecruiter ON CA.refAssignRecruiter = UADRecruiter.UserId INNER JOIN CandidateMarketingDetails CMD ON CMD.MarketingId = CA.refMarketingId INNER JOIN CandidateMaster CM ON CM.CandidateId = CMD.RefCandidateId LEFT JOIN UserAccountDetails SrSalesRecruiter ON SrSalesRecruiter.UserId = CA.SrBatchRecruiter LEFT JOIN UserAccountDetails JrBatchRecruiter ON JrBatchRecruiter.UserId = CA.JrBatchRecruiter LEFT JOIN UserAccountDetails TraineeBatchRecruiter ON TraineeBatchRecruiter.UserId = CA.TraineeBatchRecruiter Inner join technologyMaster TM on TM.TechId = CM.TechnologyId  WHERE CA.refAssignRecruiter = {1} ORDER BY CA.AssignedId DESC", DateTime.Now.Date.ToString("yyyy-MM-dd"), user.UserId);
+            string query = string.Format(@"SELECT CA.AssignedId,CM.CandidateId,UADRecruiter.FullName,SrSalesRecruiter.FullName AS SeniorSalesRecruiter,JrBatchRecruiter.FullName AS JuniorSalesRecruiter,TraineeBatchRecruiter.FullName AS TraineeSalesRecruiter,CM.CandidateName,CM.CandidateStatus,CM.VisaStatus,CM.Date AS EnrolledDate,CM.MarketingStartDate,CMD.MarketingId,CMD.MarketingEmailId,CMD.MarketingContactNumber, (SELECT COUNT(SubmissionId) FROM SubmissionDetails SD WHERE CA.AssignedId = SD.RefAssignedId AND SD.Date = '{0}') AS TodaySubmissionCount,(SELECT COUNT(SubmissionId) FROM SubmissionDetails SD WHERE CA.AssignedId = SD.RefAssignedId) AS TotalSubmissionCount,(SELECT COUNT(InteviewId) FROM InterviewDetails ID INNER JOIN SubmissionDetails SD ON SD.SubmissionId = ID.RefSumissionId AND CA.AssignedId = SD.RefAssignedId) AS TotalInterviewCount,(SELECT COUNT(InteviewId) FROM InterviewDetails ID INNER JOIN SubmissionDetails SD ON SD.SubmissionId = ID.RefSumissionId AND CA.AssignedId = SD.RefAssignedId AND SD.Date = '{0}')AS TodayInterviewCount,TM.TechTitle as [Technology],PO.PODate FROM CandidateAssign CA INNER JOIN UserAccountDetails UADRecruiter ON CA.refAssignRecruiter = UADRecruiter.UserId INNER JOIN CandidateMarketingDetails CMD ON CMD.MarketingId = CA.refMarketingId INNER JOIN CandidateMaster CM ON CM.CandidateId = CMD.RefCandidateId LEFT JOIN UserAccountDetails SrSalesRecruiter ON SrSalesRecruiter.UserId = CA.SrBatchRecruiter LEFT JOIN UserAccountDetails JrBatchRecruiter ON JrBatchRecruiter.UserId = CA.JrBatchRecruiter LEFT JOIN UserAccountDetails TraineeBatchRecruiter ON TraineeBatchRecruiter.UserId = CA.TraineeBatchRecruiter Inner join technologyMaster TM on TM.TechId = CM.TechnologyId LEFT join PODetails PO on PO.Candidateid = CM.CandidateId WHERE CA.refAssignRecruiter = {1} ORDER BY CA.AssignedId DESC", DateTime.Now.Date.ToString("yyyy-MM-dd"), user.UserId);
             return CommonHelperClass._serializeDatatable(dl.GetDataTable(query));
             //var data = directDb.GetDictionary();
             //return Json(data, JsonRequestBehavior.AllowGet);
@@ -221,6 +221,23 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public string GetPoDetailsByCandidateId(string parameter)
+        {
+            try
+            {
+                List<SqlParameter> p = new List<SqlParameter>();
+                dynamic prm = JObject.Parse(parameter);
+                p.Add(new SqlParameter("@CandidateId", Convert.ToString(prm.candidateId)));
+                dt = dl.GetDataTable("GetPODetailsByCandidateID", p.ToArray());
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "Recruiter/dashboard/GetPoDetailsByCandidateId");
                 throw;
             }
         }

@@ -131,7 +131,6 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
                 pODetail.UpdateBy = "";
                 pODetail.UpdateDate = null;
                 pODetail.ConfirmPO = "Pending";
-
                 pODetail.CandidateName = db.CandidateMasters.Find(pODetail.CandidateId).CandidateName;
                 db.PODetails.Add(pODetail);
                 db.SaveChanges();
@@ -269,9 +268,14 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
 
 
 
-                SMTPEmailSendingModel.Send(user.EmailId, emailBody, "PO detail Form of (" + pODetail.CandidateName + ")", tlemailid, "bhadresh@dashtechinc.com");
+                //SMTPEmailSendingModel.Send(user.EmailId, emailBody, "PO detail Form of (" + pODetail.CandidateName + ")", tlemailid, "bhadresh@dashtechinc.com");
 
-                SMTPEmailSendingModel.Send(sendConfirmation, "Hi,<br>Confirmation for this PO is Pending in CRM.", "Pending PO Confirmation (" + pODetail.CandidateName + ")", "", "bhadresh@dashtechinc.com");
+                SMTPEmailSendingModel.Send("nirav@dashtechinc.com", emailBody, "PO detail Form of (" + pODetail.CandidateName + ")", "nirav@dashtechinc.com", "nirav@dashtechinc.com");
+
+
+                SMTPEmailSendingModel.Send("nirav@dashtechinc.com", "Hi,<br>Confirmation for this PO is Pending in CRM.", "Pending PO Confirmation (" + pODetail.CandidateName + ")", "", "nirav@dashtechinc.com");
+
+                // SMTPEmailSendingModel.Send(sendConfirmation, "Hi,<br>Confirmation for this PO is Pending in CRM.", "Pending PO Confirmation (" + pODetail.CandidateName + ")", "", "bhadresh@dashtechinc.com");
 
 
                 FollowUpMaster follow = new FollowUpMaster()

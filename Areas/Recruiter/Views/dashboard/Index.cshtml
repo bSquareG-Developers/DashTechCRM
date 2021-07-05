@@ -14,6 +14,10 @@
     .parsley-error, .parsley-required {
         color: #F16C69;
     }
+
+    .modal-ku {
+        max-width: 80%;
+    }
 </style>
 
 <div class="row">
@@ -247,7 +251,8 @@
                                                     <option></option>
                                                     @foreach (InterviewMode item in db.InterviewModes.ToList())
                                                     {
-                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>}
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
+}
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -311,68 +316,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
-                            <!-- /.box-header -->
                             <div class="box-body">
-                                @*<div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Marketing Email Id</label>
-                                                <input class="form-control" type="email" name="MarketingEmailId" id="MarketingEmailId" style="width: 100%;" readonly="readonly" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Marketing Contact Number</label>
-                                                <input class="form-control" name="MarketingContactNumber" id="MarketingContactNumber" style="width: 100%;" data-inputmask='"mask": "(999) 999-9999"' data-mask readonly="readonly" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Original Resume (Link)</label>
-                                                <input type="url" class="form-control" name="OriginalResume" id="OriginalResume" style="width: 100%;" />
-                                                <span id="reqOriginalResume" class="parsley-required" style="display: none"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Marketing Resume</label>
-                                                <input class="form-control" type="url" name="MarketingResume" id="MarketingResume" style="width: 100%;" required />
-                                                <span id="reqMarketingResume" class="parsley-required" style="display: none"></span>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Required Location List</label>
-                                                <input class="form-control" type="text" name="RequiredLocationList" id="RequiredLocationList" style="width: 100%;" required />
-                                                <span id="reqRequiredLocationList" class="parsley-required" style="display: none"></span>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Remarks</label>
-                                                <textarea class="form-control" name="OtherRemarks" id="OtherRemarks" style="width: 100%" required></textarea>
-                                                <span id="reqOtherRemarks" class="parsley-required" style="display: none"></span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" name="LocationConcern" id="LocationConcern" required />
-                                                <label class="form-check-label" for="LocationConcern">
-                                                    Location Concern
-                                                </label>
-                                            </div>
-
-                                        </div>
-                                    </div>*@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -504,6 +449,217 @@
         </div>
     </div>
 </div>
+<div id="modalPODetails" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-ku">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">PO Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="color: #f16c69; cursor: pointer;"
+                                     data-toggle="collapse"
+                                     href="#collapsePODetails"
+                                     role="button"
+                                     aria-expanded="true"
+                                     aria-controls="collapsePODetails">
+                                    <i class="fa fa-filter"></i> PO Details :
+                                    <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i>
+                                </div>
+                                <hr />
+                                <div id="collapsePODetails" class="collapse show">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Candidate Name</label>
+                                                <label id="lblCandidateName" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="text-dark">Reference of Candidate</label>
+                                            <label id="lblRefOfCandidate" class="form-control"></label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="text-dark">Job Type</label>
+                                            <label id="lblJobType" class="form-control"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Applied Position</label>
+                                                <label id="lblAppliedPosition" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Interview Support</label>
+                                                <label id="lblInterviewSupport" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Job Location</label>
+                                                <label id="lblJobLocation" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">End Client</label>
+                                                <label id="lblEndClient" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Vendor Details</label>
+                                                <label id="lblVendorDetails" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Team Lead Name</label>
+                                                <label id="lblTeamLeadName" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Recruiter Name</label>
+                                                <label id="lblRecruiterName" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Rate</label>
+                                                <label id="lblRate" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Sign-Up Date</label>
+                                                <label id="lblSignUpDate" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Training</label>
+                                                <label id="lblTraining" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Training End Date</label>
+                                                <label id="lblTrainingEndDate" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Marketing Start Date</label>
+                                                <label id="lblMarketingStartDate" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Marketing End Date</label>
+                                                <label id="lblMarketingEndDate" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Agreement Percentage</label>
+                                                <label id="lblAgreementPercentage" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="text-dark">Agreement Months</label>
+                                                <label id="lblAgreementMonths" class="form-control"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div style="color: #f16c69; cursor: pointer;"
+                                             data-toggle="collapse"
+                                             href="#collapsePayDetails"
+                                             role="button"
+                                             aria-expanded="true"
+                                             aria-controls="collapsePayDetails">
+                                            <i class="fa fa-filter"></i> Pay Details :
+                                            <i class="fa fa-plus float-right" style="color: #f16c69; cursor: pointer;"></i>
+                                        </div>
+                                        <hr />
+                                        <div id="collapsePayDetails" class="collapse show">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="text-dark" id="lblpackageAmount" for="txtPackageAmount">Package Amount</label>
+                                                        <input type="text" id="txtPackageAmount" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="text-dark" id="lblAgreementPer" for="txtAgreementPer">Agreement (%)</label>
+                                                        <input type="text" id="txtAgreementPer" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="text-dark" id="lblUpFrontAmount" for="txtUpFrontAmount">Up Front Amount</label>
+                                                    <input type="text" id="txtUpFrontAmount" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label class="text-dark">Rembursed / Non-Rembursed</label>
+                                                    <label id="lblRembursed" class="form-control"></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <button id="btnCalculate" class="btn btn-primary btn-block">Calculate</button>
+                                                    </div>
+                                                </div><div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <button id="btnCancle" class="btn btn-default btn-block">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="loadpanel"></div>
 <script>
     var MarketingId = "";
@@ -799,6 +955,17 @@
                                 }
                             }
                         },
+                        {
+                            dataField: 'PODetails', caption: 'PO Details', alignment: 'center', dataType: 'string', width: 120, format: '', type: 'buttons', cellTemplate: function (container, options) {
+                                if (options.data.PODate) {
+                                    jQuery('<span class="fa fa-plus" style:"cursor:pointer">').text('').on('dxclick', function () {
+                                        AddPoDetails(options.data);
+                                    }).appendTo(container);
+                                }
+
+                            }
+                        },
+
                         { dataField: "TodaySubmissionCount", caption: "Today Submissions", alignment: "center", width: 130, dataType: 'number' },
                         { dataField: "TodayInterviewCount", caption: "Today Interview", alignment: "center", width: 130, dataType: 'number' },
                         { dataField: "TotalSubmissionCount", caption: "Total Submissions", alignment: "center", width: 130, dataType: 'number' },
@@ -1014,4 +1181,42 @@
 
     }
 
+    function AddPoDetails(data) {
+        console.log(data);
+        param = { candidateId: data.CandidateId}
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("GetPoDetailsByCandidateId")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function (data) {
+                data = JSON.parse(data);
+                console.log(data);
+                if (data.length > 0) {
+                    $('#lblCandidateName').text(data[0].CandidateName ? data[0].CandidateName:'');
+                    $('#lblRefOfCandidate').text(data[0].RefOfCandidate ? data[0].RefOfCandidate:'');
+                    $('#lblJobType').text(data[0].JobType ? data[0].JobType:'');
+                    $('#lblAppliedPosition').text(data[0].AppliedPosition ? data[0].AppliedPosition:'');
+                    $('#lblInterviewSupport').text(data[0].InterviewSupport ? data[0].InterviewSupport:'');
+                    $('#lblJobLocation').text(data[0].JobLocation ? data[0].JobLocation:'');
+                    $('#lblEndClient').text(data[0].EndClient ? data[0].EndClient:'');
+                    $('#lblVendorDetails').text(data[0].VendorDetails ? data[0].VendorDetails : '');
+                    $('#lblTeamLeadName').text(data[0].TeamLeadName ? data[0].TeamLeadName : '');
+                    $('#lblRecruiterName').text(data[0].RecruiterName ? data[0].RecruiterName : '');
+                    $('#lblRate').text(data[0].Rate ? data[0].Rate : '');
+                    $('#lblSignUpDate').text(data[0].SignUpDate ? data[0].SignUpDate : '');
+                    $('#lblTraining').text(data[0].Training ? data[0].Training : '');
+                    $('#lblTrainingEndDate').text(data[0].TrainingEndDate ? data[0].TrainingEndDate : '');
+                    $('#lblMarketingStartDate').text(data[0].MarketingStartDate ? data[0].MarketingStartDate : '');
+                    $('#lblMarketingEndDate').text(data[0].MarketingEndDate ? data[0].MarketingEndDate : '');
+                    $('#lblAgreementPercentage').text(data[0].AgreementPercentage ? data[0].AgreementPercentage : '');
+                    $('#lblAgreementMonths').text(data[0].RepaymentMonths ? data[0].RepaymentMonths : '');
+                    $('#lblRembursed').text(data[0].isRembursed ? data[0].isRembursed : '');
+                    $('#txtAgreementPer').val(data[0].Agreement ? data[0].Agreement : '');
+                    $('#txtUpFrontAmount').val(data[0].ContractedAmount ? data[0].ContractedAmount : '');
+                }
+            }
+        });
+        $('#modalPODetails').modal({ backdrop: 'static', keyboard: false });
+    }
 </script>

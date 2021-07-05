@@ -150,7 +150,7 @@
                             <div class="col-md-10">
                                 <select class="form-group select2" id="RecruiterName" name="RecruiterName" required>
                                     <option value=""></option>
-                                    @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4).ToList())
+                                    @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4 || a.RefRoleId == 18 || a.RefRoleId == 22).ToList())
                                     {
                     <option value="@item.RocketName">@item.FullName</option>
 }

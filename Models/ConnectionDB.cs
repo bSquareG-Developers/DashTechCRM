@@ -151,7 +151,6 @@ namespace DashTechCRM.Models
                 Con_Close(_connection);
             }
         }
-
         public object Execute_Scaler(string query)
         {
             try
