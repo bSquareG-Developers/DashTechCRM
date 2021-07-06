@@ -15,7 +15,7 @@
         color: #F16C69;
     }
 
-    .modal-ku {
+    .modal-big {
         max-width: 80%;
     }
 </style>
@@ -251,8 +251,7 @@
                                                     <option></option>
                                                     @foreach (InterviewMode item in db.InterviewModes.ToList())
                                                     {
-                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
-}
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>}
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -449,8 +448,8 @@
         </div>
     </div>
 </div>
-<div id="modalPODetails" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-ku">
+<div id="modalPODetails" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-big">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title mt-0">PO Details</h5>
@@ -1182,7 +1181,6 @@
     }
 
     function AddPoDetails(data) {
-        console.log(data);
         param = { candidateId: data.CandidateId}
         $.ajax({
             type: "POST",
@@ -1191,7 +1189,6 @@
             data: "{parameter:'" + JSON.stringify(param) + "'}",
             success: function (data) {
                 data = JSON.parse(data);
-                console.log(data);
                 if (data.length > 0) {
                     $('#lblCandidateName').text(data[0].CandidateName ? data[0].CandidateName:'');
                     $('#lblRefOfCandidate').text(data[0].RefOfCandidate ? data[0].RefOfCandidate:'');
