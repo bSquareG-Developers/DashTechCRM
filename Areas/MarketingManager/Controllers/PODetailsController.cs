@@ -1,7 +1,11 @@
 ﻿using DashTechCRM.Models;
 using DashTechCRM.Models.User;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -12,7 +16,8 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
     public class PODetailsController : Controller
     {
         private dashTech_crm_Entities db = new dashTech_crm_Entities();
-
+        DataTable dt = new DataTable();
+        ConnectionDB dl = new ConnectionDB();
         // GET: MarketingManager/PODetails
         public ActionResult Index()
         {
@@ -552,6 +557,36 @@ namespace DashTechCRM.Areas.MarketingManager.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public string GetRemainingPODetails()
+        {
+            try
+            {
+                dt = dl.GetDataTable("GetRemainingPODetails");
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.ToString(), "PODetails/GetRemainingPODetails/Create");
+                throw;
+            }
+        }
+        public string GetRemainingPoDetailsByCandidateId(string parameter)
+        {
+            try
+            {
+                List<SqlParameter> p = new List<SqlParameter>();
+                dynamic prm = JObject.Parse(parameter);
+                p.Add(new SqlParameter("@CandidateId", Convert.ToString(prm.candidateId)));
+                dt = dl.GetDataTable("GetRemainingPODetailsByCandidateId", p.ToArray());
+                return CommonHelperClass._serializeDatatable(dt);
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "PODetails/GetRemainingPODetails/GetRemainingPoDetailsByCandidateId");
+                throw;
+            }
         }
     }
 }

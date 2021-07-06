@@ -1,11 +1,9 @@
 ﻿@model DashTechCRM.Models.PODetail
 @using DashTechCRM.Models
 
-@{
-    ViewBag.Title = "New PO";
+@{ ViewBag.Title = "New PO";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    dashTech_crm_Entities db = new dashTech_crm_Entities();
-}
+    dashTech_crm_Entities db = new dashTech_crm_Entities(); }
 
 
 <div class="row">
@@ -20,232 +18,282 @@
                         @using (Html.BeginForm())
                         {
 
-                            <div class="form-horizontal">
-                                <hr />
+            <div class="form-horizontal">
+                <hr />
 
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">PO Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="PODate" id="PODate" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Joining Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="JoiningDate" id="JoiningDate" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Candidate Name</lable>
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="CandidateId" name="CandidateId" required>
-                                            <option value=""></option>
-                                            @foreach (CandidateMaster item in db.CandidateMasters.ToList())
-                                            {
-                                                <option value="@item.CandidateId">@item.CandidateName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Lead Of</lable>
-
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="RefOfCandidate" name="RefOfCandidate" required>
-                                            <option value=""></option>
-                                            @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
-                                            {
-                                                <option value="@item.RocketName">@item.FullName</option>
-                                            }
-                                            <option value="LinkedIn">LinkedIn</option>
-                                            <option value="LinkedIn">Malav</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Sales Assocaite</lable>
-
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="RefSaleId" name="RefSaleId" required>
-                                            <option value=""></option>
-                                            @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
-                                            {
-                                                <option value="@item.UserId">@item.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Job Type</lable>
-                                    <div class="col-md-10">
-                                        <input type="text" name="JobType" id="JobType" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Applied Position</lable>
-
-                                    <div class="col-md-10">
-                                        <input type="text" name="AppliedPosition" id="AppliedPosition" class="form-control" required />
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Interview Support</lable>
-
-                                    <div class="col-md-10">
-                                        <input type="text" name="InterviewSupport" id="InterviewSupport" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Job Location</lable>
-                                    <div class="col-md-10">
-                                        <input type="text" name="JobLocation" id="JobLocation" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">End Client</lable>
-                                    <div class="col-md-10">
-                                        <textarea name="EndClient" id="EndClient" class="form-control" required></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Vendor</lable>
-                                    <div class="col-md-10">
-                                        <textarea type="text" name="VendorDetails" id="VendorDetails" class="form-control" required ></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Recruiter Name</lable>
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="RecruiterName" name="RecruiterName" required>
-                                            <option value=""></option>
-                                            @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4).ToList())
-                                            {
-                                                <option value="@item.RocketName">@item.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Team Lead Name</lable>
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="TeamLeadName" name="TeamLeadName" required>
-                                            <option value=""></option>
-                                            @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 3).ToList())
-                                            {
-                                                <option value="@item.RocketName">@item.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Rate ($ Per Hr.)</lable>
-                                    <div class="col-md-10">
-                                        <input type="number" name="Rate" id="Rate" min="0" class="form-control" required />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Sign Up Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="SignUpDate" id="SignUpDate" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Trainer Name</lable>
-                                    <div class="col-md-10">
-                                        <input type="text" name="TrainerName" id="TrainerName" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Training Start Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="TrainingStartDate" id="TrainingStartDate" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Training End Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="TrainingEndDate" id="TrainingEndDate" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Marketing Start Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="MarketingStartDate" id="MarketingStartDate" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Marketing End Date</lable>
-                                    <div class="col-md-10">
-                                        <input type="date" name="MarketingEndDate" id="MarketingEndDate" class="form-control" required />
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Agreement Per (%)</lable>
-                                    <div class="col-md-10">
-                                        <input type="number" name="AgreementPercentage" id="AgreementPercentage" class="form-control" required />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Agreement Months</lable>
-
-                                    <div class="col-md-10">
-                                        <select class="form-group select2" id="AgreementMonths" name="AgreementMonths" required>
-                                            <option value=""></option>
-                                            @for (int i = 2; i <= 12; i++)
-                                            {
-                                                <option value="@string.Format("{0} Months",i)">@string.Format("{0} Months", i)</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Job Description</lable>
-
-                                    <div class="col-md-10">
-                                        <textarea name="JobDescription" class="form-control" required></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <lable class="control-label col-md-2">Other Details</lable>
-                                    <div class="col-md-10">
-                                        <textarea name="OtherDetails" class="form-control" required></textarea>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Create" class="btn btn-default" />
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">PO Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="PODate" id="PODate" class="form-control" required />
                             </div>
-                        }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Joining Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="JoiningDate" id="JoiningDate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Candidate Name</lable>
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="CandidateId" name="CandidateId" required>
+                                    <option value=""></option>
+                                    @foreach (CandidateMaster item in db.CandidateMasters.ToList())
+                                    {
+                    <option value="@item.CandidateId">@item.CandidateName</option>
+}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Lead Of</lable>
+
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="RefOfCandidate" name="RefOfCandidate" required>
+                                    <option value=""></option>
+                                    @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
+                                    {
+                    <option value="@item.RocketName">@item.FullName</option>
+}
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="LinkedIn">Malav</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Sales Assocaite</lable>
+
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="RefSaleId" name="RefSaleId" required>
+                                    <option value=""></option>
+                                    @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
+                                    {
+                    <option value="@item.UserId">@item.FullName</option>
+}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Job Type</lable>
+                            <div class="col-md-10">
+                                <input type="text" name="JobType" id="JobType" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Applied Position</lable>
+
+                            <div class="col-md-10">
+                                <input type="text" name="AppliedPosition" id="AppliedPosition" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Interview Support</lable>
+
+                            <div class="col-md-10">
+                                <input type="text" name="InterviewSupport" id="InterviewSupport" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Job Location</lable>
+                            <div class="col-md-10">
+                                <input type="text" name="JobLocation" id="JobLocation" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">End Client</lable>
+                            <div class="col-md-10">
+                                <textarea name="EndClient" id="EndClient" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Vendor</lable>
+                            <div class="col-md-10">
+                                <textarea type="text" name="VendorDetails" id="VendorDetails" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Recruiter Name</lable>
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="RecruiterName" name="RecruiterName" required>
+                                    <option value=""></option>
+                                    @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4 || a.RefRoleId == 18 || a.RefRoleId == 22).ToList())
+                                    {
+                    <option value="@item.RocketName">@item.FullName</option>
+}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Team Lead Name</lable>
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="TeamLeadName" name="TeamLeadName" required>
+                                    <option value=""></option>
+                                    @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 3).ToList())
+                                    {
+                    <option value="@item.RocketName">@item.FullName</option>
+}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Rate ($ Per Hr.)</lable>
+                            <div class="col-md-10">
+                                <input type="number" name="Rate" id="Rate" min="0" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Sign Up Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="SignUpDate" id="SignUpDate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Trainer Name</lable>
+                            <div class="col-md-10">
+                                <input type="text" name="TrainerName" id="TrainerName" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Training Start Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="TrainingStartDate" id="TrainingStartDate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Training End Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="TrainingEndDate" id="TrainingEndDate" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Marketing Start Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="MarketingStartDate" id="MarketingStartDate" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Marketing End Date</lable>
+                            <div class="col-md-10">
+                                <input type="date" name="MarketingEndDate" id="MarketingEndDate" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Agreement Per (%)</lable>
+                            <div class="col-md-10">
+                                <input type="number" name="AgreementPercentage" id="AgreementPercentage" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Agreement Months</lable>
+
+                            <div class="col-md-10">
+                                <select class="form-group select2" id="AgreementMonths" name="AgreementMonths" required>
+                                    <option value=""></option>
+                                    @for (int i = 2; i <= 12; i++)
+                                    {
+                    <option value="@string.Format("{0} Months",i)">@string.Format("{0} Months", i)</option>
+}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Job Description</lable>
+
+                            <div class="col-md-10">
+                                <textarea name="JobDescription" class="form-control" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <lable class="control-label col-md-2">Other Details</lable>
+                            <div class="col-md-10">
+                                <textarea name="OtherDetails" class="form-control" required></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary btn-block" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
                         <div>
                             @Html.ActionLink("Back to List", "Index")
                         </div>
+                    </div>
+                </div>
+
+            </div>}
                     </div>
                 </div>
             </div>
