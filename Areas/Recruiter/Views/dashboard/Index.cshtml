@@ -1470,6 +1470,7 @@
         if (!poDate) {
             $('#reqPODate').text('Please select PO Date');
             $('#reqPODate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqPODate').text('');
@@ -1478,6 +1479,7 @@
         if (!joiningDate) {
             $('#reqJoiningDate').text('Please select Joining Date');
             $('#reqJoiningDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqJoiningDate').text('');
@@ -1486,6 +1488,7 @@
         if (!candidateId) {
             $('#reqCandidateId').text('Please select Candidate');
             $('#reqCandidateId').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqCandidateId').text('');
@@ -1494,6 +1497,7 @@
         if (!refOfCandidate) {
             $('#reqRefOfCandidate').text('Please select Reference of Candidate');
             $('#reqRefOfCandidate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqRefOfCandidate').text('');
@@ -1502,6 +1506,7 @@
         if (!refSaleId) {
             $('#reqRefSaleId').text('Please select Sales person');
             $('#reqRefSaleId').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqRefSaleId').text('');
@@ -1510,6 +1515,7 @@
         if (!jobType) {
             $('#reqJobType').text('Please select Job Type');
             $('#reqJobType').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqJobType').text('');
@@ -1518,22 +1524,25 @@
         if (!appliedPosition) {
             $('#reqAppliedPosition').text('Please enter Applied Position');
             $('#reqAppliedPosition').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqAppliedPosition').text('');
             $('#reqAppliedPosition').hide();
         }
-        if (!interviewSupportPo) {
+        if (!interviewSupport) {
             $('#reqInterviewSupportPo').text('Please Enter Interview Support');
             $('#reqInterviewSupportPo').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqInterviewSupportPo').text('');
             $('#reqInterviewSupportPo').hide();
         }
-        if (!jobLocationPo) {
+        if (!jobLocation) {
             $('#reqJobLocationPo').text('Please enter Job Location');
             $('#reqJobLocationPo').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqJobLocationPo').text('');
@@ -1542,14 +1551,16 @@
         if (!endClient) {
             $('#reqEndClient').text('Please enter end client details');
             $('#reqEndClient').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqEndClient').text('');
             $('#reqEndClient').hide();
         }
-        if (!vendor) {
+        if (!vendorDetails) {
             $('#reqVendor').text('Please enter Vendor details');
             $('#reqVendor').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqVendor').text('');
@@ -1558,6 +1569,7 @@
         if (!recruiterName) {
             $('#reqRecruiterName').text('Please select Recruiter');
             $('#reqRecruiterName').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqRecruiterName').text('');
@@ -1566,6 +1578,7 @@
         if (!teamLeadName) {
             $('#reqTeamLeadName').text('Please Select Team Lead');
             $('#reqTeamLeadName').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqTeamLeadName').text('');
@@ -1575,6 +1588,7 @@
         if (!rate) {
             $('#reqRate').text('Please select Rate');
             $('#reqRate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqRate').text('');
@@ -1583,14 +1597,16 @@
         if (!signUpDate) {
             $('#reqSignUpDate').text('Please select Sign Up Date');
             $('#reqSignUpDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqSignUpDate').text('');
             $('#reqSignUpDate').hide();
         }
-        if (!trainerName) {
+        if (!traineeName) {
             $('#reqTrainerName').text('Please select Trainee Name');
             $('#reqTrainerName').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqTrainerName').text('');
@@ -1599,6 +1615,7 @@
         if (!trainingStartDate) {
             $('#reqTrainingStartDate').text('Please select Training Start Date');
             $('#reqTrainingStartDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqTrainingStartDate').text('');
@@ -1607,6 +1624,7 @@
         if (!trainingEndDate) {
             $('#reqTrainingEndDate').text('Please select Training End Date');
             $('#reqTrainingEndDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqTrainingEndDate').text('');
@@ -1615,6 +1633,7 @@
         if (!marketingStartDate) {
             $('#reqMarketingStartDate').text('Please select Marketing Start Date');
             $('#reqMarketingStartDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqMarketingStartDate').text('');
@@ -1623,6 +1642,7 @@
         if (!marketingEndDate) {
             $('#reqMarketingEndDate').text('Please select Marketing End Date');
             $('#reqMarketingEndDate').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqMarketingEndDate').text('');
@@ -1631,26 +1651,30 @@
         if (!agreementPercentage) {
             $('#reqAgreementPercentage').text('Please enter Agreement Percentage');
             $('#reqAgreementPercentage').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqAgreementPercentage').text('');
             $('#reqAgreementPercentage').hide();
         }
-        if (!agreementMonths) {
+        if (!agreementMonth) {
             $('#reqAgreementMonths').text('Please Select Agreement Months');
             $('#reqAgreementMonths').show();
+            $('#modalPODetails').scrollTop(0);
             return false;
         } else {
             $('#reqAgreementMonths').text('');
             $('#reqAgreementMonths').hide();
         }
         param = { payableToDash, _amountInstallmentsArr, candidateId, candidateName, refOfCandidate, refSaleId, jobType, appliedPosition, interviewSupport, jobLocation, endClient, vendorDetails, recruiterName, teamLeadName, rate, signUpDate, traineeName, trainingStartDate, trainingEndDate, marketingStartDate, marketingEndDate, agreementPercentage, agreementMonth, jobDescription, otherDetails, poDate, joiningDate, salesPerson};
+        loadPanel.show();
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "@Url.Action("PODetailsSave")",
             data: "{parameter:'" + JSON.stringify(param) + "'}",
-            success: function(response) {
+            success: function (response) {
+                loadPanel.hide();
                 if (response === 'True')
                     DevExpress.ui.notify("Po Installment Details saved successfully ..!!", "success", 5000);
                 else
