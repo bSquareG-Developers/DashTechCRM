@@ -1467,7 +1467,7 @@
         let jobDescription = $('#JobDescriptionPo').val() ? $('#JobDescriptionPo').val() : '';
         let otherDetails = $('#OtherDetailsPo').val() ? $('#OtherDetailsPo').val() : '';
         let joiningDate = $('#JoiningDate').val() ? $('#JoiningDate').val() : '';
-        if (!PODate) {
+        if (!poDate) {
             $('#reqPODate').text('Please select PO Date');
             $('#reqPODate').show();
             return false;
@@ -1475,7 +1475,7 @@
             $('#reqPODate').text('');
             $('#reqPODate').hide();
         }
-        if (!JoiningDate) {
+        if (!joiningDate) {
             $('#reqJoiningDate').text('Please select Joining Date');
             $('#reqJoiningDate').show();
             return false;
@@ -1483,7 +1483,7 @@
             $('#reqJoiningDate').text('');
             $('#reqJoiningDate').hide();
         }
-        if (!CandidateId) {
+        if (!candidateId) {
             $('#reqCandidateId').text('Please select Candidate');
             $('#reqCandidateId').show();
             return false;
@@ -1491,7 +1491,7 @@
             $('#reqCandidateId').text('');
             $('#reqCandidateId').hide();
         }
-        if (!RefOfCandidate) {
+        if (!refOfCandidate) {
             $('#reqRefOfCandidate').text('Please select Reference of Candidate');
             $('#reqRefOfCandidate').show();
             return false;
@@ -1499,7 +1499,7 @@
             $('#reqRefOfCandidate').text('');
             $('#reqRefOfCandidate').hide();
         }
-        if (!RefSaleId) {
+        if (!refSaleId) {
             $('#reqRefSaleId').text('Please select Sales person');
             $('#reqRefSaleId').show();
             return false;
@@ -1507,7 +1507,7 @@
             $('#reqRefSaleId').text('');
             $('#reqRefSaleId').hide();
         }
-        if (!JobType) {
+        if (!jobType) {
             $('#reqJobType').text('Please select Job Type');
             $('#reqJobType').show();
             return false;
@@ -1515,7 +1515,7 @@
             $('#reqJobType').text('');
             $('#reqJobType').hide();
         }
-        if (!AppliedPosition) {
+        if (!appliedPosition) {
             $('#reqAppliedPosition').text('Please enter Applied Position');
             $('#reqAppliedPosition').show();
             return false;
@@ -1523,7 +1523,7 @@
             $('#reqAppliedPosition').text('');
             $('#reqAppliedPosition').hide();
         }
-        if (!InterviewSupportPo) {
+        if (!interviewSupportPo) {
             $('#reqInterviewSupportPo').text('Please Enter Interview Support');
             $('#reqInterviewSupportPo').show();
             return false;
@@ -1531,7 +1531,7 @@
             $('#reqInterviewSupportPo').text('');
             $('#reqInterviewSupportPo').hide();
         }
-        if (!JobLocationPo) {
+        if (!jobLocationPo) {
             $('#reqJobLocationPo').text('Please enter Job Location');
             $('#reqJobLocationPo').show();
             return false;
@@ -1539,7 +1539,7 @@
             $('#reqJobLocationPo').text('');
             $('#reqJobLocationPo').hide();
         }
-        if (!EndClient) {
+        if (!endClient) {
             $('#reqEndClient').text('Please enter end client details');
             $('#reqEndClient').show();
             return false;
@@ -1547,7 +1547,7 @@
             $('#reqEndClient').text('');
             $('#reqEndClient').hide();
         }
-        if (!Vendor) {
+        if (!vendor) {
             $('#reqVendor').text('Please enter Vendor details');
             $('#reqVendor').show();
             return false;
@@ -1555,7 +1555,7 @@
             $('#reqVendor').text('');
             $('#reqVendor').hide();
         }
-        if (!RecruiterName) {
+        if (!recruiterName) {
             $('#reqRecruiterName').text('Please select Recruiter');
             $('#reqRecruiterName').show();
             return false;
@@ -1563,7 +1563,7 @@
             $('#reqRecruiterName').text('');
             $('#reqRecruiterName').hide();
         }
-        if (!TeamLeadName) {
+        if (!teamLeadName) {
             $('#reqTeamLeadName').text('Please Select Team Lead');
             $('#reqTeamLeadName').show();
             return false;
@@ -1572,7 +1572,7 @@
             $('#reqTeamLeadName').hide();
         }
 
-        if (!Rate) {
+        if (!rate) {
             $('#reqRate').text('Please select Rate');
             $('#reqRate').show();
             return false;
@@ -1580,7 +1580,70 @@
             $('#reqRate').text('');
             $('#reqRate').hide();
         }
-
+        if (!signUpDate) {
+            $('#reqSignUpDate').text('Please select Sign Up Date');
+            $('#reqSignUpDate').show();
+            return false;
+        } else {
+            $('#reqSignUpDate').text('');
+            $('#reqSignUpDate').hide();
+        }
+        if (!trainerName) {
+            $('#reqTrainerName').text('Please select Trainee Name');
+            $('#reqTrainerName').show();
+            return false;
+        } else {
+            $('#reqTrainerName').text('');
+            $('#reqTrainerName').hide();
+        }
+        if (!trainingStartDate) {
+            $('#reqTrainingStartDate').text('Please select Training Start Date');
+            $('#reqTrainingStartDate').show();
+            return false;
+        } else {
+            $('#reqTrainingStartDate').text('');
+            $('#reqTrainingStartDate').hide();
+        }
+        if (!trainingEndDate) {
+            $('#reqTrainingEndDate').text('Please select Training End Date');
+            $('#reqTrainingEndDate').show();
+            return false;
+        } else {
+            $('#reqTrainingEndDate').text('');
+            $('#reqTrainingEndDate').hide();
+        }
+        if (!marketingStartDate) {
+            $('#reqMarketingStartDate').text('Please select Marketing Start Date');
+            $('#reqMarketingStartDate').show();
+            return false;
+        } else {
+            $('#reqMarketingStartDate').text('');
+            $('#reqMarketingStartDate').hide();
+        }
+        if (!marketingEndDate) {
+            $('#reqMarketingEndDate').text('Please select Marketing End Date');
+            $('#reqMarketingEndDate').show();
+            return false;
+        } else {
+            $('#reqMarketingEndDate').text('');
+            $('#reqMarketingEndDate').hide();
+        }
+        if (!agreementPercentage) {
+            $('#reqAgreementPercentage').text('Please enter Agreement Percentage');
+            $('#reqAgreementPercentage').show();
+            return false;
+        } else {
+            $('#reqAgreementPercentage').text('');
+            $('#reqAgreementPercentage').hide();
+        }
+        if (!agreementMonths) {
+            $('#reqAgreementMonths').text('Please Select Agreement Months');
+            $('#reqAgreementMonths').show();
+            return false;
+        } else {
+            $('#reqAgreementMonths').text('');
+            $('#reqAgreementMonths').hide();
+        }
         param = { payableToDash, _amountInstallmentsArr, candidateId, candidateName, refOfCandidate, refSaleId, jobType, appliedPosition, interviewSupport, jobLocation, endClient, vendorDetails, recruiterName, teamLeadName, rate, signUpDate, traineeName, trainingStartDate, trainingEndDate, marketingStartDate, marketingEndDate, agreementPercentage, agreementMonth, jobDescription, otherDetails, poDate, joiningDate, salesPerson};
         $.ajax({
             type: "POST",
