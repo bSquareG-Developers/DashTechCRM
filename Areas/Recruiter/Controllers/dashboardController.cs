@@ -1,6 +1,7 @@
 ﻿
 using DashTechCRM.Models;
 using DashTechCRM.Models.User;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -238,6 +239,24 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
             catch (Exception e)
             {
                 CommonHelperClass.InsertErrorLog(e.Message, "Recruiter/dashboard/GetPoDetailsByCandidateId");
+                throw;
+            }
+        }
+
+        public string PODetailsSave(string parameter)
+        {
+            try
+            {
+                List<SqlParameter> p = new List<SqlParameter>();
+                dynamic prm = JObject.Parse(parameter);
+                p.Add(new SqlParameter("@PayableAmount", Convert.ToString(prm.payableToDash)));
+                p.Add(new SqlParameter("@POId", Convert.ToString(prm.PoId)));
+                p.Add(new SqlParameter("@TVPPOInstallment", (DataTable)JsonConvert.DeserializeObject(Convert.ToString(prm._amountInstallmentsArr), (typeof(DataTable)))));
+                return dl.Execute_NonQuery("PODetailsSave", p.ToArray()).ToString();
+            }
+            catch (Exception e)
+            {
+                CommonHelperClass.InsertErrorLog(e.Message, "Recruiter/dashboard/PODetailsSave");
                 throw;
             }
         }

@@ -251,7 +251,8 @@
                                                     <option></option>
                                                     @foreach (InterviewMode item in db.InterviewModes.ToList())
                                                     {
-                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>}
+                                        <option value="@item.ModeId">@item.ModeOfInterviewTitle</option>
+}
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -640,9 +641,18 @@
                                                     <div class="form-group">
                                                         <button id="btnCalculate" class="btn btn-primary btn-block">Calculate</button>
                                                     </div>
-                                                </div><div class="col-md-2">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="rowCount" id="rowCount3"></div>
+                                                    <div id="gridInstallmentDetails"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-5">
+                                                <div class="col-md-2">
                                                     <div class="form-group">
-                                                        <button id="btnCancle" class="btn btn-default btn-block">Cancel</button>
+                                                        <button id="btnSavePayableDetails" class="btn btn-primary" style="display: none">Save Installment Details</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1211,9 +1221,114 @@
                     $('#lblRembursed').text(data[0].isRembursed ? data[0].isRembursed : '');
                     $('#txtAgreementPer').val(data[0].Agreement ? data[0].Agreement : '');
                     $('#txtUpFrontAmount').val(data[0].ContractedAmount ? data[0].ContractedAmount : '');
+                    PoId = data[0].PoId;
                 }
             }
         });
         $('#modalPODetails').modal({ backdrop: 'static', keyboard: false });
+    }
+    function percentage(num, per)
+    {
+        return (num/100)*per;
+    }
+    function _monthlyInstallment(num, months) {
+        return Math.ceil(num / months);
+    }
+    function createInstallmentObject(InstallmentSrNo,monthlyInstallment) {
+        return { InstallmentSrNo, monthlyInstallment };
+    }
+    let amountInstallmentsArr = [];
+    var _amountInstallmentsArr = [];
+    let payableToDash = "";
+    let POId = "";
+    $('#btnCalculate').click(function (e) {
+        let packageAmount = $('#txtPackageAmount').val();
+        let agreementPer = $('#txtAgreementPer').val();
+        let upFrontAmount = $('#txtUpFrontAmount').val();
+        let rembursed = $('#lblRembursed').text();
+        let agreementMonths = $('#lblAgreementMonths').text();
+        payableToDash = rembursed === "Rembursed" ? percentage(packageAmount, agreementPer) - upFrontAmount : percentage(packageAmount, agreementPer);
+        let monthlyInstallment = _monthlyInstallment(payableToDash, agreementMonths);
+        console.log("packageAmount = " + packageAmount, "agreementPer = " + agreementPer, "upFrontAmount = " + upFrontAmount, "rembursed = " + rembursed, "agreementMonths = " + agreementMonths, "payableToDash = " + payableToDash, "monthlyInstallment =" + monthlyInstallment);
+
+        if (agreementMonths > 0) {
+            for (var i = 0; i < agreementMonths; i++) {
+                amountInstallmentsArr.push(createInstallmentObject(i + 1, monthlyInstallment));
+            }
+        }
+        console.log(amountInstallmentsArr);
+        GetInstallmentDetails(amountInstallmentsArr);
+        _amountInstallmentsArr = [...amountInstallmentsArr];
+        amountInstallmentsArr = [];
+        $('#btnSavePayableDetails').show();
+    });
+    $('#btnSavePayableDetails').click(function(e) {
+        param = { payableToDash, _amountInstallmentsArr, PoId};
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "@Url.Action("PODetailsSave")",
+            data: "{parameter:'" + JSON.stringify(param) + "'}",
+            success: function(response) {
+                if (response === 'True')
+                    DevExpress.ui.notify("Po Installment Details saved successfully ..!!", "success", 5000);
+                else
+                    DevExpress.ui.notify("Something went wrong ..!!", "error", 5000);
+                setTimeout(function () {
+                    location.reload();
+                }, 5000);
+            }
+        });
+        _amountInstallmentsArr = [];
+
+    });
+    function GetInstallmentDetails(data) {
+        var dataGrid = $("#gridInstallmentDetails").dxDataGrid({
+            dataSource: data,
+            columns: [
+                { dataField: 'InstallmentSrNo', caption: 'Installment Sr', alignment: 'center', dataType: 'number', width: 150, format: '' },
+                { dataField: 'monthlyInstallment', caption: 'monthly Installment Amount', alignment: 'right', dataType: 'number', width: 180, format: '' },
+            ],
+            summary: {
+                totalItems: [
+                    { column: "monthlyInstallment", displayFormat: "Payable Amount: {0}", summaryType: "sum" }
+                ]
+            },
+            columnsAutoWidth: true,
+            wordWrapEnabled: true,
+            rowAlternationEnabled: true,
+            showBorders: true,
+            grouping: { autoExpandAll: true },
+            paging: { pageSize: 5 },
+            pager: { showPageSizeSelector: true, allowedPageSizes: [5, 10, 15, 20] },
+            headerFilter: { visible: true },
+            filterRow: { visible: true, applyFilter: "auto" },
+            allowColumnResizing: true,
+            export: {
+                enabled: true,
+                fileName: "Export File Name",
+                allowExportSelectedData: true,
+                customizeExcelCell: options => {
+                    if (options.gridCell.rowType === "header") {
+                        options.backgroundColor = _dxGridHeaderBGColor;
+                        options.font.color = _dxGridHeaderColor;
+                    }
+                }
+            },
+            selection: { mode: "multiple" },
+            columnFixing: { enabled: false },
+            onCellPrepared: function(e) {
+                if (e.rowType === "header") {
+                    e.cellElement.css("text-align", "center");
+                    e.cellElement.css("font-weight", "bold");
+                }
+                if (e.rowType === "group") {
+                    e.cellElement.css("text-align", "center");
+                }
+            },
+            onContentReady(e) {
+                jQuery('#rowCount3').html('Total Records : ' + jQuery("#gridInstallmentDetails").dxDataGrid('instance').totalCount());
+            }
+        }).dxDataGrid('instance');
     }
 </script>
