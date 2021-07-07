@@ -233,7 +233,7 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
                 List<SqlParameter> p = new List<SqlParameter>();
                 dynamic prm = JObject.Parse(parameter);
                 p.Add(new SqlParameter("@CandidateId", Convert.ToString(prm.candidateId)));
-                dt = dl.GetDataTable("GetPODetailsByCandidateID", p.ToArray());
+                dt = dl.GetDataTable("GetRemainingPODetailsByCandidateId", p.ToArray());
                 return CommonHelperClass._serializeDatatable(dt);
             }
             catch (Exception e)
@@ -247,12 +247,42 @@ namespace DashTechCRM.Areas.Recruiter.Controllers
         {
             try
             {
+                UserObject user = Session["userInfo"] as UserObject;
                 List<SqlParameter> p = new List<SqlParameter>();
                 dynamic prm = JObject.Parse(parameter);
-                p.Add(new SqlParameter("@PayableAmount", Convert.ToString(prm.payableToDash)));
-                p.Add(new SqlParameter("@POId", Convert.ToString(prm.PoId)));
                 p.Add(new SqlParameter("@TVPPOInstallment", (DataTable)JsonConvert.DeserializeObject(Convert.ToString(prm._amountInstallmentsArr), (typeof(DataTable)))));
-                return dl.Execute_NonQuery("PODetailsSave", p.ToArray()).ToString();
+                p.Add(new SqlParameter("@PayableAmount", Convert.ToString(prm.payableToDash)));
+                p.Add(new SqlParameter("@CandidateName", Convert.ToString(prm.candidateName)));
+                p.Add(new SqlParameter("@RefOfCandidate", Convert.ToString(prm.refOfCandidate)));
+                p.Add(new SqlParameter("@RefSaleId", Convert.ToString(prm.refSaleId)));
+                p.Add(new SqlParameter("@JobType", Convert.ToString(prm.jobType)));
+                p.Add(new SqlParameter("@AppliedPosition", Convert.ToString(prm.appliedPosition)));
+                p.Add(new SqlParameter("@InterviewSupport", Convert.ToString(prm.interviewSupport)));
+                p.Add(new SqlParameter("@JobLocation", Convert.ToString(prm.jobLocation)));
+                p.Add(new SqlParameter("@EndClient", Convert.ToString(prm.endClient)));
+                p.Add(new SqlParameter("@VendorDetails", Convert.ToString(prm.vendorDetails)));
+                p.Add(new SqlParameter("@RecruiterName", Convert.ToString(prm.recruiterName)));
+                p.Add(new SqlParameter("@TeamLeadName", Convert.ToString(prm.teamLeadName)));
+                p.Add(new SqlParameter("@Rate", Convert.ToString(prm.rate)));
+                p.Add(new SqlParameter("@SignUpDate", Convert.ToString(prm.signUpDate)));
+                p.Add(new SqlParameter("@TraineeName", Convert.ToString(prm.traineeName)));
+                p.Add(new SqlParameter("@TrainingStartDate", Convert.ToString(prm.trainingStartDate)));
+                p.Add(new SqlParameter("@TrainingEndDate", Convert.ToString(prm.trainingEndDate)));
+                p.Add(new SqlParameter("@MarketingStartDate", Convert.ToString(prm.marketingStartDate)));
+                p.Add(new SqlParameter("@MarketingEndDate", Convert.ToString(prm.marketingEndDate)));
+                p.Add(new SqlParameter("@AgreementPercentage", Convert.ToString(prm.agreementPercentage)));
+                p.Add(new SqlParameter("@AgreementMonth", Convert.ToString(prm.agreementMonth)));
+                p.Add(new SqlParameter("@JobDescription", Convert.ToString(prm.jobDescription)));
+                p.Add(new SqlParameter("@OtherDetails", Convert.ToString(prm.otherDetails)));
+                p.Add(new SqlParameter("@PODate", Convert.ToString(prm.poDate)));
+                p.Add(new SqlParameter("@JoiningDate", Convert.ToString(prm.joiningDate)));
+                p.Add(new SqlParameter("@CandidateId", Convert.ToString(prm.candidateId)));
+                p.Add(new SqlParameter("@AddedBy", Convert.ToString(user.RocketName)));
+                p.Add(new SqlParameter("@EntryDate", Convert.ToString(DateTime.Now.Date)));
+                p.Add(new SqlParameter("@IsDeleted", Convert.ToString(false)));
+                p.Add(new SqlParameter("@ConfirmPO", "Pending"));
+                var result = dl.Execute_NonQuery("PODetailsSave", p.ToArray()).ToString();
+                return result;
             }
             catch (Exception e)
             {

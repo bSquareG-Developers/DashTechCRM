@@ -1,4 +1,5 @@
-﻿@using DashTechCRM.Models
+﻿
+@using DashTechCRM.Models
 
 @{ ViewBag.Title = "Candidate List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -472,127 +473,307 @@
                                 </div>
                                 <hr />
                                 <div id="collapsePODetails" class="collapse show">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Candidate Name</label>
-                                                <label id="lblCandidateName" class="form-control"></label>
+                                    <div class="form-horizontal">
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">PO Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="PODate" id="PODate" class="form-control" required />
+                                                        <span id="reqPODate" class="parsley-required" style="display: none"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Joining Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="JoiningDate" id="JoiningDate" class="form-control" />
+                                                        <span id="reqJoiningDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Candidate Name</lable>
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="CandidateId" name="CandidateId" required>
+                                                            <option value=""></option>
+                                                            @foreach (CandidateMaster item in db.CandidateMasters.ToList())
+                                                            {
+                                                <option value="@item.CandidateId">@item.CandidateName</option>}
+                                                        </select>
+                                                        <span id="reqCandidateId" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="text-dark">Reference of Candidate</label>
-                                            <label id="lblRefOfCandidate" class="form-control"></label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="text-dark">Job Type</label>
-                                            <label id="lblJobType" class="form-control"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Applied Position</label>
-                                                <label id="lblAppliedPosition" class="form-control"></label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Lead Of</lable>
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="RefOfCandidate" name="RefOfCandidate" required>
+                                                            <option value=""></option>
+                                                            @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
+                                                            {
+                                                <option value="@item.RocketName">@item.FullName</option>}
+                                                            <option value="LinkedIn">LinkedIn</option>
+                                                            <option value="LinkedIn">Malav</option>
+                                                        </select>
+                                                        <span id="reqRefOfCandidate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Sales Assocaite</lable>
+
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="RefSaleId" name="RefSaleId" required>
+                                                            <option value=""></option>
+                                                            @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 11).ToList())
+                                                            {
+                                                <option value="@item.UserId">@item.FullName</option>}
+                                                        </select>
+                                                        <span id="reqRefSaleId" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Job Type</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="text" name="JobType" id="JobType" class="form-control" required />
+                                                        <span id="reqJobType" class="parsley-required" style="display: none"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Interview Support</label>
-                                                <label id="lblInterviewSupport" class="form-control"></label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Applied Position</lable>
+
+                                                    <div class="col-md-10">
+                                                        <input type="text" name="AppliedPosition" id="AppliedPosition" class="form-control" required />
+                                                        <span id="reqAppliedPosition" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Interview Support</lable>
+
+                                                    <div class="col-md-10">
+                                                        <input type="text" name="InterviewSupportPo" id="InterviewSupportPo" class="form-control" required />
+                                                        <span id="reqInterviewSupportPo" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Job Location</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="text" name="JobLocationPo" id="JobLocationPo" class="form-control" required />
+                                                        <span id="reqJobLocationPo" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Job Location</label>
-                                                <label id="lblJobLocation" class="form-control"></label>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">End Client</lable>
+                                                    <div class="col-md-10">
+                                                        <textarea name="EndClient" id="EndClient" class="form-control" required></textarea>
+                                                        <span id="reqEndClient" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Vendor</lable>
+                                                    <div class="col-md-10">
+                                                        <textarea type="text" name="VendorDetails" id="VendorDetails" class="form-control" required></textarea>
+                                                        <span id="reqVendor" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Recruiter Name</lable>
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="RecruiterName" name="RecruiterName" required>
+                                                            <option value=""></option>
+                                                            @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4 || a.RefRoleId == 18 || a.RefRoleId == 22).ToList())
+                                                            {
+                                                <option value="@item.RocketName">@item.FullName</option>}
+                                                        </select>
+                                                        <span id="reqRecruiterName" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">End Client</label>
-                                                <label id="lblEndClient" class="form-control"></label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Team Lead Name</lable>
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="TeamLeadName" name="TeamLeadName" required>
+                                                            <option value=""></option>
+                                                            @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 3 || a.RefRoleId == 4).ToList())
+                                                            {
+                                                <option value="@item.RocketName">@item.FullName</option>}
+                                                        </select>
+                                                        <span id="reqTeamLeadName" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Rate ($ Per Hr.)</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="number" name="Rate" id="Rate" min="0" class="form-control" required />
+                                                        <span id="reqRate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Sign Up Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="SignUpDate" id="SignUpDate" class="form-control" />
+                                                        <span id="reqSignUpDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Vendor Details</label>
-                                                <label id="lblVendorDetails" class="form-control"></label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Trainer Name</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="text" name="TrainerName" id="TrainerName" class="form-control" />
+                                                        <span id="reqTrainerName" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Training Start Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="TrainingStartDate" id="TrainingStartDate" class="form-control" />
+                                                        <span id="reqTrainingStartDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Training End Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="TrainingEndDate" id="TrainingEndDate" class="form-control" />
+                                                        <span id="reqTrainingEndDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Team Lead Name</label>
-                                                <label id="lblTeamLeadName" class="form-control"></label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Marketing Start Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="MarketingStartDate" id="MarketingStartDate" class="form-control" required />
+                                                        <span id="reqMarketingStartDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Marketing End Date</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="date" name="MarketingEndDate" id="MarketingEndDate" class="form-control" required />
+                                                        <span id="reqMarketingEndDate" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Agreement Per (%)</lable>
+                                                    <div class="col-md-10">
+                                                        <input type="number" name="AgreementPercentage" id="AgreementPercentage" class="form-control" required />
+                                                        <span id="reqAgreementPercentage" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Recruiter Name</label>
-                                                <label id="lblRecruiterName" class="form-control"></label>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Agreement Months</lable>
+
+                                                    <div class="col-md-10">
+                                                        <select class="form-group select2" id="AgreementMonths" name="AgreementMonths" required>
+                                                            <option value=""></option>
+                                                            @for (int i = 2; i <= 12; i++)
+                                                            {
+                                                <option value="@string.Format("{0}",i)">@string.Format("{0} Months", i)</option>}
+                                                        </select>
+                                                        <span id="reqAgreementMonths" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Rate</label>
-                                                <label id="lblRate" class="form-control"></label>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Job Description</lable>
+
+                                                    <div class="col-md-10">
+                                                        <textarea name="JobDescriptionPo" id="JobDescriptionPo" class="form-control" required></textarea>
+                                                        <span id="reqJobDescriptionPo" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Sign-Up Date</label>
-                                                <label id="lblSignUpDate" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Training</label>
-                                                <label id="lblTraining" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Training End Date</label>
-                                                <label id="lblTrainingEndDate" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Marketing Start Date</label>
-                                                <label id="lblMarketingStartDate" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Marketing End Date</label>
-                                                <label id="lblMarketingEndDate" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Agreement Percentage</label>
-                                                <label id="lblAgreementPercentage" class="form-control"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="text-dark">Agreement Months</label>
-                                                <label id="lblAgreementMonths" class="form-control"></label>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <lable class="control-label col-md-2">Other Details</lable>
+                                                    <div class="col-md-10">
+                                                        <textarea name="OtherDetailsPo" id="OtherDetailsPo" class="form-control" required></textarea>
+                                                        <span id="reqOtherDetailsPo" class="parsley-required" style="display: none"></span>
+
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="row">
@@ -622,20 +803,27 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="text-dark" id="lblAgreementPer" for="txtAgreementPer">Agreement (%)</label>
-                                                        <input type="text" id="txtAgreementPer" class="form-control" />
+                                                        <input type="text" id="txtAgreementPer" class="form-control" disabled />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="text-dark" id="lblUpFrontAmount" for="txtUpFrontAmount">Up Front Amount</label>
-                                                    <input type="text" id="txtUpFrontAmount" class="form-control" />
+                                                    <label class="text-dark">Agreement Months</label>
+                                                    <label id="lblAgreementMonths" class="form-control"></label>
                                                 </div>
+
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <label class="text-dark">Rembursed / Non-Rembursed</label>
                                                     <label id="lblRembursed" class="form-control"></label>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <label class="text-dark" id="lblUpFrontAmount" for="txtUpFrontAmount">Up Front Amount</label>
+                                                    <input type="text" id="txtUpFrontAmount" class="form-control" disabled />
+                                                </div>
+
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <div class="form-group">
@@ -966,7 +1154,7 @@
                         },
                         {
                             dataField: 'PODetails', caption: 'PO Details', alignment: 'center', dataType: 'string', width: 120, format: '', type: 'buttons', cellTemplate: function (container, options) {
-                                if (options.data.PODate) {
+                                if (!options.data.PODate) {
                                     jQuery('<span class="fa fa-plus" style:"cursor:pointer">').text('').on('dxclick', function () {
                                         AddPoDetails(options.data);
                                     }).appendTo(container);
@@ -1003,7 +1191,6 @@
                     allowColumnResizing: true,
                     groupPanel: { visible: true },
                     searchPanel: { visible: true, width: 240, placeholder: "Search..." },
-
                     export: {
                         enabled: data.length > 0 ? true : false,
                         fileName: "Candidate List",
@@ -1200,28 +1387,21 @@
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.length > 0) {
-                    $('#lblCandidateName').text(data[0].CandidateName ? data[0].CandidateName:'');
-                    $('#lblRefOfCandidate').text(data[0].RefOfCandidate ? data[0].RefOfCandidate:'');
-                    $('#lblJobType').text(data[0].JobType ? data[0].JobType:'');
-                    $('#lblAppliedPosition').text(data[0].AppliedPosition ? data[0].AppliedPosition:'');
-                    $('#lblInterviewSupport').text(data[0].InterviewSupport ? data[0].InterviewSupport:'');
-                    $('#lblJobLocation').text(data[0].JobLocation ? data[0].JobLocation:'');
-                    $('#lblEndClient').text(data[0].EndClient ? data[0].EndClient:'');
-                    $('#lblVendorDetails').text(data[0].VendorDetails ? data[0].VendorDetails : '');
-                    $('#lblTeamLeadName').text(data[0].TeamLeadName ? data[0].TeamLeadName : '');
-                    $('#lblRecruiterName').text(data[0].RecruiterName ? data[0].RecruiterName : '');
-                    $('#lblRate').text(data[0].Rate ? data[0].Rate : '');
-                    $('#lblSignUpDate').text(data[0].SignUpDate ? data[0].SignUpDate : '');
-                    $('#lblTraining').text(data[0].Training ? data[0].Training : '');
-                    $('#lblTrainingEndDate').text(data[0].TrainingEndDate ? data[0].TrainingEndDate : '');
-                    $('#lblMarketingStartDate').text(data[0].MarketingStartDate ? data[0].MarketingStartDate : '');
-                    $('#lblMarketingEndDate').text(data[0].MarketingEndDate ? data[0].MarketingEndDate : '');
-                    $('#lblAgreementPercentage').text(data[0].AgreementPercentage ? data[0].AgreementPercentage : '');
-                    $('#lblAgreementMonths').text(data[0].RepaymentMonths ? data[0].RepaymentMonths : '');
+                    $('#SignUpDate').val(data[0].JoiningDate ? new Date(data[0].JoiningDate).toISOString().split('T')[0] : '');
+                    $('#CandidateId').val(data[0].CandidateId ? data[0].CandidateId : '').change();
+                    $('#RefSaleId').val(data[0].SalesAssociateId ? data[0].SalesAssociateId : '').change();
+                    $('#AppliedPosition').val(data[0].TechTitle ? data[0].TechTitle : '');
+                    $('#JobLocationPo').val(data[0].RequiredLocationList ? data[0].RequiredLocationList : '');
+                    $('#RecruiterName').val(data[0].RecruiterRocket ? data[0].RecruiterRocket : '').change();
+                    $('#TeamLeadName').val(data[0].TeamLeadRocket ? data[0].TeamLeadRocket : '').change();
+                    $('#MarketingStartDate').val(data[0].MarketingStartDate ? new Date(data[0].MarketingStartDate).toISOString().split('T')[0] : '');
+                    $('#MarketingEndDate').val(data[0].MarketingEndDate ? new Date(data[0].MarketingEndDate).toISOString().split('T')[0] : '');
+                    $('#AgreementPercentage').val(data[0].Agreement ? data[0].Agreement : '');
+                    $('#AgreementMonths').val(data[0].RePaymentMonths ? data[0].RePaymentMonths : '').change();
+                    $('#lblAgreementMonths').text(data[0].RePaymentMonths ? data[0].RePaymentMonths : '');
                     $('#lblRembursed').text(data[0].isRembursed ? data[0].isRembursed : '');
                     $('#txtAgreementPer').val(data[0].Agreement ? data[0].Agreement : '');
                     $('#txtUpFrontAmount').val(data[0].ContractedAmount ? data[0].ContractedAmount : '');
-                    PoId = data[0].PoId;
                 }
             }
         });
@@ -1246,24 +1426,162 @@
         let agreementPer = $('#txtAgreementPer').val();
         let upFrontAmount = $('#txtUpFrontAmount').val();
         let rembursed = $('#lblRembursed').text();
-        let agreementMonths = $('#lblAgreementMonths').text();
+        let agreementMonths = $('#AgreementMonths').val();
         payableToDash = rembursed === "Rembursed" ? percentage(packageAmount, agreementPer) - upFrontAmount : percentage(packageAmount, agreementPer);
         let monthlyInstallment = _monthlyInstallment(payableToDash, agreementMonths);
-        console.log("packageAmount = " + packageAmount, "agreementPer = " + agreementPer, "upFrontAmount = " + upFrontAmount, "rembursed = " + rembursed, "agreementMonths = " + agreementMonths, "payableToDash = " + payableToDash, "monthlyInstallment =" + monthlyInstallment);
 
         if (agreementMonths > 0) {
             for (var i = 0; i < agreementMonths; i++) {
                 amountInstallmentsArr.push(createInstallmentObject(i + 1, monthlyInstallment));
             }
         }
-        console.log(amountInstallmentsArr);
         GetInstallmentDetails(amountInstallmentsArr);
         _amountInstallmentsArr = [...amountInstallmentsArr];
         amountInstallmentsArr = [];
         $('#btnSavePayableDetails').show();
     });
-    $('#btnSavePayableDetails').click(function(e) {
-        param = { payableToDash, _amountInstallmentsArr, PoId};
+    $('#btnSavePayableDetails').click(function (e) {
+        let poDate = $('#PODate').val() ? $('#PODate').val() : '';
+        let candidateId = $('#CandidateId').val() ? $('#CandidateId').val() : '';
+        let candidateName = $("#CandidateId option:selected").text() ? $("#CandidateId option:selected").text() : '';
+        let refOfCandidate = $('#RefOfCandidate').val() ? $('#RefOfCandidate').val() : '';
+        let refSaleId = $('#RefSaleId').val() ? $('#RefSaleId').val() : '';
+        let salesPerson = $("#RefSaleId option:selected").text() ? $("#RefSaleId option:selected").text() : '';
+        let jobType = $('#JobType').val() ? $('#JobType').val() : '';
+        let appliedPosition = $('#AppliedPosition').val() ? $('#AppliedPosition').val() : '';
+        let interviewSupport = $('#InterviewSupportPo').val() ? $('#InterviewSupportPo').val() : '';
+        let jobLocation = $('#JobLocationPo').val() ? $('#JobLocationPo').val() : '';
+        let endClient = $('#EndClient').val() ? $('#EndClient').val() : '';
+        let vendorDetails = $('#VendorDetails').val() ? $('#VendorDetails').val() : '';
+        let recruiterName = $('#RecruiterName').val() ? $('#RecruiterName').val() : '';
+        let teamLeadName = $('#TeamLeadName').val() ? $('#TeamLeadName').val() : '';
+        let rate = $('#Rate').val() ? $('#Rate').val() : '';
+        let signUpDate = $('#SignUpDate').val() ? $('#SignUpDate').val() : '';
+        let traineeName = $('#TrainerName').val() ? $('#TrainerName').val() : '';
+        let trainingStartDate = $('#TrainingStartDate').val() ? $('#TrainingStartDate').val() : '';
+        let trainingEndDate = $('#TrainingEndDate').val() ? $('#TrainingEndDate').val() : '';
+        let marketingStartDate = $('#MarketingStartDate').val() ? $('#MarketingStartDate').val() : '';
+        let marketingEndDate = $('#MarketingEndDate').val() ? $('#MarketingEndDate').val() : '';
+        let agreementPercentage = $('#AgreementPercentage').val() ? $('#AgreementPercentage').val() : '';
+        let agreementMonth = $('#AgreementMonths').val() ? $('#AgreementMonths').val() : '';
+        let jobDescription = $('#JobDescriptionPo').val() ? $('#JobDescriptionPo').val() : '';
+        let otherDetails = $('#OtherDetailsPo').val() ? $('#OtherDetailsPo').val() : '';
+        let joiningDate = $('#JoiningDate').val() ? $('#JoiningDate').val() : '';
+        if (!PODate) {
+            $('#reqPODate').text('Please select PO Date');
+            $('#reqPODate').show();
+            return false;
+        } else {
+            $('#reqPODate').text('');
+            $('#reqPODate').hide();
+        }
+        if (!JoiningDate) {
+            $('#reqJoiningDate').text('Please select Joining Date');
+            $('#reqJoiningDate').show();
+            return false;
+        } else {
+            $('#reqJoiningDate').text('');
+            $('#reqJoiningDate').hide();
+        }
+        if (!CandidateId) {
+            $('#reqCandidateId').text('Please select Candidate');
+            $('#reqCandidateId').show();
+            return false;
+        } else {
+            $('#reqCandidateId').text('');
+            $('#reqCandidateId').hide();
+        }
+        if (!RefOfCandidate) {
+            $('#reqRefOfCandidate').text('Please select Reference of Candidate');
+            $('#reqRefOfCandidate').show();
+            return false;
+        } else {
+            $('#reqRefOfCandidate').text('');
+            $('#reqRefOfCandidate').hide();
+        }
+        if (!RefSaleId) {
+            $('#reqRefSaleId').text('Please select Sales person');
+            $('#reqRefSaleId').show();
+            return false;
+        } else {
+            $('#reqRefSaleId').text('');
+            $('#reqRefSaleId').hide();
+        }
+        if (!JobType) {
+            $('#reqJobType').text('Please select Job Type');
+            $('#reqJobType').show();
+            return false;
+        } else {
+            $('#reqJobType').text('');
+            $('#reqJobType').hide();
+        }
+        if (!AppliedPosition) {
+            $('#reqAppliedPosition').text('Please enter Applied Position');
+            $('#reqAppliedPosition').show();
+            return false;
+        } else {
+            $('#reqAppliedPosition').text('');
+            $('#reqAppliedPosition').hide();
+        }
+        if (!InterviewSupportPo) {
+            $('#reqInterviewSupportPo').text('Please Enter Interview Support');
+            $('#reqInterviewSupportPo').show();
+            return false;
+        } else {
+            $('#reqInterviewSupportPo').text('');
+            $('#reqInterviewSupportPo').hide();
+        }
+        if (!JobLocationPo) {
+            $('#reqJobLocationPo').text('Please enter Job Location');
+            $('#reqJobLocationPo').show();
+            return false;
+        } else {
+            $('#reqJobLocationPo').text('');
+            $('#reqJobLocationPo').hide();
+        }
+        if (!EndClient) {
+            $('#reqEndClient').text('Please enter end client details');
+            $('#reqEndClient').show();
+            return false;
+        } else {
+            $('#reqEndClient').text('');
+            $('#reqEndClient').hide();
+        }
+        if (!Vendor) {
+            $('#reqVendor').text('Please enter Vendor details');
+            $('#reqVendor').show();
+            return false;
+        } else {
+            $('#reqVendor').text('');
+            $('#reqVendor').hide();
+        }
+        if (!RecruiterName) {
+            $('#reqRecruiterName').text('Please select Recruiter');
+            $('#reqRecruiterName').show();
+            return false;
+        } else {
+            $('#reqRecruiterName').text('');
+            $('#reqRecruiterName').hide();
+        }
+        if (!TeamLeadName) {
+            $('#reqTeamLeadName').text('Please Select Team Lead');
+            $('#reqTeamLeadName').show();
+            return false;
+        } else {
+            $('#reqTeamLeadName').text('');
+            $('#reqTeamLeadName').hide();
+        }
+
+        if (!Rate) {
+            $('#reqRate').text('Please select Rate');
+            $('#reqRate').show();
+            return false;
+        } else {
+            $('#reqRate').text('');
+            $('#reqRate').hide();
+        }
+
+        param = { payableToDash, _amountInstallmentsArr, candidateId, candidateName, refOfCandidate, refSaleId, jobType, appliedPosition, interviewSupport, jobLocation, endClient, vendorDetails, recruiterName, teamLeadName, rate, signUpDate, traineeName, trainingStartDate, trainingEndDate, marketingStartDate, marketingEndDate, agreementPercentage, agreementMonth, jobDescription, otherDetails, poDate, joiningDate, salesPerson};
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
