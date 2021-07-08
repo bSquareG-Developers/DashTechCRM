@@ -84,8 +84,7 @@
                                                     <option value=""></option>
                                                     @foreach (CandidateMaster item in db.CandidateMasters.ToList())
                                                     {
-                                    <option value="@item.CandidateId">@item.CandidateName</option>
-}
+                                    <option value="@item.CandidateId">@item.CandidateName</option>}
                                                 </select>
                                             </div>
                                         </div>
@@ -103,8 +102,7 @@
                                                     <option value=""></option>
                                                     @foreach (UserAccountDetail item in db.UserAccountDetails.ToList())
                                                     {
-                                    <option value="@item.RocketName">@item.FullName</option>
-}
+                                    <option value="@item.RocketName">@item.FullName</option>}
                                                     <option value="LinkedIn">LinkedIn</option>
                                                     <option value="LinkedIn">Malav</option>
                                                 </select>
@@ -122,8 +120,7 @@
 
                                                     @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 11).ToList())
                                                     {
-                                    <option value="@item.UserId">@item.FullName</option>
-}
+                                    <option value="@item.UserId">@item.FullName</option>}
                                                 </select>
                                             </div>
                                         </div>
@@ -192,8 +189,7 @@
                                                     <option value=""></option>
                                                     @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 4 || a.RefRoleId == 18 || a.RefRoleId == 22).ToList())
                                                     {
-                                    <option value="@item.RocketName">@item.FullName</option>
-}
+                                    <option value="@item.RocketName">@item.FullName</option>}
                                                 </select>
                                             </div>
                                         </div>
@@ -208,8 +204,7 @@
                                                     <option value=""></option>
                                                     @foreach (UserAccountDetail item in db.UserAccountDetails.Where(a => a.RefRoleId == 3 || a.RefRoleId == 4).ToList())
                                                     {
-                                    <option value="@item.RocketName">@item.FullName</option>
-}
+                                    <option value="@item.RocketName">@item.FullName</option>}
                                                 </select>
                                             </div>
                                         </div>
@@ -294,8 +289,7 @@
                                                     <option value=""></option>
                                                     @for (int i = 2; i <= 12; i++)
                                                     {
-                                    <option value="@string.Format("{0}",i)">@string.Format("{0} Months", i)</option>
-}
+                                    <option value="@string.Format("{0}",i)">@string.Format("{0} Months", i)</option>}
                                                 </select>
                                             </div>
                                         </div>
@@ -435,18 +429,17 @@
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.length > 0) {
-
-                    $('#JoiningDate').val(new Date(data[0].JoiningDate).toISOString().split('T')[0]);
-                    $('#CandidateId').val(data[0].CandidateId).change();
-                    $('#RefSaleId').val(data[0].SalesAssociateId).change();
-                    $('#AppliedPosition').val(data[0].TechTitle);
-                    $('#JobLocation').val(data[0].RequiredLocationList);
-                    $('#RecruiterName').val(data[0].RecruiterRocket).change();
-                    $('#TeamLeadName').val(data[0].TeamLeadRocket).change();;
-                    $('#MarketingStartDate').val(new Date(data[0].MarketingStartDate).toISOString().split('T')[0]);
-                    $('#MarketingEndDate').val(new Date(data[0].MarketingEndDate).toISOString().split('T')[0]);
-                    $('#AgreementPercentage').val(data[0].Agreement);
-                    $('#AgreementMonths').val(data[0].RePaymentMonths).change();;
+                    $('#SignUpDate').val(data[0].JoiningDate ? new Date(data[0].JoiningDate).toISOString().split('T')[0]:'');
+                    $('#CandidateId').val(data[0].CandidateId ? data[0].CandidateId:'').change();
+                    $('#RefSaleId').val(data[0].SalesAssociateId ? data[0].SalesAssociateId:'').change();
+                    $('#AppliedPosition').val(data[0].TechTitle ? data[0].TechTitle:'');
+                    $('#JobLocation').val(data[0].RequiredLocationList ? data[0].RequiredLocationList:'');
+                    $('#RecruiterName').val(data[0].RecruiterRocket ? data[0].RecruiterRocket:'').change();
+                    $('#TeamLeadName').val(data[0].TeamLeadRocke ? data[0].TeamLeadRocket:'').change();
+                    $('#MarketingStartDate').val(data[0].MarketingStartDate ? new Date(data[0].MarketingStartDate).toISOString().split('T')[0]:'');
+                    $('#MarketingEndDate').val(data[0].MarketingEndDate ? new Date(data[0].MarketingEndDate).toISOString().split('T')[0]:'');
+                    $('#AgreementPercentage').val(data[0].Agreement ? data[0].Agreement:'');
+                    $('#AgreementMonths').val(data[0].RePaymentMonths ? data[0].RePaymentMonths :'').change();
                 }
             }
         });
