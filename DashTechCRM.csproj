@@ -178,6 +178,8 @@
     <Compile Include="Areas\MarketingTeamLead\MarketingTeamLeadAreaRegistration.cs" />
     <Compile Include="Areas\Master\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Master\MasterAreaRegistration.cs" />
+    <Compile Include="Areas\OnBoarding\Controllers\dashboardController.cs" />
+    <Compile Include="Areas\OnBoarding\OnBoardingAreaRegistration.cs" />
     <Compile Include="Areas\otherdept\Controllers\dashboardController.cs" />
     <Compile Include="Areas\otherdept\otherdeptAreaRegistration.cs" />
     <Compile Include="Areas\Recruiter\Controllers\dashboardController.cs" />
@@ -5569,6 +5571,7 @@
     <Content Include="Areas\JuniorRecruiterMarketing\Views\dashboard\Index.cshtml" />
     <Content Include="Areas\TraineeRecruiter\Views\web.config" />
     <Content Include="Areas\TraineeRecruiter\Views\dashboard\Index.cshtml" />
+    <Content Include="Areas\OnBoarding\Views\web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\DevExpressJS\dx.all.js" />
@@ -5625,6 +5628,9 @@
     <Folder Include="Areas\MarketingTeamLead\Views\SubmissionReport\" />
     <Folder Include="Areas\Master\Data\" />
     <Folder Include="Areas\Master\Views\Shared\" />
+    <Folder Include="Areas\OnBoarding\Data\" />
+    <Folder Include="Areas\OnBoarding\Views\dashboard\" />
+    <Folder Include="Areas\OnBoarding\Views\Shared\" />
     <Folder Include="Areas\otherdept\Data\" />
     <Folder Include="Areas\otherdept\Views\Shared\" />
     <Folder Include="Areas\Recruiter\Data\" />
